@@ -32,7 +32,6 @@ client.on('messageCreate',(message)=>{
             case "hw":
                 var HomeworkList = require('./module/HomeworkList').HomeworkList
                 HomeworkList.readFile()
-                // message.guild.channels.cache.get("862013848943722506").setName(`📝homework-${HomeworkList.remaining()}-left`)
                 if(arg[1]=="add"){
                     var formatPara = []
                     if(Number(arg[2])<10){arg[2] = `0${arg[2]}`}
