@@ -5,7 +5,9 @@ dotenv.config()
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MESSAGE_TYPING,
+        Intents.FLAGS.GUILD_VOICE_STATES,
     ]
 })
 
@@ -62,6 +64,15 @@ client.on('messageCreate',(message)=>{
                     }
                 }
                 break
+
+                
         }
     }
 })
+
+// Trolling Friend
+// client.on('typingStart',(message)=>{
+//     if(message.user.id != 226919303700676610){
+//         message.channel.send(`<@!${message.user.id}> จะพิมพ์ไร`)
+//     }
+// })
