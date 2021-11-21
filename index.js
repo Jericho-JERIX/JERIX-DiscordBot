@@ -8,6 +8,7 @@ const client = new Client({
         Intents.FLAGS.GUILD_MESSAGES,
         Intents.FLAGS.GUILD_MESSAGE_TYPING,
         Intents.FLAGS.GUILD_VOICE_STATES,
+        Intents.FLAGS.GUILD_INVITES
     ]
 })
 
@@ -68,6 +69,10 @@ client.on('messageCreate',(message)=>{
                 
         }
     }
+})
+
+client.on('inviteCreate',(invite)=>{
+    console.log(invite)
 })
 
 // Trolling Friend
