@@ -1,6 +1,7 @@
 const { prototype } = require("events")
 const fs = require("fs")
-const DataPath = "C:\\Users\\User\\Documents\\Abstract Dimension\\JERIX2\\module\\"
+// const DataPath = "C:\\Users\\User\\Documents\\Abstract Dimension\\JERIX2\\module\\"
+const DataPath = "C:\\Users\\ASUS S430UN\\Documents\\JERIX-V2\\module\\"
 const DayName = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
 
 class Homework{
@@ -22,7 +23,6 @@ class Homework{
         if(this.day_left < 0 || !this.label || this.date == 99 || isNaN(this.timestamp)){this.isValid = false}
     }
 }
-
 Homework.prototype.valueOf = function(){return this.timestamp}
 
 class HomeworkList{
@@ -33,13 +33,17 @@ class HomeworkList{
             var spt_data = raw_data[i].split(' ')
             // console.log(spt_data)
             var instance = new Homework(spt_data[0],[Number(spt_data[1]),Number(spt_data[2]),2021],spt_data[4])
+            this.data = this.data.filter(i => i.id != instance.id)
             if(instance.isValid){
                 this.data.push(instance)
+            }
+            if(i > 143){
+                console.log(instance)
             }
         }
     }
 }
 
 var hl = new HomeworkList('homeworklist.txt')
-console.log(hl)
+// console.log(hl)
 
