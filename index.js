@@ -1,4 +1,5 @@
-const {Client,Intents} = require('discord.js')
+const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discord.js')
+const BtnEvent = require('./module/ButtonEvent')
 const dotenv = require('dotenv')
 dotenv.config()
 
@@ -8,7 +9,6 @@ const client = new Client({
         Intents.FLAGS.GUILD_MESSAGES,
         Intents.FLAGS.GUILD_MESSAGE_TYPING,
         Intents.FLAGS.GUILD_VOICE_STATES,
-        Intents.FLAGS.GUILD_INVITES
     ]
 })
 
@@ -29,7 +29,7 @@ client.on('messageCreate',(message)=>{
 
             case "p":
             case "ping":
-                message.channel.message.channel.send("<:sad_cat:806181269456027648>")
+                message.channel.send("<:sad_cat:806181269456027648>")
                 break
 
             case "hw":
@@ -130,12 +130,34 @@ client.on('messageCreate',(message)=>{
                 }
                 break
                 
+            case "counter":
+                let button = new MessageActionRow().addComponents(
+                    new MessageButton().setLabel("-").setStyle("PRIMARY").setCustomId("counter-dec"),
+                    new MessageButton().setLabel("+").setStyle("PRIMARY").setCustomId("counter-inc"),
+                    new MessageButton().setLabel("Reset").setStyle("PRIMARY").setCustomId("counter-rst")
+                )
+                message.channel.send({content: "Counting",components: [button]})
+                break;
+
         }
     }
 })
 
-client.on('inviteCreate',(invite)=>{
-    console.log(invite)
+client.on('guildMemberAdd',(newbie)=>{
+    console.log("Nice")
+    console.log(newbie)
+})
+
+client.on('interactionCreate',(interact)=>{
+    if(interact.isButton()){
+        var arg = interact.customId.split('-')
+        switch(arg[0]){
+            case "counter":
+                var counter = new BtnEvent.Counter()
+                interact.channel.send(counter.count)
+                break
+        }
+    }
 })
 
 // Trolling Friend
