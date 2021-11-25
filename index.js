@@ -1,5 +1,4 @@
 const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discord.js')
-const BtnEvent = require('./module/ButtonEvent')
 const dotenv = require('dotenv')
 dotenv.config()
 
@@ -17,6 +16,12 @@ client.on('ready',()=>{
 })
 
 client.login(process.env.TOKEN)
+
+const BtnEvent = require('./module/ButtonEvent')
+const Counter = new BtnEvent.Counter()
+
+const ChoiceMatter = require('./module/ChoiceMatter')
+const ChoiceGame = new ChoiceMatter.Graph()
 
 // Command
 client.on('messageCreate',(message)=>{
@@ -131,13 +136,28 @@ client.on('messageCreate',(message)=>{
                 break
                 
             case "counter":
+                Counter.reset()
                 let button = new MessageActionRow().addComponents(
                     new MessageButton().setLabel("-").setStyle("PRIMARY").setCustomId("counter-dec"),
                     new MessageButton().setLabel("+").setStyle("PRIMARY").setCustomId("counter-inc"),
                     new MessageButton().setLabel("Reset").setStyle("PRIMARY").setCustomId("counter-rst")
                 )
-                message.channel.send({content: "Counting",components: [button]})
+                message.channel.send({content: "0",components: [button]})
                 break;
+
+            case "edit":
+                message.channel.send("Check")
+                message.edit("EDITED")
+                break
+
+            case "c":
+                ChoiceGame.go(ChoiceGame.choice[Number(arg[1])])
+                ChoiceGame.show()
+                if(ChoiceGame.ending){
+                    ChoiceGame = new ChoiceMatter.Graph()
+                }
+                break
+
 
         }
     }
@@ -153,8 +173,10 @@ client.on('interactionCreate',(interact)=>{
         var arg = interact.customId.split('-')
         switch(arg[0]){
             case "counter":
-                var counter = new BtnEvent.Counter()
-                interact.channel.send(counter.count)
+                if(arg[1]=='inc') Counter.increment()
+                else if(arg[1]=='dec') Counter.decrement()
+                else Counter.reset()
+                interact.message.edit(String(Counter.count))
                 break
         }
     }
