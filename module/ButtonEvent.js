@@ -8,6 +8,9 @@ class Counter{
     decrement(){
         this.count--
     }
+    reset(){
+        this.count = 0
+    }
 }
 
 module.exports = {
