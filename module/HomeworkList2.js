@@ -27,8 +27,10 @@ Homework.prototype.valueOf = function(){return this.timestamp}
 
 class HomeworkList{
     constructor(file){
+        this.file_name = file
         this.data = []
         this.least_id = 0
+        this.throw_error = "Something went wrong! Please try again"
 
         var raw_data = fs.readFileSync(`${DataPath}resource\\${file}`,'utf8').split('\n')
         for(var i=0;i<raw_data.length;i++){
@@ -82,6 +84,14 @@ class HomeworkList{
         return format_string
     }
 
+    refresh(){
+        for(var i=0;i<this.data.length;i++){
+            this.data = this.data.filter(hw => hw.id != this.data[i].id)
+        }
+        this.data = this.data.filter(hw => hw.day_left >= 0 && hw.isValid)
+        this.sort()
+    }
+
     add(arg,isNew=true,select_id ="0000"){
         // Check if day and month is Unknowed
         var isUnknowed = false //isNaN(Number(arg[0])) || isNaN(Number(arg[1])) ? true : false
@@ -113,14 +123,53 @@ class HomeworkList{
             if(Number(arg[1])<10){arg[1] = `0${arg[1]}`}
         }
         
-        for(var i=2;i<arg.length;i++)[
+        var format_label = ""
+        for(var i=2;i<arg.length;i++){
             formatFile += ` ${arg[i]}`
-        ]
+            format_label += ` ${arg[i]}`
+        }
         fs.appendFileSync(`${DataPath}resource\\homeworklist.txt`,`${formatFile}`,(err)=>{})
+        this.data.push(new Homework(id_number,[Number(arg[0]),Number(arg[1]),2021],format_label))
+        this.sort()
         return this.list()
+    }
+
+    delete(hw_id){
+        try{
+            var del = this.data.filter(hw => hw.id == hw_id)[0]
+            var format_data = `\n${del.id} 99 99`
+            fs.appendFileSync(`${DataPath}resource\\homeworklist.txt`,`${format_data}`,(err)=>{})
+            this.data = this.data.filter((hw)=> hw.id != hw_id)
+            return this.list()
+        }
+        catch(err){
+            return this.throw_error
+        }
+    }
+
+    edit(hw_id,d,m){
+        try{
+            var editing = this.data.filter(ins => ins.id == hw_id)[0]
+            var format_array = [d,m,editing.label]
+            this.addHomework(format_array,false,editing.id)
+            return this.list()
+        }
+        catch(err){
+            return this.throw_error
+        }
+    }
+    
+    remaining(){
+        return this.data.length
     }
 
 }
 
 var hl = new HomeworkList('homeworklist.txt')
-console.log(hl.add(['03','12','วิชาสหาฟดส > ajfjjfjekjf']))
+// console.log(hl.data[0])
+// hl.add(['03','12','วิชาสหาฟดส > NEWWWW'])
+// console.log(hl.add(['03','12','วิชาสหาฟดส > NEWWWWWWWWWW']))
+// console.log(hl.delete("0127"))
+// console.log(hl.list())
+
+console.log(hl.edit("0128",6,12))
