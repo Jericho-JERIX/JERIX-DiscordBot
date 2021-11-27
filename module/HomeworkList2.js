@@ -69,7 +69,7 @@ class HomeworkList{
     }
 
     list(){
-        var format_string = `:bookmark: **Homework List (${this.data.length}):**\n`
+        var format_string = `:bookmark: **Homework List 2.0 (${this.data.length}):**\n`
         if(this.data.length == 0){return `${format_string}ไม่มีงาน!? เป็นไปได้ด้วยหรอครับเนี่ย!!??!`}
 
         for(var i=0;i<this.data.length;i++){
@@ -176,7 +176,7 @@ class HomeworkList{
 
 }
 
-var hl = new HomeworkList('homeworklist.txt')
+// var hl = new HomeworkList('homeworklist.txt')
 // console.log(hl.list())
 // console.log(hl.data[0])
 // hl.add(['03','12','วิชาสหาฟดส > NEWWWW'])
@@ -185,6 +185,9 @@ var hl = new HomeworkList('homeworklist.txt')
 
 // console.log(hl.edit("0128",7,12))
 // console.log(hl.list())
+
+var test = JSON.parse(fs.readFileSync(`${DataPath}resource\\homeworklist.json`,'utf8'))
+// console.log()
 
 module.exports = {
     HomeworkList
