@@ -26,7 +26,7 @@ class Homework{
 Homework.prototype.valueOf = function(){return this.timestamp}
 
 class HomeworkList{
-    constructor(file){
+    constructor(file='homeworklist.txt'){
         this.file_name = file
         this.data = []
         this.least_id = 0
@@ -41,7 +41,13 @@ class HomeworkList{
                 this.least_id = Number(spt_data[0])
             }
 
-            var homework = new Homework(spt_data[0],[Number(spt_data[1]),Number(spt_data[2]),2021],spt_data[4])
+            var format_label = ""
+            for(var j=4;j<spt_data.length;j++){
+                format_label += `${spt_data[j]}`
+                if(spt_data.length-1 != j){format_label += " "}
+            }
+
+            var homework = new Homework(spt_data[0],[Number(spt_data[1]),Number(spt_data[2]),2021],format_label)
             this.data = this.data.filter(hw => hw.id != homework.id)
             this.data.push(homework)
         }
@@ -71,15 +77,18 @@ class HomeworkList{
             var vis_day = " วัน"
 
             // Adding 0
-            if(Number(hw.date[0])<10){hw.date[0] = `0${hw.date[0]}`}
-            if(Number(hw.date[1])<10){hw.date[1] = `0${hw.date[1]}`}
+            var date  = Number(hw.date[0])<10 ? `0${hw.date[0]}` : `${hw.date[0]}`
+            var month = Number(hw.date[1])<10 ? `0${hw.date[1]}` : `${hw.date[1]}`
 
+            var day_left = ""
             if(hw.day_left==0){
-                hw.day_left = "เดี๋ยวนี้"
+                day_left = "เดี๋ยวนี้"
                 vis_day = ""
+            }else{
+                day_left = hw.day_left<10 ? `0${hw.day_left}` : `${hw.day_left}`
             }
-            if(hw.day_left<10){hw.day_left = "0" + hw.day_left}
-            format_string += `[\`${hw.day_name}\`.\`${hw.date[0]}/${hw.date[1]}\`] ${hw.alert_icon} **(\`${hw.day_left}\`${vis_day})** 📝 \`[${hw.id}]\` \`${hw.label}\`\n`
+            format_string += `[\`${hw.day_name}\`.\`${date}/${month}\`] ${hw.alert_icon} **(\`${day_left}\`${vis_day})** 📝 \`[${hw.id}]\` \`${hw.label}\``
+            if(i!=this.data.length-1){format_string += '\n'}
         }
         return format_string
     }
@@ -126,7 +135,8 @@ class HomeworkList{
         var format_label = ""
         for(var i=2;i<arg.length;i++){
             formatFile += ` ${arg[i]}`
-            format_label += ` ${arg[i]}`
+            format_label += `${arg[i]} `
+            // if(i==arg.length-1){format_label += '\n'}
         }
         fs.appendFileSync(`${DataPath}resource\\homeworklist.txt`,`${formatFile}`,(err)=>{})
         this.data.push(new Homework(id_number,[Number(arg[0]),Number(arg[1]),2021],format_label))
@@ -150,8 +160,9 @@ class HomeworkList{
     edit(hw_id,d,m){
         try{
             var editing = this.data.filter(ins => ins.id == hw_id)[0]
+            this.data = this.data.filter(hw => hw.id != hw_id)
             var format_array = [d,m,editing.label]
-            this.addHomework(format_array,false,editing.id)
+            this.add(format_array,false,editing.id)
             return this.list()
         }
         catch(err){
@@ -166,10 +177,15 @@ class HomeworkList{
 }
 
 var hl = new HomeworkList('homeworklist.txt')
+// console.log(hl.list())
 // console.log(hl.data[0])
 // hl.add(['03','12','วิชาสหาฟดส > NEWWWW'])
 // console.log(hl.add(['03','12','วิชาสหาฟดส > NEWWWWWWWWWW']))
 // console.log(hl.delete("0127"))
+
+// console.log(hl.edit("0128",7,12))
 // console.log(hl.list())
 
-console.log(hl.edit("0128",6,12))
+module.exports = {
+    HomeworkList
+}
