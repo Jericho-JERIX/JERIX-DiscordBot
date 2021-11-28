@@ -23,8 +23,8 @@ const Counter = new BtnEvent.Counter()
 const ChoiceMatter = require('./module/ChoiceMatter')
 const ChoiceGame = new ChoiceMatter.Graph()
 
-const HL = require('./module/HomeworkList2')
-const HomeworkList = new HL.HomeworkList() 
+const HL = require('./module/HomeworkList3')
+const HomeworkList = new HL.HomeworkList()
 
 // Command
 client.on('messageCreate',(message)=>{
@@ -41,26 +41,42 @@ client.on('messageCreate',(message)=>{
                 break
 
             case "hw":
-                if(arg[1]=="add"){
+
+                // Button
+                var button = new MessageActionRow().addComponents(
+                    new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-ALL"),
+                    new MessageButton().setLabel("📝 Assignment").setStyle("PRIMARY").setCustomId("homeworklist-Assignment"),
+                    new MessageButton().setLabel("🔔 Alert").setStyle("SUCCESS").setCustomId("homeworklist-Alert"),
+                    new MessageButton().setLabel("🔥 Exam").setStyle("DANGER").setCustomId("homeworklist-Exam")
+                )
+
+                if(arg[1]=="add" || arg[1] == "alert" || arg[1] == "exam"){
+                    
                     var formatPara = []
                     if(Number(arg[2])<10){arg[2] = `0${arg[2]}`}
                     if(Number(arg[3])<10){arg[3] = `0${arg[3]}`}
                     for(var i=2;i<arg.length;i++){
                         formatPara.push(arg[i])
                     }
-                    message.channel.send(HomeworkList.add(formatPara))
+
+                    var add_type = "Assignment"
+                    if(arg[1] == "alert"){add_type = "Alert"}
+                    else if(arg[1] == "exam"){add_type = "Exam"}
+
+                    message.channel.send({content: HomeworkList.add(formatPara,true,"0000",true,add_type),components: [button]})
+                    
                     if(arg[2]=="u" && message.channel.id != "885898083295186944"){
                         message.guild.channels.cache.get("885898083295186944").message.channel.send(HomeworkList.list())
                     }
                 }
                 else if(arg[1]=="list"){
-                    message.channel.send(HomeworkList.list())
+                    message.channel.send({content: HomeworkList.list(),components: [button]})
                 }
                 else if(arg[1]=="delete"){
-                    message.channel.send(HomeworkList.delete(arg[2]))
+                    message.channel.send({content: HomeworkList.delete(arg[2]),components: [button]})
                 }
                 else if(arg[1]=="edit"){
-                    message.channel.send(HomeworkList.edit(arg[2],arg[3],arg[4]))
+                    message.channel.send({content: HomeworkList.edit(arg[2],arg[3],arg[4]),components: [button]})
                 }
                 if(message.channel.id == "862013848943722506"){
                     if(!HomeworkList.remaining()){
@@ -138,7 +154,7 @@ client.on('messageCreate',(message)=>{
                 
             case "counter":
                 Counter.reset()
-                let button = new MessageActionRow().addComponents(
+                var button = new MessageActionRow().addComponents(
                     new MessageButton().setLabel("-").setStyle("PRIMARY").setCustomId("counter-dec"),
                     new MessageButton().setLabel("+").setStyle("PRIMARY").setCustomId("counter-inc"),
                     new MessageButton().setLabel("Reset").setStyle("PRIMARY").setCustomId("counter-rst")
@@ -159,7 +175,6 @@ client.on('messageCreate',(message)=>{
                 }
                 break
 
-
         }
     }
 })
@@ -178,6 +193,10 @@ client.on('interactionCreate',(interact)=>{
                 else if(arg[1]=='dec') Counter.decrement()
                 else Counter.reset()
                 interact.message.edit(String(Counter.count))
+                break
+
+            case "homeworklist":
+                interact.message.edit(HomeworkList.list(arg[1]))
                 break
         }
     }

@@ -1,20 +1,30 @@
 [
-    {
-        "id": "0128",
-        "date": 15,
-        "month": 12,
-        "label": "AAAAAAAA > safwkajkfj"
-    },
-    {
-        "id": "0129",
-        "date": 7,
-        "month": 12,
-        "label": "BBBBBBBB > safwkajkfj"
-    },
-    {
-        "id": "0130",
-        "date": 10,
-        "month": 12,
-        "label": "CCCCCC > safwkajkfj"
-    }
+	{
+		"id": "0000",
+		"date": 1,
+		"month": 1,
+		"type": "Assignment",
+		"label": "DUMMY FILE DO NOT DELETE THIS!"
+	},
+	{
+		"id": "0128",
+		"date": 15,
+		"month": 12,
+		"type": "Assignment",
+		"label": "การบ้านปลอม > อยากทำการบ้านขนาดนั้นเลย?"
+	},
+	{
+		"id": "0129",
+		"date": 1,
+		"month": 12,
+		"type": "Alert",
+		"label": "การบ้านปลอม > ทดสอบแจ้งเตือน"
+	},
+	{
+		"id": "0130",
+		"date": 21,
+		"month": 12,
+		"type": "Exam",
+		"label": "การบ้านปลอม > ทด สอบ?"
+	}
 ]

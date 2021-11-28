@@ -33,28 +33,25 @@ class Homework{
 Homework.prototype.valueOf = function(){return this.timestamp}
 
 class HomeworkList{
-    constructor(file='homeworklist.txt'){
+    constructor(file='homeworklist.json'){
         this.file_name = file
         this.data = []
+        this.raw_data = []
         this.least_id = 0
         this.throw_error = "Something went wrong! Please try again"
 
-        var raw_data = fs.readFileSync(`${DataPath}resource\\${file}`,'utf8').split('\n')
-        for(var i=0;i<raw_data.length;i++){
-            var spt_data = raw_data[i].split(' ')
+        this.raw_data = JSON.parse(fs.readFileSync(`${DataPath}resource\\${file}`,'utf8'))
+        for(var i=0;i<this.raw_data.length;i++){
+            var spt_data = this.raw_data[i]
 
             // ID Saving
-            if(Number(spt_data[0])>this.least_id){
-                this.least_id = Number(spt_data[0])
+            if(Number(spt_data.id)>this.least_id){
+                this.least_id = Number(spt_data.id)
             }
 
-            var format_label = ""
-            for(var j=4;j<spt_data.length;j++){
-                format_label += `${spt_data[j]}`
-                if(spt_data.length-1 != j){format_label += " "}
-            }
+            var format_label = spt_data.label
 
-            var homework = new Homework(spt_data[0],[Number(spt_data[1]),Number(spt_data[2]),2021],format_label)
+            var homework = new Homework(spt_data.id,[Number(spt_data.date),Number(spt_data.month),2021],format_label,spt_data.type)
             this.data = this.data.filter(hw => hw.id != homework.id)
             this.data.push(homework)
         }
@@ -75,12 +72,18 @@ class HomeworkList{
         }
     }
 
-    list(){
+    list(type="ALL"){
         var format_string = `:bookmark: **Homework List 2.0 (${this.data.length}):**\n`
         if(this.data.length == 0){return `${format_string}ไม่มีงาน!? เป็นไปได้ด้วยหรอครับเนี่ย!!??!`}
 
         for(var i=0;i<this.data.length;i++){
             var hw = this.data[i]
+            
+            // Filtering By Type
+            if(type!="ALL" && hw.type != type){
+                continue;
+            }
+
             var vis_day = " วัน"
 
             // Adding 0
@@ -108,7 +111,7 @@ class HomeworkList{
         this.sort()
     }
 
-    add(arg,isNew=true,select_id ="0000"){
+    add(arg,isNew=true,select_id ="0000",save=true,type="Assignment"){
         // Check if day and month is Unknowed
         var isUnknowed = false //isNaN(Number(arg[0])) || isNaN(Number(arg[1])) ? true : false
         // if(isNaN(Number(arg[0])) || isNaN(Number(arg[1]))){return this.throw_error}
@@ -142,20 +145,30 @@ class HomeworkList{
         var format_label = ""
         for(var i=2;i<arg.length;i++){
             formatFile += ` ${arg[i]}`
-            format_label += `${arg[i]} `
-            // if(i==arg.length-1){format_label += '\n'}
+            format_label += `${arg[i]}`
+            if(i!=arg.length-1){format_label += ' '}
         }
-        fs.appendFileSync(`${DataPath}resource\\homeworklist.txt`,`${formatFile}`,(err)=>{})
-        this.data.push(new Homework(id_number,[Number(arg[0]),Number(arg[1]),2021],format_label))
+        // fs.appendFileSync(`${DataPath}resource\\${this.file_name}`,`${formatFile}`,(err)=>{})
+        var new_homework = new Homework(id_number,[Number(arg[0]),Number(arg[1]),2021],format_label,type)
+        this.data.push(new_homework)
+        if(save){
+            this.raw_data.push({
+                id: new_homework.id,
+                date: new_homework.date[0],
+                month: new_homework.date[1],
+                type: new_homework.type,
+                label: new_homework.label
+            })
+            fs.writeFileSync(`${DataPath}resource\\${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})    
+        }
         this.sort()
         return this.list()
     }
 
     delete(hw_id){
         try{
-            var del = this.data.filter(hw => hw.id == hw_id)[0]
-            var format_data = `\n${del.id} 99 99`
-            fs.appendFileSync(`${DataPath}resource\\homeworklist.txt`,`${format_data}`,(err)=>{})
+            this.raw_data = this.raw_data.filter(hw => hw.id != hw_id)
+            fs.writeFileSync(`${DataPath}resource\\${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
             this.data = this.data.filter((hw)=> hw.id != hw_id)
             return this.list()
         }
@@ -166,10 +179,18 @@ class HomeworkList{
 
     edit(hw_id,d,m){
         try{
+            for(var i=0;i<this.raw_data.length;i++){
+                if(this.raw_data[i].id == hw_id){
+                    this.raw_data[i].date = Number(d)
+                    this.raw_data[i].month = Number(m)
+                    break
+                }
+            }
+            fs.writeFileSync(`${DataPath}resource\\${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
             var editing = this.data.filter(ins => ins.id == hw_id)[0]
             this.data = this.data.filter(hw => hw.id != hw_id)
             var format_array = [d,m,editing.label]
-            this.add(format_array,false,editing.id)
+            this.add(format_array,false,editing.id,false,editing.type)
             return this.list()
         }
         catch(err){
@@ -183,17 +204,18 @@ class HomeworkList{
 
 }
 
-// var hl = new HomeworkList('homeworklist.txt')
+// var hl = new HomeworkList('homeworklist.json')
+// console.log()
 // console.log(hl.list())
 // console.log(hl.data[0])
 // hl.add(['03','12','วิชาสหาฟดส > NEWWWW'])
 // console.log(hl.add(['03','12','วิชาสหาฟดส > NEWWWWWWWWWW']))
-// console.log(hl.delete("0127"))
+// console.log(hl.delete("0130"))
 
-// console.log(hl.edit("0128",7,12))
+// console.log(hl.edit("0131",5,12))
 // console.log(hl.list())
 
-var test = JSON.parse(fs.readFileSync(`${DataPath}resource\\homeworklist.json`,'utf8'))
+// var test = JSON.parse(fs.readFileSync(`${DataPath}resource\\homeworklist.json`,'utf8'))
 // console.log()
 
 module.exports = {
