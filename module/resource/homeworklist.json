@@ -7,24 +7,59 @@
 		"label": "DUMMY FILE DO NOT DELETE THIS!"
 	},
 	{
-		"id": "0128",
+		"id": "0131",
+		"date": 6,
+		"month": 12,
+		"type": "Alert",
+		"label": "Problem Solving > Grader - 8 ข้อ"
+	},
+	{
+		"id": "0133",
+		"date": 2,
+		"month": 12,
+		"type": "Alert",
+		"label": "Electronics > ดูคลิป (น่าจะ 4 คลิปแรก)"
+	},
+	{
+		"id": "0134",
+		"date": 2,
+		"month": 12,
+		"type": "Assignment",
+		"label": "Electronics > ทำ Slide IoT"
+	},
+	{
+		"id": "0135",
 		"date": 15,
 		"month": 12,
 		"type": "Assignment",
-		"label": "การบ้านปลอม > อยากทำการบ้านขนาดนั้นเลย?"
+		"label": "Innovation > ใบงานที่ 1 ดูคลิป ละสรุป"
 	},
 	{
-		"id": "0129",
-		"date": 1,
+		"id": "0136",
+		"date": 7,
+		"month": 12,
+		"type": "Assignment",
+		"label": "Practicum > เขียนชื่อ+แปะรูปลง Google Form"
+	},
+	{
+		"id": "0137",
+		"date": 17,
+		"month": 12,
+		"type": "Assignment",
+		"label": "Practicum > ทำสรุปที่สอน (ยังไม่รู้วันส่ง)"
+	},
+	{
+		"id": "0138",
+		"date": 7,
 		"month": 12,
 		"type": "Alert",
-		"label": "การบ้านปลอม > ทดสอบแจ้งเตือน"
+		"label": "Intro to CPE > คลิป 90 นาที++"
 	},
 	{
-		"id": "0130",
-		"date": 21,
+		"id": "0139",
+		"date": 7,
 		"month": 12,
-		"type": "Exam",
-		"label": "การบ้านปลอม > ทด สอบ?"
+		"type": "Alert",
+		"label": "Electronics > ดูคลิป (5-8 ที่เหลือ)"
 	}
 ]

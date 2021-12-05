@@ -90,6 +90,13 @@ class HomeworkList{
             var date  = Number(hw.date[0])<10 ? `0${hw.date[0]}` : `${hw.date[0]}`
             var month = Number(hw.date[1])<10 ? `0${hw.date[1]}` : `${hw.date[1]}`
 
+            // Re-Day Left
+            hw.day_left = Math.floor((hw.timestamp-Date.now())/86400000)
+            hw.alert_icon = "⚫"
+            if(hw.day_left <= 2){hw.alert_icon = "⭕"}
+            else if(hw.day_left <= 5){hw.alert_icon = "🟡"}
+            else if(hw.day_left <= 7){hw.alert_icon = "🔵"}
+            
             var day_left = ""
             if(hw.day_left==0){
                 day_left = "เดี๋ยวนี้"
