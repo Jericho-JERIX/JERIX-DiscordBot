@@ -92,6 +92,8 @@ class HomeworkList{
 
             // Re-Day Left
             hw.day_left = Math.floor((hw.timestamp-Date.now())/86400000)
+            if(hw.day_left < 0) continue
+            
             hw.alert_icon = "⚫"
             if(hw.day_left <= 2){hw.alert_icon = "⭕"}
             else if(hw.day_left <= 5){hw.alert_icon = "🟡"}
