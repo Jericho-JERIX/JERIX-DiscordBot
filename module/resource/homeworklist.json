@@ -43,7 +43,7 @@
 	},
 	{
 		"id": "0137",
-		"date": 17,
+		"date": 31,
 		"month": 12,
 		"type": "Assignment",
 		"label": "Practicum > ทำสรุปที่สอน (ยังไม่รู้วันส่ง)"
@@ -74,14 +74,14 @@
 		"date": 16,
 		"month": 12,
 		"type": "Assignment",
-		"label": "Signal > Homework-01"
+		"label": "Signal > Homework-01 [ก่อน 20:00]"
 	},
 	{
 		"id": "0142",
 		"date": 16,
 		"month": 12,
 		"type": "Assignment",
-		"label": "Signal > Digital vs Analog Quiz [ก่อน 8:00]"
+		"label": "Signal > Digital vs Analog Quiz [ก่อน 8:00 เหี้ยไรเนี่ย]"
 	},
 	{
 		"id": "0143",
@@ -96,5 +96,75 @@
 		"month": 12,
 		"type": "Alert",
 		"label": "Electronics > คลิป Diode 1-4 คลิปแรก"
+	},
+	{
+		"id": "0145",
+		"date": 14,
+		"month": 12,
+		"type": "Alert",
+		"label": "Electronics > ดูคลิป Diode Characteristic 1-4"
+	},
+	{
+		"id": "0146",
+		"date": 14,
+		"month": 12,
+		"type": "Alert",
+		"label": "Intro to CPE > คลิป 40 นาที"
+	},
+	{
+		"id": "0147",
+		"date": 20,
+		"month": 12,
+		"type": "Alert",
+		"label": "Problem Solving > Grader 9 ข้อ"
+	},
+	{
+		"id": "0148",
+		"date": 20,
+		"month": 12,
+		"type": "Assignment",
+		"label": "Database > การบ้านครั้งที่ 2 ทำบฝ.ท้ายบทที่ 3 ข้อ 1.1-1.8 (งานกลุ่ม)"
+	},
+	{
+		"id": "0149",
+		"date": 20,
+		"month": 12,
+		"type": "Assignment",
+		"label": "Intro to CPE > Mindset ที่ชืนชอบ 2 อัน (8-10 บรรทัด/1 อัน)"
+	},
+	{
+		"id": "0150",
+		"date": 16,
+		"month": 12,
+		"type": "Alert",
+		"label": "Electronics > 9 ค ลิ ป"
+	},
+	{
+		"id": "0151",
+		"date": 23,
+		"month": 12,
+		"type": "Assignment",
+		"label": "Signal > ฝึกใช้ MATLAB ใน Doc"
+	},
+	{
+		"id": "0152",
+		"date": 30,
+		"month": 12,
+		"type": "Assignment",
+		"label": "Innovation > ใบงานที่ 2"
+	},
+	{
+		"id": "0153",
+		"date": 31,
+		"month": 12,
+		"type": "Assignment",
+		"label": "Practicum > ทำสรุปที่สอน Week 2"
+	},
+	{
+		"id": "0154",
+		"date": 22,
+		"month": 12,
+		"type": "Assignment",
+		"label": "Practicum > รายชื่อสมาชิกกลุ่ม Google Form"
 	}
 ]

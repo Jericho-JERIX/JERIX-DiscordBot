@@ -26,6 +26,13 @@ const ChoiceGame = new ChoiceMatter.Graph()
 const HL = require('./module/HomeworkList3')
 const HomeworkList = new HL.HomeworkList()
 
+const RandomKit = require('./module/RandomKit')
+
+
+var jRandom = {
+    user: []
+}
+
 // Command
 client.on('messageCreate',(message)=>{
     const Prefix = "j!"
@@ -173,6 +180,67 @@ client.on('messageCreate',(message)=>{
                 if(ChoiceGame.ending){
                     ChoiceGame = new ChoiceMatter.Graph()
                 }
+                break
+
+            case "random":
+                var i = 0
+                if(arg.length==1){
+                    i = Math.floor(Math.random()*jRandom.user.length)
+                    message.channel.send(`**Congratulations!!** >>> ${jRandom.user[i]} <<< You're The **Lucky** One!!!`)
+                }
+                else if(arg[1] == "add"){
+                    for(j=2;j<arg.length;j++){
+                        jRandom.user.push(arg[j])
+                    }
+                }
+                else{
+                    i = 0
+                    while(i==0){
+                        i = Math.floor(Math.random()*arg.length)
+                    }
+                    message.channel.send(`**Congratulations!!** >>> ${arg[i]} <<< You're The **Lucky** One!!!`)
+                    for(i=1;i<arg.length;i++){
+                        jRandom.user.push(arg[i])
+                    }
+                    // console.log(jRandom.user)
+                }
+                break
+
+            case "shuffle":
+                var box = []
+                for(var i=1;i<arg.length;i++){
+                    box.push(arg[i])
+                }
+                RandomKit.shuffle(box)
+
+                var format_string = ""
+                for(var i=0;i<box.length;i++){
+                    format_string += `${box[i]}\n`
+                }
+                Send(format_string)
+                break
+
+            case "pair":
+                if(arg.length %2 == 0){
+                    Send("Can't Match!")
+                    break
+                }
+                var div = Math.ceil(arg.length/2)
+                var box1 = []
+                var box2 = []
+                for(var i=1;i<div;i++){
+                    box1.push(arg[i])
+                }
+                for(var i=div;i<arg.length;i++){
+                    box2.push(arg[i])
+                }
+                RandomKit.shuffle(box1)
+                RandomKit.shuffle(box2)
+                var format_string = ""
+                for(var i=0;i<box1.length;i++){
+                    format_string += `${box1[i]} ---> ${box2[i]}\n`
+                }
+                message.channel.send(format_string)
                 break
 
         }
