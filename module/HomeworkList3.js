@@ -51,7 +51,7 @@ class HomeworkList{
 
             var format_label = spt_data.label
 
-            var homework = new Homework(spt_data.id,[Number(spt_data.date),Number(spt_data.month),2021],format_label,spt_data.type)
+            var homework = new Homework(spt_data.id,[Number(spt_data.date),Number(spt_data.month),spt_data.year],format_label,spt_data.type)
             this.data = this.data.filter(hw => hw.id != homework.id)
             this.data.push(homework)
         }
@@ -142,7 +142,7 @@ class HomeworkList{
             arg[0] = "??"
             arg[1] = "??"
         }
-        var timeStamper = isUnknowed ? 9999999999999 : new Date(2021,Number(arg[1]-1),Number(arg[0]),23,59,59).getTime()
+        var timeStamper = isUnknowed ? 9999999999999 : new Date(2022,Number(arg[1]-1),Number(arg[0]),23,59,59).getTime()
         var formatFile = `\n${id_number} ${arg[0]} ${arg[1]} ${timeStamper}`
 
         // Adding 0
@@ -158,13 +158,14 @@ class HomeworkList{
             if(i!=arg.length-1){format_label += ' '}
         }
         // fs.appendFileSync(`${DataPath}resource\\${this.file_name}`,`${formatFile}`,(err)=>{})
-        var new_homework = new Homework(id_number,[Number(arg[0]),Number(arg[1]),2021],format_label,type)
+        var new_homework = new Homework(id_number,[Number(arg[0]),Number(arg[1]),2022],format_label,type)
         this.data.push(new_homework)
         if(save){
             this.raw_data.push({
                 id: new_homework.id,
                 date: new_homework.date[0],
                 month: new_homework.date[1],
+                year: 2022,
                 type: new_homework.type,
                 label: new_homework.label
             })
@@ -213,7 +214,7 @@ class HomeworkList{
 
 }
 
-// var hl = new HomeworkList('homeworklist.json')
+var hl = new HomeworkList('homeworklist.json')
 // console.log()
 // console.log(hl.list())
 // console.log(hl.data[0])

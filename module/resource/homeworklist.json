@@ -3,6 +3,7 @@
 		"id": "0000",
 		"date": 1,
 		"month": 1,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "DUMMY FILE DO NOT DELETE THIS!"
 	},
@@ -10,6 +11,7 @@
 		"id": "0131",
 		"date": 6,
 		"month": 12,
+		"year": 2021,
 		"type": "Alert",
 		"label": "Problem Solving > Grader - 8 ข้อ"
 	},
@@ -17,6 +19,7 @@
 		"id": "0133",
 		"date": 2,
 		"month": 12,
+		"year": 2021,
 		"type": "Alert",
 		"label": "Electronics > ดูคลิป (น่าจะ 4 คลิปแรก)"
 	},
@@ -24,6 +27,7 @@
 		"id": "0134",
 		"date": 2,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Electronics > ทำ Slide IoT"
 	},
@@ -31,6 +35,7 @@
 		"id": "0135",
 		"date": 15,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Innovation > ใบงานที่ 1 ดูคลิป ละสรุป"
 	},
@@ -38,6 +43,7 @@
 		"id": "0136",
 		"date": 7,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Practicum > เขียนชื่อ+แปะรูปลง Google Form"
 	},
@@ -45,6 +51,7 @@
 		"id": "0137",
 		"date": 31,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Practicum > ทำสรุปที่สอน (ยังไม่รู้วันส่ง)"
 	},
@@ -52,6 +59,7 @@
 		"id": "0138",
 		"date": 7,
 		"month": 12,
+		"year": 2021,
 		"type": "Alert",
 		"label": "Intro to CPE > คลิป 90 นาที++"
 	},
@@ -59,6 +67,7 @@
 		"id": "0139",
 		"date": 7,
 		"month": 12,
+		"year": 2021,
 		"type": "Alert",
 		"label": "Electronics > ดูคลิป (5-8 ที่เหลือ)"
 	},
@@ -66,6 +75,7 @@
 		"id": "0140",
 		"date": 8,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Electronics > อธิบายขบวนการการเข้าสู่ Equilibrium"
 	},
@@ -73,6 +83,7 @@
 		"id": "0141",
 		"date": 16,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Signal > Homework-01 [ก่อน 20:00]"
 	},
@@ -80,6 +91,7 @@
 		"id": "0142",
 		"date": 16,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Signal > Digital vs Analog Quiz [ก่อน 8:00 เหี้ยไรเนี่ย]"
 	},
@@ -87,6 +99,7 @@
 		"id": "0143",
 		"date": 14,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Database > งานกลุ่ม (จับๆกัน 5 คน)"
 	},
@@ -94,6 +107,7 @@
 		"id": "0144",
 		"date": 9,
 		"month": 12,
+		"year": 2021,
 		"type": "Alert",
 		"label": "Electronics > คลิป Diode 1-4 คลิปแรก"
 	},
@@ -101,6 +115,7 @@
 		"id": "0145",
 		"date": 14,
 		"month": 12,
+		"year": 2021,
 		"type": "Alert",
 		"label": "Electronics > ดูคลิป Diode Characteristic 1-4"
 	},
@@ -108,6 +123,7 @@
 		"id": "0146",
 		"date": 14,
 		"month": 12,
+		"year": 2021,
 		"type": "Alert",
 		"label": "Intro to CPE > คลิป 40 นาที"
 	},
@@ -115,6 +131,7 @@
 		"id": "0147",
 		"date": 20,
 		"month": 12,
+		"year": 2021,
 		"type": "Alert",
 		"label": "Problem Solving > Grader 9 ข้อ"
 	},
@@ -122,6 +139,7 @@
 		"id": "0148",
 		"date": 20,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Database > การบ้านครั้งที่ 2 ทำบฝ.ท้ายบทที่ 3 ข้อ 1.1-1.8 (งานกลุ่ม)"
 	},
@@ -129,6 +147,7 @@
 		"id": "0149",
 		"date": 20,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Intro to CPE > Mindset ที่ชืนชอบ 2 อัน (8-10 บรรทัด/1 อัน)"
 	},
@@ -136,6 +155,7 @@
 		"id": "0150",
 		"date": 16,
 		"month": 12,
+		"year": 2021,
 		"type": "Alert",
 		"label": "Electronics > 9 ค ลิ ป"
 	},
@@ -143,13 +163,15 @@
 		"id": "0151",
 		"date": 23,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
-		"label": "Signal > ฝึกใช้ MATLAB ใน Doc"
+		"label": "Signal > ฝึกใช้ MATLAB ใน Doc [ส่งก่อน 8:00]"
 	},
 	{
 		"id": "0152",
 		"date": 30,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Innovation > ใบงานที่ 2"
 	},
@@ -157,14 +179,64 @@
 		"id": "0153",
 		"date": 31,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
 		"label": "Practicum > ทำสรุปที่สอน Week 2"
 	},
 	{
-		"id": "0154",
+		"id": "0155",
+		"date": 21,
+		"month": 12,
+		"year": 2021,
+		"type": "Alert",
+		"label": "Electronics > 10 คลิป"
+	},
+	{
+		"id": "0156",
 		"date": 22,
 		"month": 12,
+		"year": 2021,
 		"type": "Assignment",
-		"label": "Practicum > รายชื่อสมาชิกกลุ่ม Google Form"
+		"label": "Practicum > กรอก Form จับคู่ทำ RasPi"
+	},
+	{
+		"id": "0157",
+		"date": 27,
+		"month": 12,
+		"year": 2021,
+		"type": "Assignment",
+		"label": "Problem Solving > Grader 9 ข้อ (และก่อนๆอีก 17 ข้อ)"
+	},
+	{
+		"id": "0158",
+		"date": 4,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Database > โครงงาน"
+	},
+	{
+		"id": "0159",
+		"date": 4,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Intro to CPE > Mindset ที่ไม่ได้สอน(ที่ไม่มีใน Slide)"
+	},
+	{
+		"id": "0160",
+		"date": 5,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Algorithm > Homework 1: Stable Matching"
+	},
+	{
+		"id": "0161",
+		"date": 23,
+		"month": 12,
+		"year": 2021,
+		"type": "Alert",
+		"label": "Electronics > 9 คลิปอู้วๆ"
 	}
 ]
