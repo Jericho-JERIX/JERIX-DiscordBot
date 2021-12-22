@@ -161,7 +161,7 @@
 	},
 	{
 		"id": "0151",
-		"date": 23,
+		"date": 30,
 		"month": 12,
 		"year": 2021,
 		"type": "Assignment",
@@ -238,5 +238,21 @@
 		"year": 2021,
 		"type": "Alert",
 		"label": "Electronics > 9 คลิปอู้วๆ"
+	},
+	{
+		"id": "0162",
+		"date": 30,
+		"month": 12,
+		"year": 2021,
+		"type": "Assignment",
+		"label": "Signal > MATLAB Lab-02 [ก่อน 8 โมง]"
+	},
+	{
+		"id": "0163",
+		"date": 6,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Homework-02 [ส่งก่อน 8:00]"
 	}
 ]
