@@ -53,7 +53,7 @@
 		"month": 12,
 		"year": 2021,
 		"type": "Assignment",
-		"label": "Practicum > ทำสรุปที่สอน (ยังไม่รู้วันส่ง)"
+		"label": "Practicum > ทำสรุปที่สอน Week 1"
 	},
 	{
 		"id": "0138",
@@ -204,7 +204,7 @@
 		"date": 27,
 		"month": 12,
 		"year": 2021,
-		"type": "Assignment",
+		"type": "Alert",
 		"label": "Problem Solving > Grader 9 ข้อ (และก่อนๆอีก 17 ข้อ)"
 	},
 	{
@@ -254,5 +254,21 @@
 		"year": 2021,
 		"type": "Assignment",
 		"label": "Electronics > วาดแรงดันคร่อมไดโอด???"
+	},
+	{
+		"id": "0165",
+		"date": 31,
+		"month": 12,
+		"year": 2021,
+		"type": "Assignment",
+		"label": "Practicum > ทำสรุปที่สอน Week 3"
+	},
+	{
+		"id": "0166",
+		"date": 28,
+		"month": 12,
+		"year": 2021,
+		"type": "Alert",
+		"label": "Electronics > คลิปครั้งที่ 9"
 	}
 ]
