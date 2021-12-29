@@ -294,5 +294,61 @@
 		"year": 2021,
 		"type": "Assignment",
 		"label": "Practicum > H o m e p a g e สุ ด เ ท่"
+	},
+	{
+		"id": "0170",
+		"date": 19,
+		"month": 1,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[MIDTERM] [08:00-11:00] Computer Organization & Architecture"
+	},
+	{
+		"id": "0171",
+		"date": 18,
+		"month": 1,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[MIDTERM] [12:00-15:00] Algorithm"
+	},
+	{
+		"id": "0172",
+		"date": 22,
+		"month": 1,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[MIDTERM] [12:00-15:00] Database System"
+	},
+	{
+		"id": "0173",
+		"date": 23,
+		"month": 1,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[MIDTERM] [08:00-11:00] Signal Processing"
+	},
+	{
+		"id": "0174",
+		"date": 20,
+		"month": 1,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[MIDTERM] [08:00-11:00] Electronics I"
+	},
+	{
+		"id": "0175",
+		"date": 31,
+		"month": 12,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[MIDTERM] [??:00-??:00] Problem Solving (สอบสักวัน)"
+	},
+	{
+		"id": "0176",
+		"date": 12,
+		"month": 1,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[MIDTERM] Man & Sea (ใครไม่เรียนไม่ต้องสอบ)"
 	}
 ]
