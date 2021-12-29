@@ -270,5 +270,29 @@
 		"year": 2021,
 		"type": "Alert",
 		"label": "Electronics > คลิปครั้งที่ 9"
+	},
+	{
+		"id": "0167",
+		"date": 3,
+		"month": 1,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Problem Solving > Grader 6 ข้อ (และก่อนๆอีก 26 ข้อ)"
+	},
+	{
+		"id": "0168",
+		"date": 30,
+		"month": 12,
+		"year": 2021,
+		"type": "Assignment",
+		"label": "Electronics > กิจกรรมวงจรกรอง"
+	},
+	{
+		"id": "0169",
+		"date": 31,
+		"month": 12,
+		"year": 2021,
+		"type": "Assignment",
+		"label": "Practicum > H o m e p a g e สุ ด เ ท่"
 	}
 ]
