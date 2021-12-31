@@ -350,5 +350,29 @@
 		"year": 2022,
 		"type": "Exam",
 		"label": "[MIDTERM] Man & Sea (ใครไม่เรียนไม่ต้องสอบ)"
+	},
+	{
+		"id": "0177",
+		"date": 15,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Innovation > ใบงานที่ 3 (Bitcoin)"
+	},
+	{
+		"id": "0178",
+		"date": 12,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Algorithm > Homework 2: Asymtotic Notation & Algo Analysis"
+	},
+	{
+		"id": "0179",
+		"date": 13,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Homework-03 [ส่งก่อน 8:00]"
 	}
 ]
