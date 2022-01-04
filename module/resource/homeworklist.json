@@ -374,5 +374,45 @@
 		"year": 2022,
 		"type": "Assignment",
 		"label": "Signal > Homework-03 [ส่งก่อน 8:00]"
+	},
+	{
+		"id": "0180",
+		"date": 6,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Electronics > กิจกรรม Zener"
+	},
+	{
+		"id": "0181",
+		"date": 11,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Database > การบ้านกลุ่มครั้งที่ 3 (์Normalization1)"
+	},
+	{
+		"id": "0182",
+		"date": 16,
+		"month": 1,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[16:00-19:00] Practicum (ตามตารางสอบ รอดูอาจารย์อีกที)"
+	},
+	{
+		"id": "0183",
+		"date": 10,
+		"month": 1,
+		"year": 2022,
+		"type": "Alert",
+		"label": "แลกของขวัญ"
+	},
+	{
+		"id": "0184",
+		"date": 13,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > MATLAB Lab-03 [ส่งก่อน 8:00 โมง]"
 	}
 ]

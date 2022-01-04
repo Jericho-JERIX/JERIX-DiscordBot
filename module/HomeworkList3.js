@@ -1,7 +1,7 @@
 const { prototype } = require("events")
 const fs = require("fs")
-// const DataPath = "C:\\Users\\User\\Documents\\Abstract Dimension\\JERIX2\\module\\"
-const DataPath = "C:\\Users\\ASUS S430UN\\Documents\\JERIX-V2\\module\\"
+const DataPath = "C:\\Users\\User\\Documents\\Abstract Dimension\\JERIX2\\module\\"
+// const DataPath = "C:\\Users\\ASUS S430UN\\Documents\\JERIX-V2\\module\\"
 const DayName = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
 const TypeIcon = {
     Assignment: "📝",
@@ -214,7 +214,7 @@ class HomeworkList{
 
 }
 
-var hl = new HomeworkList('homeworklist.json')
+// var hl = new HomeworkList('homeworklist.json')
 // console.log()
 // console.log(hl.list())
 // console.log(hl.data[0])
