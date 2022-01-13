@@ -338,7 +338,7 @@
 	{
 		"id": "0175",
 		"date": 31,
-		"month": 12,
+		"month": 1,
 		"year": 2022,
 		"type": "Exam",
 		"label": "[MIDTERM] [??:00-??:00] Problem Solving (สอบสักวัน)"
@@ -392,27 +392,51 @@
 		"label": "Database > การบ้านกลุ่มครั้งที่ 3 (์Normalization1)"
 	},
 	{
-		"id": "0182",
-		"date": 16,
-		"month": 1,
-		"year": 2022,
-		"type": "Exam",
-		"label": "[MIDTERM] [16:00-19:00] Practicum (ตามตารางสอบ รอดูอาจารย์อีกที)"
-	},
-	{
-		"id": "0183",
-		"date": 10,
-		"month": 1,
-		"year": 2022,
-		"type": "Alert",
-		"label": "แลกของขวัญ"
-	},
-	{
 		"id": "0184",
 		"date": 13,
 		"month": 1,
 		"year": 2022,
 		"type": "Assignment",
 		"label": "Signal > MATLAB Lab-03 [ส่งก่อน 8:00 โมง]"
+	},
+	{
+		"id": "0185",
+		"date": 13,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Intro to CPE > อาชีพที่ใฝ่ฝัน เขียนมาสัก 4 บรรทัด [ยังไม่รู้วันส่ง]"
+	},
+	{
+		"id": "0186",
+		"date": 16,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Com Arch > แบบฝึกหัดที่ 1"
+	},
+	{
+		"id": "0187",
+		"date": 25,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Algorithm > Homework 3: Graph Search"
+	},
+	{
+		"id": "0188",
+		"date": 14,
+		"month": 1,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Com Arch > ตอบแบบสอบถามการสอบ"
+	},
+	{
+		"id": "0189",
+		"date": 17,
+		"month": 1,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Problem Solving > Grader 8 ข้อ (และก่อนๆอีก 32 ข้อ)"
 	}
 ]

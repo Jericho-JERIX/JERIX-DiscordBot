@@ -28,6 +28,7 @@ const HomeworkList = new HL.HomeworkList()
 
 const RandomKit = require('./module/RandomKit')
 
+const WordFinderTH = require('./module/WordFinderTH')
 
 var jRandom = {
     user: []
@@ -250,6 +251,14 @@ client.on('messageCreate',(message)=>{
 client.on('guildMemberAdd',(newbie)=>{
     console.log("Nice")
     console.log(newbie)
+})
+
+client.on('messageCreate',(message)=>{
+    if(message.author.id == 732085397299134487){
+        if(WordFinderTH.findThaiWord(message.content,'ควย')){
+            message.channel.send('<@!732085397299134487> เล็ก')
+        }
+    }
 })
 
 client.on('interactionCreate',(interact)=>{
