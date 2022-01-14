@@ -2,6 +2,19 @@ const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discor
 const dotenv = require('dotenv')
 dotenv.config()
 
+const BtnEvent = require('./module/ButtonEvent')
+const Counter = new BtnEvent.Counter()
+
+const ChoiceMatter = require('./module/ChoiceMatter')
+const ChoiceGame = new ChoiceMatter.Graph()
+
+const HL = require('./module/HomeworkList3')
+const HomeworkList = new HL.HomeworkList()
+
+const RandomKit = require('./module/RandomKit')
+
+const WordFinderTH = require('./module/WordFinderTH')
+
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -15,20 +28,9 @@ client.on('ready',()=>{
     console.log("Going Live...")
 })
 
+client.setAc
+
 client.login(process.env.TOKEN)
-
-const BtnEvent = require('./module/ButtonEvent')
-const Counter = new BtnEvent.Counter()
-
-const ChoiceMatter = require('./module/ChoiceMatter')
-const ChoiceGame = new ChoiceMatter.Graph()
-
-const HL = require('./module/HomeworkList3')
-const HomeworkList = new HL.HomeworkList()
-
-const RandomKit = require('./module/RandomKit')
-
-const WordFinderTH = require('./module/WordFinderTH')
 
 var jRandom = {
     user: []

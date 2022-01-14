@@ -1,7 +1,15 @@
 const { prototype } = require("events")
 const fs = require("fs")
-const DataPath = "C:\\Users\\User\\Documents\\Abstract Dimension\\JERIX2\\module\\"
+
+// RaspberryPi
+const DataPath = "/root/JERIX-V2/module/"
+
+// PC
+// const DataPath = "/c/Users/User/Documents/Abstract Dimension/JERIX2"
+
+// Laptop
 // const DataPath = "C:\\Users\\ASUS S430UN\\Documents\\JERIX-V2\\module\\"
+
 const DayName = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
 const TypeIcon = {
     Assignment: "📝",
