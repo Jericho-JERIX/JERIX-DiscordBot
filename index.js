@@ -24,8 +24,21 @@ const client = new Client({
     ]
 })
 
+
+
 client.on('ready',()=>{
     console.log("Going Live...")
+    var Bot_count = 0
+    setInterval(()=>{
+        client.user.setPresence({
+            activities : [{
+                name: `Online for ${Bot_count} minutes!`,
+                type: "PLAYING"
+            }]
+        })
+        Bot_count+= 1
+    },60000)
+    
 })
 
 client.setAc
@@ -257,7 +270,7 @@ client.on('guildMemberAdd',(newbie)=>{
 
 client.on('messageCreate',(message)=>{
     if(message.author.id == 732085397299134487){
-        if(WordFinderTH.findThaiWord(message.content,'ควย')){
+        if(WordFinderTH.findThaiWord(message.content,'ควย') || WordFinderTH.findThaiWord(message.content,'หำ') || WordFinderTH.findThaiWord(message.content,'หรรม')){
             message.channel.send('<@!732085397299134487> เล็ก')
         }
     }
