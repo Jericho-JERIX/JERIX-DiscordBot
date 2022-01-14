@@ -2,10 +2,10 @@ const { prototype } = require("events")
 const fs = require("fs")
 
 // RaspberryPi
-const DataPath = "/home/pi/JERIX-V2/module/"
+// const DataPath = "/home/pi/JERIX-V2/module/"
 
 // PC
-// const DataPath = "/c/Users/User/Documents/Abstract Dimension/JERIX2"
+const DataPath = "D:/JERIX-V2/module/" // "/c/Users/User/Documents/Abstract Dimension/JERIX2"
 
 // Laptop
 // const DataPath = "C:\\Users\\ASUS S430UN\\Documents\\JERIX-V2\\module\\"

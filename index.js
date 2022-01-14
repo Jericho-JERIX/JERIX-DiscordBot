@@ -38,7 +38,7 @@ var jRandom = {
 
 // Command
 client.on('messageCreate',(message)=>{
-    const Prefix = "j!"
+    const Prefix = "b!"
     var arg = message.content.split(' ')
 
     if(arg[0].slice(0,2) == Prefix){
