@@ -2,7 +2,7 @@ const { prototype } = require("events")
 const fs = require("fs")
 
 // RaspberryPi
-const DataPath = "/root/JERIX-V2/module/"
+const DataPath = "/home/pi/JERIX-V2/module/"
 
 // PC
 // const DataPath = "/c/Users/User/Documents/Abstract Dimension/JERIX2"
@@ -48,7 +48,7 @@ class HomeworkList{
         this.least_id = 0
         this.throw_error = "Something went wrong! Please try again"
 
-        this.raw_data = JSON.parse(fs.readFileSync(`${DataPath}resource\\${file}`,'utf8'))
+        this.raw_data = JSON.parse(fs.readFileSync(`${DataPath}resource/${file}`,'utf8'))
         for(var i=0;i<this.raw_data.length;i++){
             var spt_data = this.raw_data[i]
 
