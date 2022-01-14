@@ -8,7 +8,7 @@ const Counter = new BtnEvent.Counter()
 const ChoiceMatter = require('./module/ChoiceMatter')
 const ChoiceGame = new ChoiceMatter.Graph()
 
-const HL = require('./module/HomeworkList3')
+const HL = require('./module/HomeworkList')
 const HomeworkList = new HL.HomeworkList()
 
 const RandomKit = require('./module/RandomKit')

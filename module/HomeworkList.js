@@ -1,125 +1,136 @@
+const { prototype } = require("events")
 const fs = require("fs")
-const DataPath = "C:\\Users\\User\\Documents\\Abstract Dimension\\JERIX2\\module\\"
 
-var HomeworkList = {
-    data: [],
-    /* Data Type
-    {
-        id: instance_data[0],
-        date: [ins_d,ins_m,ins_y],
-        timestamp: hw_timestamp,
-        day: day_name,
-        label: format_label,
-        day_left: time_left,
-        icon: alert_icon
-    } */
-    currentTimestamp: Date.now(),
-    least_id: 0,
-    throw_error: "Something went wrong! Please try again",
+// RaspberryPi
+// const DataPath = "/home/pi/JERIX-V2/module/"
 
-    readFile: function(){
+// PC
+const DataPath = "D:/JERIX-V2/module/" // "/c/Users/User/Documents/Abstract Dimension/JERIX2"
+
+// Laptop
+// const DataPath = "C:\\Users\\ASUS S430UN\\Documents\\JERIX-V2\\module\\"
+
+const DayName = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+const TypeIcon = {
+    Assignment: "📝",
+    Alert: "🔔",
+    Exam: "🔥"
+}
+
+class Homework{
+    constructor(id,date,label,type="Assignment"){
+        this.isValid = true     // Boolean
+        this.id = id            // String
+        this.date = date        // Integer [Array]
+        this.label = label      // String
+        this.type = type
+        this.type_icon = TypeIcon[type]
+        
+        this.day_name = DayName[new Date(date[2],date[1]-1,date[0]).getDay()]
+        this.timestamp = new Date(date[2],date[1]-1,date[0],23,59,59).getTime()
+        this.day_left = Math.floor((this.timestamp-Date.now())/86400000)
+
+        this.alert_icon = "⚫"
+        if(this.day_left <= 2){this.alert_icon = "⭕"}
+        else if(this.day_left <= 5){this.alert_icon = "🟡"}
+        else if(this.day_left <= 7){this.alert_icon = "🔵"}
+
+        if(this.day_left < 0 || !this.label || this.date == 99 || isNaN(this.timestamp)){this.isValid = false}
+    }
+}
+Homework.prototype.valueOf = function(){return this.timestamp}
+
+class HomeworkList{
+    constructor(file='homeworklist.json'){
+        this.file_name = file
         this.data = []
-        this.currentTimestamp = Date.now()
-        var raw_data = fs.readFileSync(`${DataPath}resource\\homeworklist.txt`,'utf8').split('\n')
-        for(var i=0;i<raw_data.length;i++){
-            var instance_data = raw_data[i].split(' ')
+        this.raw_data = []
+        this.least_id = 0
+        this.throw_error = "Something went wrong! Please try again"
 
-            // Id Save
-            if(Number(instance_data[0])>this.least_id){this.least_id = Number(instance_data[0])}
-            
-            // Filtering Duplicate Homework or Deleted
-            this.data = this.data.filter(ins => ins.id != instance_data[0])
-            if(Number(instance_data[1] == 99)){continue}
+        this.raw_data = JSON.parse(fs.readFileSync(`${DataPath}resource/${file}`,'utf8'))
+        for(var i=0;i<this.raw_data.length;i++){
+            var spt_data = this.raw_data[i]
 
-            // Pass if due date is passed 
-            if(Number(instance_data[3])<this.currentTimestamp){continue}
-
-            // Turn to Unknowed Due Date
-            var isUnknowed = isNaN(Number(instance_data[1])) || isNaN(Number(instance_data[2])) ? true : false
-
-            var ins_d = isUnknowed ? "??" : Number(instance_data[1])
-            var ins_m = isUnknowed ? "??" : Number(instance_data[2])
-            var ins_y = isUnknowed ? "??" : 2021
-            var hw_timestamp = isUnknowed ? 9999999999999 : new Date(2021,ins_m-1,ins_d,23,59,59).getTime()
-
-            var date_no = isUnknowed ? 7 : new Date(2021,ins_m-1,ins_d).getDay()
-            var day_name = ""
-            if(date_no==0){day_name="Sun"}
-            else if(date_no==1){day_name="Mon"}
-            else if(date_no==2){day_name="Tue"}
-            else if(date_no==3){day_name="Wed"}
-            else if(date_no==4){day_name="Thu"}
-            else if(date_no==5){day_name="Fri"}
-            else if(date_no==6){day_name="Sat"}
-            else{day_name="???"}
-
-            var format_label = ""
-            for(var j=4;j<instance_data.length;j++){
-                format_label += instance_data[j]
-                if(j!=instance_data.length-1){
-                    format_label += " "
-                }
+            // ID Saving
+            if(Number(spt_data.id)>this.least_id){
+                this.least_id = Number(spt_data.id)
             }
 
-            var time_left = isUnknowed ? "??" : Math.floor((hw_timestamp-this.currentTimestamp)/86400000)
-            var alert_icon = "⚫"
-            if(time_left <= 2){alert_icon = "⭕"}
-            else if(time_left <= 5){alert_icon = "🟡"}
-            else if(time_left <= 7){alert_icon = "🔵"}
+            var format_label = spt_data.label
 
-            this.data.push({
-                id: instance_data[0],
-                date: [ins_d,ins_m,ins_y],
-                timestamp: hw_timestamp,
-                day: day_name,
-                label: format_label,
-                day_left: time_left,
-                icon: alert_icon
-            })
+            var homework = new Homework(spt_data.id,[Number(spt_data.date),Number(spt_data.month),spt_data.year],format_label,spt_data.type)
+            this.data = this.data.filter(hw => hw.id != homework.id)
+            this.data.push(homework)
         }
+        this.data = this.data.filter(hw => hw.day_left >= 0 && hw.isValid)
+        this.sort()
+    }
 
-        // EZ Bubble Sort
+    sort(){
+        // เดี๋ยวค่อยมาทำ Merge Sort ทีหลัง
         for(var i=0;i<this.data.length;i++){
             for(var j=0;j<this.data.length-1;j++){
-                if(this.data[j].timestamp > this.data[j+1].timestamp){
+                if(this.data[j] > this.data[j+1]){
                     var tmp = this.data[j]
                     this.data[j] = this.data[j+1]
                     this.data[j+1] = tmp
                 }
             }
         }
-    },
+    }
 
-    listHomework: function(){
-        this.readFile()
-        var format_string = `:bookmark: **Homework List (${this.data.length}):**\n`
-
-        // Check if no homework
+    list(type="ALL"){
+        var format_string = `:bookmark: **Homework List 2.0 (${this.data.length}):**\n`
         if(this.data.length == 0){return `${format_string}ไม่มีงาน!? เป็นไปได้ด้วยหรอครับเนี่ย!!??!`}
 
         for(var i=0;i<this.data.length;i++){
             var hw = this.data[i]
+            
+            // Filtering By Type
+            if(type!="ALL" && hw.type != type){
+                continue;
+            }
+
             var vis_day = " วัน"
 
             // Adding 0
-            if(Number(hw.date[0])<10){hw.date[0] = `0${hw.date[0]}`}
-            if(Number(hw.date[1])<10){hw.date[1] = `0${hw.date[1]}`}
+            var date  = Number(hw.date[0])<10 ? `0${hw.date[0]}` : `${hw.date[0]}`
+            var month = Number(hw.date[1])<10 ? `0${hw.date[1]}` : `${hw.date[1]}`
 
+            // Re-Day Left
+            hw.day_left = Math.floor((hw.timestamp-Date.now())/86400000)
+            if(hw.day_left < 0) continue
+            
+            hw.alert_icon = "⚫"
+            if(hw.day_left <= 2){hw.alert_icon = "⭕"}
+            else if(hw.day_left <= 5){hw.alert_icon = "🟡"}
+            else if(hw.day_left <= 7){hw.alert_icon = "🔵"}
+            
+            var day_left = ""
             if(hw.day_left==0){
-                hw.day_left = "เดี๋ยวนี้"
+                day_left = "เดี๋ยวนี้"
                 vis_day = ""
+            }else{
+                day_left = hw.day_left<10 ? `0${hw.day_left}` : `${hw.day_left}`
             }
-            if(hw.day_left<10){hw.day_left = "0" + hw.day_left}
-            format_string += `[\`${hw.day}\`.\`${hw.date[0]}/${hw.date[1]}\`] ${hw.icon} **(\`${hw.day_left}\`${vis_day})** 📝 \`[${hw.id}]\` \`${hw.label}\`\n`
+            format_string += `[\`${hw.day_name}\`.\`${date}/${month}\`] ${hw.alert_icon} **(\`${day_left}\`${vis_day})** ${hw.type_icon} \`[${hw.id}]\` \`${hw.label}\``
+            if(i!=this.data.length-1){format_string += '\n'}
         }
-        // Take This Out After 9 Oct
-        // format_string += `\n💥 อะไรนะ งานข้างบนนี่ดู*น้อย*ไปหรอ?\n📄 สนใจทำ__แบบสอบถามซื้อขายสินค้าออนไลน์__กันสักหน่อยมั้ย\n🕒 ใช้เวลาทำแค่ **10** นาทีเท่านั้นเอง\n**กดที่ลิงก์นี้เลย>>**||https://forms.gle/2fTxbg18GiNDF1q19||`
         return format_string
-    },
+    }
 
-    addHomework: function(arg,isNew=true,select_id="0000"){
+    refresh(){
+        for(var i=0;i<this.data.length;i++){
+            this.data = this.data.filter(hw => hw.id != this.data[i].id)
+        }
+        this.data = this.data.filter(hw => hw.day_left >= 0 && hw.isValid)
+        this.sort()
+    }
+
+    add(arg,isNew=true,select_id ="0000",save=true,type="Assignment"){
         // Check if day and month is Unknowed
-        var isUnknowed = isNaN(Number(arg[0])) || isNaN(Number(arg[1])) ? true : false
+        var isUnknowed = false //isNaN(Number(arg[0])) || isNaN(Number(arg[1])) ? true : false
         // if(isNaN(Number(arg[0])) || isNaN(Number(arg[1]))){return this.throw_error}
 
         // Generating Homeowork ID
@@ -139,7 +150,7 @@ var HomeworkList = {
             arg[0] = "??"
             arg[1] = "??"
         }
-        var timeStamper = isUnknowed ? 9999999999999 : new Date(2021,Number(arg[1]-1),Number(arg[0]),23,59,59).getTime()
+        var timeStamper = isUnknowed ? 9999999999999 : new Date(2022,Number(arg[1]-1),Number(arg[0]),23,59,59).getTime()
         var formatFile = `\n${id_number} ${arg[0]} ${arg[1]} ${timeStamper}`
 
         // Adding 0
@@ -148,41 +159,82 @@ var HomeworkList = {
             if(Number(arg[1])<10){arg[1] = `0${arg[1]}`}
         }
         
-        for(var i=2;i<arg.length;i++)[
+        var format_label = ""
+        for(var i=2;i<arg.length;i++){
             formatFile += ` ${arg[i]}`
-        ]
-        fs.appendFileSync(`${DataPath}resource\\homeworklist.txt`,`${formatFile}`,(err)=>{})
-        return this.listHomework()
-    },
+            format_label += `${arg[i]}`
+            if(i!=arg.length-1){format_label += ' '}
+        }
+        // fs.appendFileSync(`${DataPath}resource\\${this.file_name}`,`${formatFile}`,(err)=>{})
+        var new_homework = new Homework(id_number,[Number(arg[0]),Number(arg[1]),2022],format_label,type)
+        this.data.push(new_homework)
+        if(save){
+            this.raw_data.push({
+                id: new_homework.id,
+                date: new_homework.date[0],
+                month: new_homework.date[1],
+                year: 2022,
+                type: new_homework.type,
+                label: new_homework.label
+            })
+            fs.writeFileSync(`${DataPath}resource\\${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})    
+        }
+        this.sort()
+        return this.list()
+    }
 
-    deleteHomework: function(hw_id){
+    delete(hw_id){
         try{
-            var del = this.data.filter(ins => ins.id == hw_id)[0]
-            var format_data = `\n${del.id} 99 99`
-            fs.appendFileSync(`${DataPath}resource\\homeworklist.txt`,`${format_data}`,(err)=>{})
-            return this.listHomework()
+            this.raw_data = this.raw_data.filter(hw => hw.id != hw_id)
+            fs.writeFileSync(`${DataPath}resource\\${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
+            this.data = this.data.filter((hw)=> hw.id != hw_id)
+            return this.list()
         }
         catch(err){
             return this.throw_error
         }
-    },
+    }
 
-    editHomework: function(hw_id,d,m){
+    edit(hw_id,d,m){
         try{
+            for(var i=0;i<this.raw_data.length;i++){
+                if(this.raw_data[i].id == hw_id){
+                    this.raw_data[i].date = Number(d)
+                    this.raw_data[i].month = Number(m)
+                    break
+                }
+            }
+            fs.writeFileSync(`${DataPath}resource\\${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
             var editing = this.data.filter(ins => ins.id == hw_id)[0]
+            this.data = this.data.filter(hw => hw.id != hw_id)
             var format_array = [d,m,editing.label]
-            this.addHomework(format_array,false,editing.id)
-            return this.listHomework()
+            this.add(format_array,false,editing.id,false,editing.type)
+            return this.list()
         }
         catch(err){
             return this.throw_error
         }
-    },
-
-    remaining: function(){
+    }
+    
+    remaining(){
         return this.data.length
     }
+
 }
+
+// var hl = new HomeworkList('homeworklist.json')
+// console.log()
+// console.log(hl.list())
+// console.log(hl.data[0])
+// hl.add(['03','12','วิชาสหาฟดส > NEWWWW'])
+// console.log(hl.add(['03','12','วิชาสหาฟดส > NEWWWWWWWWWW']))
+// console.log(hl.delete("0130"))
+
+// console.log(hl.edit("0131",5,12))
+// console.log(hl.list())
+
+// var test = JSON.parse(fs.readFileSync(`${DataPath}resource\\homeworklist.json`,'utf8'))
+// console.log()
 
 module.exports = {
     HomeworkList
