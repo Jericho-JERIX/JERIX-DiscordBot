@@ -70,6 +70,10 @@ client.on('messageCreate',(message)=>{
 
             case "hw":
 
+                if(isNaN(Number(arg[2])) && isNaN(Number(arg[3]))){
+                    message.channel.send(`Invalid Input!`)
+                }
+
                 // Button
                 var button = new MessageActionRow().addComponents(
                     new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-ALL"),
@@ -77,8 +81,6 @@ client.on('messageCreate',(message)=>{
                     new MessageButton().setLabel("🔔 Alert").setStyle("SUCCESS").setCustomId("homeworklist-Alert"),
                     new MessageButton().setLabel("🔥 Exam").setStyle("DANGER").setCustomId("homeworklist-Exam")
                 )
-
-                // Command.hw.execute(message,arg)
 
                 if(arg[1]=="add" || arg[1] == "alert" || arg[1] == "exam"){
                     
