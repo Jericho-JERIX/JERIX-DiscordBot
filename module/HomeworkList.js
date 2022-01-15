@@ -177,7 +177,7 @@ class HomeworkList{
                 type: new_homework.type,
                 label: new_homework.label
             })
-            fs.writeFileSync(`${DataPath}resource\\${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})    
+            fs.writeFileSync(`${DataPath}resource/${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})    
         }
         this.sort()
         return this.list()
@@ -186,7 +186,7 @@ class HomeworkList{
     delete(hw_id){
         try{
             this.raw_data = this.raw_data.filter(hw => hw.id != hw_id)
-            fs.writeFileSync(`${DataPath}resource\\${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
+            fs.writeFileSync(`${DataPath}resource/${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
             this.data = this.data.filter((hw)=> hw.id != hw_id)
             return this.list()
         }
@@ -204,7 +204,7 @@ class HomeworkList{
                     break
                 }
             }
-            fs.writeFileSync(`${DataPath}resource\\${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
+            fs.writeFileSync(`${DataPath}resource/${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
             var editing = this.data.filter(ins => ins.id == hw_id)[0]
             this.data = this.data.filter(hw => hw.id != hw_id)
             var format_array = [d,m,editing.label]
