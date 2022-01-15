@@ -1,0 +1,118 @@
+{
+    "sun": [],
+    "mon": [
+        {
+            "subject_id": "01204225",
+            "subject_id_year": "01204225-60",
+            "subject": "Computer Architecture and Organization",
+            "time_start": "09:00",
+            "time_end": "12:00",
+            "attachment": []
+        },
+        {
+            "subject_id": "01204214",
+            "subject_id_year": "01204214-60",
+            "subject": "Problem Solving Laboratory",
+            "time_start": "13:00",
+            "time_end": "16:00",
+            "attachment": []
+        }
+    ],
+    "tue": [
+        {
+            "subject_id": "01204371",
+            "subject_id_year": "01204371-60",
+            "subject": "Transform Techniques in Signal Processing",
+            "time_start": "09:00",
+            "time_end": "10:30",
+            "attachment": []
+        },
+        {
+            "subject_id": "01205212",
+            "subject_id_year": "01205212-60",
+            "subject": "Electronic Circuits and Systems I",
+            "time_start": "10:30",
+            "time_end": "12:00",
+            "attachment": []
+        },
+        {
+            "subject_id": "01204351",
+            "subject_id_year": "01204351-60",
+            "subject": "Database System",
+            "time_start": "13:00",
+            "time_end": "16:00",
+            "attachment": []
+        },
+        {
+            "subject_id": "01207271",
+            "subject_id_year": "01207271-60",
+            "subject": "Introduction to Computer Engineering",
+            "time_start": "16:00",
+            "time_end": "17:30",
+            "attachment": []
+        }
+    ],
+    "wed": [
+        {
+            "subject_id": "01204313",
+            "subject_id_year": "01204313-60",
+            "subject": "Algorithm Design and Analysis",
+            "time_start": "09:00",
+            "time_end": "12:00",
+            "attachment": []
+        }
+    ],
+    "thu": [
+        {
+            "subject_id": "01204371",
+            "subject_id_year": "01204371-60",
+            "subject": "Transform Techniques in Signal Processing",
+            "time_start": "09:00",
+            "time_end": "10:30",
+            "attachment": []
+        },
+        {
+            "subject_id": "01205212",
+            "subject_id_year": "01205212-60",
+            "subject": "Electronic Circuits and Systems I",
+            "time_start": "10:30",
+            "time_end": "12:00",
+            "attachment": []
+        },
+        {
+            "subject_id": "01999048",
+            "subject_id_year": "01999048-64",
+            "subject": "Innovation for Environment and Well-being",
+            "time_start": "13:00",
+            "time_end": "16:00",
+            "attachment": []
+        },
+        {
+            "subject_id": "01207271",
+            "subject_id_year": "01207271-60",
+            "subject": "Introduction to Computer Engineering",
+            "time_start": "16:00",
+            "time_end": "17:30",
+            "attachment": []
+        }
+    ],
+    "fri": [
+        {
+            "subject_id": "01204223",
+            "subject_id_year": "01204223-60",
+            "subject": "Practicum in Computer Engineering",
+            "time_start": "09:00",
+            "time_end": "12:00",
+            "attachment": []
+        },
+        {
+            "subject_id": "01204223",
+            "subject_id_year": "01204223-60",
+            "subject": "Practicum in Computer Engineering",
+            "time_start": "13:00",
+            "time_end": "16:00",
+            "attachment": []
+        }
+    ],
+    "sat": []
+}

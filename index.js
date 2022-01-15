@@ -1,19 +1,19 @@
 const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discord.js')
 const dotenv = require('dotenv')
 dotenv.config()
+const fs = require('fs')
+
 
 const BtnEvent = require('./module/ButtonEvent')
-const Counter = new BtnEvent.Counter()
-
 const ChoiceMatter = require('./module/ChoiceMatter')
-const ChoiceGame = new ChoiceMatter.Graph()
+const HL = require('./module/HomeworkList')
+const RandomKit = require('./module/RandomKit')
+const WordFinderTH = require('./module/WordFinderTH')
 
-const HL = require('./module/HomeworkList3')
+const Counter = new BtnEvent.Counter()
+const ChoiceGame = new ChoiceMatter.Graph()
 const HomeworkList = new HL.HomeworkList()
 
-const RandomKit = require('./module/RandomKit')
-
-const WordFinderTH = require('./module/WordFinderTH')
 
 const client = new Client({
     intents: [
@@ -26,10 +26,18 @@ const client = new Client({
 
 client.on('ready',()=>{
     console.log("Going Live...")
+    var Bot_count = 0
+    setInterval(()=>{
+        client.user.setPresence({
+            activities : [{
+                name: `Online for ${Bot_count} minutes!`,
+                type: "PLAYING"
+            }]
+        })
+        Bot_count+= 1
+    },60000)
+    
 })
-
-client.setAc
-
 client.login(process.env.TOKEN)
 
 var jRandom = {
@@ -37,8 +45,17 @@ var jRandom = {
 }
 
 // Command
+
+// const Command = {} // require('./commands/ping')
+// const CommandList = fs.readdirSync('commands')
+// for(var i in CommandList){
+//     console.log(i)
+//     Command[CommandList[i].slice(0,-3)] = require(`./commands/${CommandList[i].slice(0,-3)}`)
+// }
+// console.log(Command)
+
 client.on('messageCreate',(message)=>{
-    const Prefix = "j!"
+    const Prefix = "b!"
     var arg = message.content.split(' ')
 
     if(arg[0].slice(0,2) == Prefix){
@@ -47,10 +64,15 @@ client.on('messageCreate',(message)=>{
 
             case "p":
             case "ping":
+                // Command.ping.execute(message)
                 message.channel.send("<:sad_cat:806181269456027648>")
                 break
 
             case "hw":
+
+                if(isNaN(Number(arg[2])) && isNaN(Number(arg[3]))){
+                    message.channel.send(`Invalid Input!`)
+                }
 
                 // Button
                 var button = new MessageActionRow().addComponents(
@@ -257,7 +279,7 @@ client.on('guildMemberAdd',(newbie)=>{
 
 client.on('messageCreate',(message)=>{
     if(message.author.id == 732085397299134487){
-        if(WordFinderTH.findThaiWord(message.content,'ควย')){
+        if(WordFinderTH.findThaiWord(message.content,'ควย') || WordFinderTH.findThaiWord(message.content,'หำ') || WordFinderTH.findThaiWord(message.content,'หรรม')){
             message.channel.send('<@!732085397299134487> เล็ก')
         }
     }

@@ -1,0 +1,11 @@
+{
+    "01204225" : {"name" : "Computer Architecture and Organization",    "alias": ["Com Arch"]},
+    "01204214" : {"name" : "Problem Solving Laboratory",                "alias": ["Problem Solving"]},
+    "01204371" : {"name" : "Transform Techniques in Signal Processing", "alias": ["Signal"]},
+    "01205212" : {"name" : "Electronic Circuits and Systems I",         "alias": ["Electronics"]},
+    "01204351" : {"name" : "Database System",                           "alias": ["Database"]},
+    "01207271" : {"name" : "Introduction to Computer Engineering",      "alias": ["Intro to CPE"]},
+    "01204313" : {"name" : "Algorithm Design and Analysis",             "alias": ["Algorithm"]},
+    "01999048" : {"name" : "Innovation for Environment and Well-being", "alias": ["Innovation"]},
+    "01204223" : {"name" : "Practicum in Computer Engineering",         "alias": ["Practicum"]}
+}
