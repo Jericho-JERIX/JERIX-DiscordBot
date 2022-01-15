@@ -1,0 +1,34 @@
+[
+	{
+		"id": "0000",
+		"date": 1,
+		"month": 1,
+		"year": 2021,
+		"type": "Assignment",
+		"label": "DUMMY FILE DO NOT DELETE THIS!"
+	},
+	{
+		"id": "0001",
+		"date": 6,
+		"month": 12,
+		"year": 2022,
+		"type": "Alert",
+		"label": "HOMEWORK 1"
+	},
+	{
+		"id": "0002",
+		"date": 2,
+		"month": 12,
+		"year": 2022,
+		"type": "Alert",
+		"label": "HOMEWORK 2"
+	},
+    {
+		"id": "0003",
+		"date": 15,
+		"month": 12,
+		"year": 2022,
+		"type": "Alert",
+		"label": "HOMEWORK 3"
+	}
+]
