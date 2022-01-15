@@ -438,5 +438,21 @@
 		"year": 2022,
 		"type": "Alert",
 		"label": "Problem Solving > Grader 8 ข้อ (และก่อนๆอีก 32 ข้อ)"
+	},
+	{
+		"id": "0190",
+		"date": 31,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Innovation > ใบงานที่ 4"
+	},
+	{
+		"id": "0191",
+		"date": 27,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Practicum > Elab2 ทุก Week (1-5)"
 	}
 ]
