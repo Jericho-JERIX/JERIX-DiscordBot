@@ -1,6 +1,7 @@
 const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discord.js')
 const dotenv = require('dotenv')
 dotenv.config()
+const fs = require('fs')
 
 const BtnEvent = require('./module/ButtonEvent')
 const Counter = new BtnEvent.Counter()
@@ -24,8 +25,6 @@ const client = new Client({
     ]
 })
 
-
-
 client.on('ready',()=>{
     console.log("Going Live...")
     var Bot_count = 0
@@ -40,9 +39,6 @@ client.on('ready',()=>{
     },60000)
     
 })
-
-client.setAc
-
 client.login(process.env.TOKEN)
 
 var jRandom = {
@@ -50,6 +46,15 @@ var jRandom = {
 }
 
 // Command
+
+// const Command = {} // require('./commands/ping')
+// const CommandList = fs.readdirSync('commands')
+// for(var i in CommandList){
+//     console.log(i)
+//     Command[CommandList[i].slice(0,-3)] = require(`./commands/${CommandList[i].slice(0,-3)}`)
+// }
+// console.log(Command)
+
 client.on('messageCreate',(message)=>{
     const Prefix = "b!"
     var arg = message.content.split(' ')
@@ -60,18 +65,16 @@ client.on('messageCreate',(message)=>{
 
             case "p":
             case "ping":
+                // Command.ping.execute(message)
                 message.channel.send("<:sad_cat:806181269456027648>")
                 break
 
             case "hw":
 
                 // Button
-                var button = new MessageActionRow().addComponents(
-                    new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-ALL"),
-                    new MessageButton().setLabel("📝 Assignment").setStyle("PRIMARY").setCustomId("homeworklist-Assignment"),
-                    new MessageButton().setLabel("🔔 Alert").setStyle("SUCCESS").setCustomId("homeworklist-Alert"),
-                    new MessageButton().setLabel("🔥 Exam").setStyle("DANGER").setCustomId("homeworklist-Exam")
-                )
+                
+
+                // Command.hw.execute(message,arg)
 
                 if(arg[1]=="add" || arg[1] == "alert" || arg[1] == "exam"){
                     
