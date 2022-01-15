@@ -3,18 +3,17 @@ const dotenv = require('dotenv')
 dotenv.config()
 const fs = require('fs')
 
+
 const BtnEvent = require('./module/ButtonEvent')
-const Counter = new BtnEvent.Counter()
-
 const ChoiceMatter = require('./module/ChoiceMatter')
-const ChoiceGame = new ChoiceMatter.Graph()
-
 const HL = require('./module/HomeworkList')
+const RandomKit = require('./module/RandomKit')
+const WordFinderTH = require('./module/WordFinderTH')
+
+const Counter = new BtnEvent.Counter()
+const ChoiceGame = new ChoiceMatter.Graph()
 const HomeworkList = new HL.HomeworkList()
 
-const RandomKit = require('./module/RandomKit')
-
-const WordFinderTH = require('./module/WordFinderTH')
 
 const client = new Client({
     intents: [
@@ -72,7 +71,12 @@ client.on('messageCreate',(message)=>{
             case "hw":
 
                 // Button
-                
+                var button = new MessageActionRow().addComponents(
+                    new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-ALL"),
+                    new MessageButton().setLabel("📝 Assignment").setStyle("PRIMARY").setCustomId("homeworklist-Assignment"),
+                    new MessageButton().setLabel("🔔 Alert").setStyle("SUCCESS").setCustomId("homeworklist-Alert"),
+                    new MessageButton().setLabel("🔥 Exam").setStyle("DANGER").setCustomId("homeworklist-Exam")
+                )
 
                 // Command.hw.execute(message,arg)
 
