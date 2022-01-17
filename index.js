@@ -44,18 +44,10 @@ var jRandom = {
     user: []
 }
 
-// Command
+// General User Command
 
-// const Command = {} // require('./commands/ping')
-// const CommandList = fs.readdirSync('commands')
-// for(var i in CommandList){
-//     console.log(i)
-//     Command[CommandList[i].slice(0,-3)] = require(`./commands/${CommandList[i].slice(0,-3)}`)
-// }
-// console.log(Command)
-
+const Prefix = "b!"
 client.on('messageCreate',(message)=>{
-    const Prefix = "b!"
     var arg = message.content.split(' ')
 
     if(arg[0].slice(0,2) == Prefix){
@@ -277,9 +269,33 @@ client.on('guildMemberAdd',(newbie)=>{
     console.log(newbie)
 })
 
+const TongDick = ['ควย','หำ','หรรม','hum']
+const Friend = ['ฝ้าย','เนส','ตุล','นัน','นีน่า','กานน']
+
+var foundDick = false
+var foundFriend = false
 client.on('messageCreate',(message)=>{
-    if(message.author.id == 732085397299134487){
-        if(WordFinderTH.findThaiWord(message.content,'ควย') || WordFinderTH.findThaiWord(message.content,'หำ') || WordFinderTH.findThaiWord(message.content,'หรรม')){
+    foundDick = false
+    foundFriend = false
+    for(var i in TongDick){
+        if(WordFinderTH.findThaiWord(message.content,TongDick[i])){
+            foundDick = true
+            break
+        }
+    }
+
+    for(var i in Friend){
+        if(WordFinderTH.findThaiWord(message.content,Friend[i])){
+            foundFriend = true
+            break
+        }
+    }
+
+    if(foundDick){
+        if(foundFriend){
+            message.channel.send('<@!732085397299134487> ไม่ มึงอ่ะเล็ก')
+        }
+        else{
             message.channel.send('<@!732085397299134487> เล็ก')
         }
     }
