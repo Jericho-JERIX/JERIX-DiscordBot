@@ -45,7 +45,6 @@ var jRandom = {
 }
 
 // General User Command
-
 const Prefix = "b!"
 client.on('messageCreate',(message)=>{
     var arg = message.content.split(' ')
@@ -61,10 +60,6 @@ client.on('messageCreate',(message)=>{
                 break
 
             case "hw":
-
-                if(isNaN(Number(arg[2])) && isNaN(Number(arg[3]))){
-                    message.channel.send(`Invalid Input!`)
-                }
 
                 // Button
                 var button = new MessageActionRow().addComponents(
@@ -109,15 +104,6 @@ client.on('messageCreate',(message)=>{
                     else{
                         message.channel.setName(`📝homework-${HomeworkList.remaining()}-left`)
                     }
-                }
-                break
-
-            case "clear": // Clear Message
-                if(message.member.roles.cache.has("569178222495793153")){
-                    message.channel.bulkDelete(parseInt(arg[1]) + 1)
-                }
-                else{
-                    message.channel.send("อย่าหาทำ")
                 }
                 break
             
@@ -264,14 +250,40 @@ client.on('messageCreate',(message)=>{
     }
 })
 
+// Super-User(ADMIN) Command
+client.on('messageCreate',(message)=>{
+    if(message.author.bot) return
+    if(message.member.roles.cache.some(role => role.id == 569178222495793153)){
+        var arg = message.content.split(' ')
+
+        if(arg[0].slice(0,2) == Prefix){
+            var command = arg[0].slice(2)
+            switch(command){
+                case "clear": // Clear Message
+                if(message.member.roles.cache.has("569178222495793153")){
+                    message.channel.bulkDelete(parseInt(arg[1]) + 1)
+                }
+                else{
+                    message.channel.send("อย่าหาทำ")
+                }
+                break
+            }
+        }
+        
+    }
+    else{
+        message.channel.send(`You Don't Have Permission To Execute That Command!`)
+    }
+})
+
 client.on('guildMemberAdd',(newbie)=>{
     console.log("Nice")
     console.log(newbie)
 })
 
+// D-Tong
 const TongDick = ['ควย','หำ','หรรม','hum']
 const Friend = ['ฝ้าย','เนส','ตุล','นัน','นีน่า','กานน']
-
 var foundDick = false
 var foundFriend = false
 client.on('messageCreate',(message)=>{
@@ -301,6 +313,7 @@ client.on('messageCreate',(message)=>{
     }
 })
 
+// Button Event
 client.on('interactionCreate',(interact)=>{
     if(interact.isButton()){
         var arg = interact.customId.split('-')
@@ -318,10 +331,3 @@ client.on('interactionCreate',(interact)=>{
         }
     }
 })
-
-// Trolling Friend
-// client.on('typingStart',(message)=>{
-//     if(message.user.id != 226919303700676610){
-//         message.channel.send(`<@!${message.user.id}> จะพิมพ์ไร`)
-//     }
-// })

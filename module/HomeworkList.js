@@ -38,7 +38,7 @@ class HomeworkList{
         this.raw_data = []
         this.least_id = 0
         this.throw_error = "Something went wrong! Please try again"
-
+        
         this.raw_data = JSON.parse(fs.readFileSync(`${DataPath}resource/${file}`,'utf8'))
         for(var i=0;i<this.raw_data.length;i++){
             var spt_data = this.raw_data[i]
@@ -72,8 +72,9 @@ class HomeworkList{
     }
 
     list(type="ALL"){
-        var format_string = `:bookmark: **Homework List 2.0 (${this.data.length}):**\n`
-        if(this.data.length == 0){return `${format_string}ไม่มีงาน!? เป็นไปได้ด้วยหรอครับเนี่ย!!??!`}
+        var format_string = ``
+        var found_count = 0
+        if(this.data.length == 0){return `:bookmark: **Homework List 2.0 (0):**\nไม่มีงาน!? เป็นไปได้ด้วยหรอครับเนี่ย!!??!`}
 
         for(var i=0;i<this.data.length;i++){
             var hw = this.data[i]
@@ -105,8 +106,16 @@ class HomeworkList{
             }else{
                 day_left = hw.day_left<10 ? `0${hw.day_left}` : `${hw.day_left}`
             }
+
             format_string += `[\`${hw.day_name}\`.\`${date}/${month}\`] ${hw.alert_icon} **(\`${day_left}\`${vis_day})** ${hw.type_icon} \`[${hw.id}]\` \`${hw.label}\``
+            found_count += 1
             if(i!=this.data.length-1){format_string += '\n'}
+        }
+        if(type != "ALL"){
+            format_string = `:bookmark: **Homework List 2.0 (${this.data.length}) >> ${TypeIcon[type]} ${type} (${found_count}):**\n${format_string}`
+        }
+        else{
+            format_string = `:bookmark: **Homework List 2.0 (${this.data.length}):**\n${format_string}`
         }
         return format_string
     }
