@@ -56,8 +56,6 @@ client.on('ready',(test)=>{
 })
 client.login(process.env.TOKEN)
 
-
-
 //TODO General User Command
 
 const CommandList = fs.readdirSync('commands')
