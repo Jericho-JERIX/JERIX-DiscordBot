@@ -1,5 +1,6 @@
+const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discord.js')
 const HW = require('../module/HomeworkList')
-var HomeworkList = new HW.HomeworkList()
+var HomeworkList = new HW.HomeworkList('dummyhomework.json')
 
 var button = new MessageActionRow().addComponents(
     new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-ALL"),
@@ -11,7 +12,7 @@ var button = new MessageActionRow().addComponents(
 module.exports = {
     name: "homework",
     alias: ['homework','hw'],
-    execute: function(message,arg,button){
+    execute: function(message,arg){
         if(arg[1]=="add" || arg[1] == "alert" || arg[1] == "exam"){
                     
             var formatPara = []
