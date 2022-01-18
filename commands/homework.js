@@ -1,6 +1,6 @@
 const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discord.js')
 const HW = require('../module/HomeworkList')
-var HomeworkList = new HW.HomeworkList('dummyhomework.json')
+var HomeworkList = new HW.HomeworkList()
 
 var button = new MessageActionRow().addComponents(
     new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-ALL"),
