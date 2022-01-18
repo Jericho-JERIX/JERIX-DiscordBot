@@ -68,7 +68,6 @@ for(var i in CommandList){
 var Prefix = "b!"
 client.on('messageCreate',(message)=>{
     var arg = message.content.split(' ')
-
     if(arg[0].slice(0,2) == Prefix){
         var command = arg[0].slice(Prefix.length)
         for(var i in Command){
