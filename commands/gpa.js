@@ -1,6 +1,7 @@
 module.exports = {
     name: "gpa",
     alias: ['gpa'],
+    roleRequirement: [],
     execute: function(message,arg){
         message.channel.bulkDelete(1)
         var tCredit = 0
@@ -54,5 +55,6 @@ module.exports = {
             }
             message.author.send("==================")
         }
+        return 0
     }
 }

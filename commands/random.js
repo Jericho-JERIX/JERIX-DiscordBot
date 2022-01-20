@@ -4,6 +4,7 @@ var jRandom = {
 module.exports = {
     name: "random",
     alias: [],
+    roleRequirement: [],
     execute: function(message,arg){
         var i = 0
         if(arg.length==1){
@@ -25,5 +26,6 @@ module.exports = {
                 jRandom.user.push(arg[i])
             }
         }
+        return 0
     }
 }

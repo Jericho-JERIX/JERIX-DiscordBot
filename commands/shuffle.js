@@ -3,6 +3,7 @@ const RandomKit = require('../module/RandomKit')
 module.exports = {
     name: "shuffle",
     alias: [],
+    roleRequirement: [],
     execute: function(message,arg){
         var box = []
         for(var i=1;i<arg.length;i++){
@@ -15,5 +16,6 @@ module.exports = {
             format_string += `${box[i]}\n`
         }
         message.channel.send(format_string)
+        return 0
     }
 }

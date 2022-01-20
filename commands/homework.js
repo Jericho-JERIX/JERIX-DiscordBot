@@ -12,6 +12,7 @@ var button = new MessageActionRow().addComponents(
 module.exports = {
     name: "homework",
     alias: ['homework','hw'],
+    roleRequirement: [],
     execute: function(message,arg){
         if(arg[1]=="add" || arg[1] == "alert" || arg[1] == "exam"){
                     
@@ -49,5 +50,6 @@ module.exports = {
                 message.channel.setName(`📝homework-${HomeworkList.remaining()}-left`)
             }
         }
+        return 0
     }
 }

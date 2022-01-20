@@ -3,10 +3,11 @@ const RandomKit = require('../module/RandomKit')
 module.exports = {
     name: "pair",
     alias: [],
+    roleRequirement: [],
     execute: function(message,arg){
         if(arg.length %2 == 0){
             message.channel.send("Can't Match!")
-            return
+            return 1
         }
         var div = Math.ceil(arg.length/2)
         var box1 = []
@@ -24,5 +25,6 @@ module.exports = {
             format_string += `${box1[i]} ---> ${box2[i]}\n`
         }
         message.channel.send(format_string)
+        return 0
     }
 }
