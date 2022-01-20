@@ -40,7 +40,7 @@ client.on('ready',(test)=>{
 
     var timeCount = setInterval(async ()=>{
         var timeNow = new Today.AtThisTime()
-        if(timeNow.hour == 7 && timeNow.minute == 0){
+        if(timeNow.hour == 0 && timeNow.minute == 0){
             var msg = await client.channels.cache.get('885898083295186944').send(HomeworkList.list())
             msg.crosspost()
             setInterval(async ()=>{
