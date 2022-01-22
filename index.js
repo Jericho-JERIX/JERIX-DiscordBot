@@ -41,10 +41,10 @@ client.on('ready',(test)=>{
     var timeCount = setInterval(async ()=>{
         var timeNow = new Today.AtThisTime()
         if(timeNow.hour == 0 && timeNow.minute == 0){
-            var msg = await client.channels.cache.get('885898083295186944').send(HomeworkList.list())
+            var msg = await client.channels.cache.get('885898083295186944').send(`${HomeworkList.list()}a`)
             msg.crosspost()
             setInterval(async ()=>{
-                var msg = await client.channels.cache.get('885898083295186944').send(HomeworkList.list())
+                var msg = await client.channels.cache.get('885898083295186944').send(`${HomeworkList.list()}b`)
                 msg.crosspost()
             },86400000)
             clearInterval(timeCount)
