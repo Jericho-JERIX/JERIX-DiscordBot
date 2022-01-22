@@ -51,5 +51,8 @@ module.exports = {
             }
         }
         return 0
+    },
+    getList: function(type='ALL'){
+        return HomeworkList.list(type)
     }
 }

@@ -13,7 +13,7 @@ const { time } = require('console')
 
 const Counter = new BtnEvent.Counter()
 const ChoiceGame = new ChoiceMatter.Graph()
-const HomeworkList = new HL.HomeworkList()
+var HomeworkList = new HL.HomeworkList()
 
 
 const client = new Client({
@@ -49,10 +49,7 @@ client.on('ready',(test)=>{
             },86400000)
             clearInterval(timeCount)
         }
-    },1000)
-    
-    
-    
+    },1000) 
 })
 client.login(process.env.TOKEN)
 
@@ -97,7 +94,12 @@ client.on('messageCreate',(message)=>{
             }
         }
 
-        //* Command Result / Special Execute
+        /* Command Result / Special Execute
+           -1 - No Command Found
+            0 - Success
+            1 - Error(Bad Input)
+            2 - Permission Required
+        */
         if(result == -1 || result == 0) {}
         else if(result == 1){message.channel.send("Something went Wrong! Please try again")}
         else if(result == 2){message.channel.send("You need Permission!")}
@@ -150,7 +152,8 @@ client.on('interactionCreate',(interact)=>{
                 break
 
             case "homeworklist":
-                interact.message.edit(HomeworkList.list(arg[1]))
+                // interact.message.edit(HomeworkList.list(arg[1]))
+                interact.message.edit(Command.homework.getList(arg[1]))
                 break
         }
     }
