@@ -328,14 +328,6 @@
 		"label": "[MIDTERM] [08:00-11:00] Signal Processing"
 	},
 	{
-		"id": "0174",
-		"date": 20,
-		"month": 1,
-		"year": 2022,
-		"type": "Exam",
-		"label": "[MIDTERM] [08:00-11:00] Electronics I"
-	},
-	{
 		"id": "0175",
 		"date": 31,
 		"month": 1,
@@ -454,5 +446,29 @@
 		"year": 2022,
 		"type": "Assignment",
 		"label": "Practicum > Elab2 ทุก Week (1-5)"
+	},
+	{
+		"id": "0192",
+		"date": 1,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Algorithm > Homework 4: Greedy Algorithm"
+	},
+	{
+		"id": "0193",
+		"date": 27,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Homework-04:FIR Filters [ก่อน 8:30]"
+	},
+	{
+		"id": "0194",
+		"date": 3,
+		"month": 1,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "aaa"
 	}
 ]
