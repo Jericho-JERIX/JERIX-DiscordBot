@@ -20,5 +20,5 @@ class AtThisTime{
 }
 
 module.exports = {
-    AtThisTime
+    AtThisTime,Day
 }
