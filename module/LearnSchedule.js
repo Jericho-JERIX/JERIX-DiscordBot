@@ -26,12 +26,8 @@ class Schedule{
     }
 
     current(){
-        // var now = new Today.AtThisTime()
-        var now = {
-            hour: 11,
-            minute: 21
-        }
-        var sday_name = 'fri'// today.dat_name.slice(0,3).toLowerCase()
+        var now = new Today.AtThisTime()
+        var sday_name = now.date_name.slice(0,3).toLowerCase()
 
         for(var i=0;i<this.json_data[sday_name].length;i++){
             var subject = this.json_data[sday_name][i]
@@ -50,7 +46,4 @@ class Schedule{
 }
 
 var sche = new Schedule('cpetimetable.json')
-// console.log(sche.linear_data)
-// console.log(sche.json_data)
 sche.current()
-// var sche = new Schedule('homeworklist.json')

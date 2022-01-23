@@ -10,7 +10,7 @@ class AtThisTime{
         this.month_name = Month[this.month]
         this.year = today.getFullYear()
         this.day = today.getDay()
-        this.dat_name = Day[this.day]
+        this.date_name = Day[this.day]
 
         this.timestamp = Date.now()
         this.second = today.getSeconds()
