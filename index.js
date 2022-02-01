@@ -47,13 +47,13 @@ client.on('ready',(test)=>{
 
     var timeCount = setInterval(async ()=>{
         var timeNow = new Today.AtThisTime()
-        if(timeNow.hour == 0 || timeNow.second == 0){
-            var msg = await client.channels.cache.get(/* '885898083295186944' */'897797648130654258').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
-            // msg.crosspost()
+        if(timeNow.hour == 0 && timeNow.minute == 1){
+            var msg = await client.channels.cache.get('885898083295186944').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
+            msg.crosspost()
             setInterval(async ()=>{
-                var msg = await client.channels.cache.get(/* '885898083295186944' */'897797648130654258').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
-                // msg.crosspost()
-            },/* 86400000 */60000)
+                var msg = await client.channels.cache.get('885898083295186944').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
+                msg.crosspost()
+            },86400000)
             clearInterval(timeCount)
         }
     },1000) 
