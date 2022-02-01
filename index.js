@@ -12,9 +12,16 @@ const Today = require('./module/Today')
 const { time } = require('console')
 
 const Counter = new BtnEvent.Counter()
-const ChoiceGame = new ChoiceMatter.Graph()
-var HomeworkList = new HL.HomeworkList()
+// const ChoiceGame = new ChoiceMatter.Graph()
+// var HomeworkList = new HL.HomeworkList()
 
+//TODO--- User Command ---
+const CommandList = fs.readdirSync('commands')
+var Command = {}
+
+for(var i in CommandList){
+    Command[CommandList[i].slice(0,-3)] = require(`./commands/${CommandList[i].slice(0,-3)}`)
+}
 
 const client = new Client({
     intents: [
@@ -40,27 +47,18 @@ client.on('ready',(test)=>{
 
     var timeCount = setInterval(async ()=>{
         var timeNow = new Today.AtThisTime()
-        if(timeNow.hour == 0 && timeNow.minute == 0){
-            var msg = await client.channels.cache.get('885898083295186944').send(`${HomeworkList.list()}a`)
-            msg.crosspost()
+        if(timeNow.hour == 0 || timeNow.second == 0){
+            var msg = await client.channels.cache.get(/* '885898083295186944' */'897797648130654258').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
+            // msg.crosspost()
             setInterval(async ()=>{
-                var msg = await client.channels.cache.get('885898083295186944').send(`${HomeworkList.list()}b`)
-                msg.crosspost()
-            },86400000)
+                var msg = await client.channels.cache.get(/* '885898083295186944' */'897797648130654258').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
+                // msg.crosspost()
+            },/* 86400000 */60000)
             clearInterval(timeCount)
         }
     },1000) 
 })
 client.login(process.env.TOKEN)
-
-
-//TODO--- User Command ---
-const CommandList = fs.readdirSync('commands')
-var Command = {}
-
-for(var i in CommandList){
-    Command[CommandList[i].slice(0,-3)] = require(`./commands/${CommandList[i].slice(0,-3)}`)
-}
 
 var Prefix = "b!"
 client.on('messageCreate',(message)=>{

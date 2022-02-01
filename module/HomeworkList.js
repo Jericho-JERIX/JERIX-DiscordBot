@@ -73,17 +73,13 @@ class HomeworkList{
 
     list(type="ALL"){
         var format_string = ``
-        var found_count = 0
+        var type_count = 0
+        var total_count = 0
         if(this.data.length == 0){return `:bookmark: **Homework List 2.0 (0):**\nไม่มีงาน!? เป็นไปได้ด้วยหรอครับเนี่ย!!??!`}
 
         for(var i=0;i<this.data.length;i++){
             var hw = this.data[i]
             
-            // Filtering By Type
-            if(type!="ALL" && hw.type != type){
-                continue;
-            }
-
             var vis_day = " วัน"
 
             // Adding 0
@@ -93,6 +89,13 @@ class HomeworkList{
             // Re-Day Left
             hw.day_left = Math.floor((hw.timestamp-Date.now())/86400000)
             if(hw.day_left < 0) continue
+            total_count += 1
+
+            // Filtering By Type
+            if(type!="ALL" && hw.type != type){
+                
+                continue;
+            }
             
             hw.alert_icon = "⚫"
             if(hw.day_left <= 2){hw.alert_icon = "⭕"}
@@ -108,14 +111,14 @@ class HomeworkList{
             }
 
             format_string += `[\`${hw.day_name}\`.\`${date}/${month}\`] ${hw.alert_icon} **(\`${day_left}\`${vis_day})** ${hw.type_icon} \`[${hw.id}]\` \`${hw.label}\``
-            found_count += 1
+            type_count += 1
             if(i!=this.data.length-1){format_string += '\n'}
         }
         if(type != "ALL"){
-            format_string = `:bookmark: **Homework List 2.0 (${this.data.length}) >> ${TypeIcon[type]} ${type} (${found_count}):**\n${format_string}`
+            format_string = `:bookmark: **Homework List 2.0 (${total_count}) >> ${TypeIcon[type]} ${type} (${type_count}):**\n${format_string}`
         }
         else{
-            format_string = `:bookmark: **Homework List 2.0 (${this.data.length}):**\n${format_string}`
+            format_string = `:bookmark: **Homework List 2.0 (${total_count}):**\n${format_string}`
         }
         return format_string
     }
