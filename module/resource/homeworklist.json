@@ -457,8 +457,8 @@
 	},
 	{
 		"id": "0193",
-		"date": 27,
-		"month": 1,
+		"date": 3,
+		"month": 2,
 		"year": 2022,
 		"type": "Assignment",
 		"label": "Signal > Homework-04:FIR Filters [ก่อน 8:30]"
@@ -470,5 +470,37 @@
 		"year": 2022,
 		"type": "Assignment",
 		"label": "aaa"
+	},
+	{
+		"id": "0195",
+		"date": 27,
+		"month": 1,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Electronics > คลิปครั้งที่ 12"
+	},
+	{
+		"id": "0196",
+		"date": 31,
+		"month": 1,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Problem Solving > Grader  5(+15) ข้อ [และก่อนๆอีก 36(+4) ข้อ] *(+x) คือข้อ Optional"
+	},
+	{
+		"id": "0197",
+		"date": 8,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Programming Lab-04-FIR System"
+	},
+	{
+		"id": "0198",
+		"date": 15,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Innovation > การบ้าน (กลุ่มละ 6 คน)"
 	}
 ]
