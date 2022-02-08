@@ -502,5 +502,45 @@
 		"year": 2022,
 		"type": "Assignment",
 		"label": "Innovation > การบ้าน (กลุ่มละ 6 คน)"
+	},
+	{
+		"id": "0199",
+		"date": 8,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Database > การบ้านบทที่ 7"
+	},
+	{
+		"id": "0200",
+		"date": 3,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Electronics > หาจุกทำงานของ Transistor(?)"
+	},
+	{
+		"id": "0201",
+		"date": 11,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Intro to CPE > สรุป Big Data และ Data Analytics ลง A4 (ครึ่ง-1 หน้า)"
+	},
+	{
+		"id": "0202",
+		"date": 20,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Practicum > ออกแบบแผ่นวงจรพิมพ์"
+	},
+	{
+		"id": "0203",
+		"date": 14,
+		"month": 2,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Problem Solving > Grader 5 ข้อ [และก่อนๆอีก 41(+19) ข้อ] *(+x) คือข้อ Optional"
 	}
 ]
