@@ -497,7 +497,7 @@
 	},
 	{
 		"id": "0198",
-		"date": 15,
+		"date": 28,
 		"month": 2,
 		"year": 2022,
 		"type": "Assignment",
@@ -529,7 +529,7 @@
 	},
 	{
 		"id": "0202",
-		"date": 20,
+		"date": 13,
 		"month": 2,
 		"year": 2022,
 		"type": "Assignment",
@@ -542,5 +542,221 @@
 		"year": 2022,
 		"type": "Alert",
 		"label": "Problem Solving > Grader 5 ข้อ [และก่อนๆอีก 41(+19) ข้อ] *(+x) คือข้อ Optional"
+	},
+	{
+		"id": "0204",
+		"date": 15,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Database > บฝ.ท้ายบทที่ 8 ข้อ 3,4,6"
+	},
+	{
+		"id": "0205",
+		"date": 25,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Programming Lab-05-Frequency response"
+	},
+	{
+		"id": "0207",
+		"date": 13,
+		"month": 0,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "2 Com Arch > การบ้าน Exception"
+	},
+	{
+		"id": "0208",
+		"date": 13,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Com Arch > การบ้าน Exception"
+	},
+	{
+		"id": "0209",
+		"date": 5,
+		"month": 4,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[FINAL] [13:00-16:00] Algorithm"
+	},
+	{
+		"id": "0210",
+		"date": 8,
+		"month": 4,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[FINAL] [13:00-16:00] Computer Organization & Architecture"
+	},
+	{
+		"id": "0211",
+		"date": 27,
+		"month": 3,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[FINAL] [09:00-12:00] Signal Processing"
+	},
+	{
+		"id": "0212",
+		"date": 28,
+		"month": 3,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[FINAL] [13:00-16:00] Electronics I"
+	},
+	{
+		"id": "0213",
+		"date": 30,
+		"month": 3,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[FINAL] [13:00-16:00] Practicum"
+	},
+	{
+		"id": "0214",
+		"date": 1,
+		"month": 4,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[FINAL] [09:00-12:00] Problem Solving"
+	},
+	{
+		"id": "0215",
+		"date": 26,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Algorithm > Homework 5: Minimum Spanning Tree & Shortest Path"
+	},
+	{
+		"id": "0216",
+		"date": 26,
+		"month": 3,
+		"year": 2022,
+		"type": "Exam",
+		"label": "[FINAL] [13:00-16:00] Database"
+	},
+	{
+		"id": "0217",
+		"date": 17,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Problem Solving > ข้อ probe1d"
+	},
+	{
+		"id": "0219",
+		"date": 15,
+		"month": 2,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Practicum > สอบถามความต้องการในการทำแล็บ"
+	},
+	{
+		"id": "0223",
+		"date": 28,
+		"month": 2,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Problem Solving > Grader 5(+2) ข้อ [และก่อนๆอีก 51(+21) ข้อ] *(+x) คือข้อ Optional"
+	},
+	{
+		"id": "0224",
+		"date": 24,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Problem Solving > ข้อ probe1d"
+	},
+	{
+		"id": "0225",
+		"date": 24,
+		"month": 2,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Homework-05-Frequency Response"
+	},
+	{
+		"id": "0226",
+		"date": 31,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Programming Lab-06-DSP in Frequency Domain [ก่อน 8:30]"
+	},
+	{
+		"id": "0227",
+		"date": 3,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Practicum > Assignment 10.1: chase - ไฟวิ่งสามสี"
+	},
+	{
+		"id": "0228",
+		"date": 1,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Database > Present รอบที่ 1"
+	},
+	{
+		"id": "0229",
+		"date": 8,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Database > Present รอบที่ 2"
+	},
+	{
+		"id": "0230",
+		"date": 7,
+		"month": 3,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Problem Solving > Grader 5(+1) ข้อ [และก่อนๆอีก 56(+23) ข้อ] *(+x) คือข้อ Optional"
+	},
+	{
+		"id": "0231",
+		"date": 3,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Electronics > กิจกรรมการหา two port model [ส่งก่อน 10:30]"
+	},
+	{
+		"id": "0232",
+		"date": 15,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Algorithm > Homework 6: Divide and Conquer"
+	},
+	{
+		"id": "0233",
+		"date": 17,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Homework-06-Z-Transform [ส่งก่อน 8:30]"
+	},
+	{
+		"id": "0234",
+		"date": 10,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Practicum > Assignment 11.1 ทำใน E-Lab2"
+	},
+	{
+		"id": "0235",
+		"date": 10,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Practicum > Assignment 11.2: สั่งงานวงจรพ่วง"
 	}
 ]
