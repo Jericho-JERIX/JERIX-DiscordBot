@@ -637,7 +637,7 @@
 		"month": 3,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL] [13:00-16:00] Database"
+		"label": "[FINAL] [09:00-12:00] Database"
 	},
 	{
 		"id": "0217",
@@ -737,7 +737,7 @@
 	},
 	{
 		"id": "0233",
-		"date": 17,
+		"date": 11,
 		"month": 3,
 		"year": 2022,
 		"type": "Assignment",
@@ -758,5 +758,53 @@
 		"year": 2022,
 		"type": "Assignment",
 		"label": "Practicum > Assignment 11.2: สั่งงานวงจรพ่วง"
+	},
+	{
+		"id": "0236",
+		"date": 9,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Com Arch > การบ้าน หน่วยความจำ"
+	},
+	{
+		"id": "0237",
+		"date": 14,
+		"month": 3,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Problem Solving > Grader 3(+10) ข้อ [และก่อนๆอีก 60(+25) ข้อ] *(+x) คือข้อ Optional"
+	},
+	{
+		"id": "0238",
+		"date": 16,
+		"month": 4,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Problem Solving > หมดเวลาส่งสำหรับทุกข้อ (รวมทั้งหมด 66(+35) = 101 ข้อ)"
+	},
+	{
+		"id": "0239",
+		"date": 17,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Innovation > ใบงานที่ 6"
+	},
+	{
+		"id": "0240",
+		"date": 24,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Innovation > ใบงานที่ 7"
+	},
+	{
+		"id": "0241",
+		"date": 17,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Homework-07 IIR [ส่งก่อน 8:30]"
 	}
 ]

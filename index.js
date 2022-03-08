@@ -10,7 +10,6 @@ const RandomKit = require('./module/RandomKit')
 const WordFinderTH = require('./module/WordFinderTH')
 const Today = require('./module/Today')
 const { time } = require('console')
-const {getLED,postLED} = require('./service/LED')
 
 const Counter = new BtnEvent.Counter()
 // const ChoiceGame = new ChoiceMatter.Graph()
@@ -106,74 +105,6 @@ client.on('messageCreate',(message)=>{
     }
 })
 
-var tagged_channel_id = []
-client.on('messageCreate',async (message) =>{
-    var led_data = await getLED()
-    if(message.author.id == 226919303700676610 || message.author.id == 931177284616986705){
-        if(tagged_channel_id.includes(message.channelId)){
-            for(var i=0;i<tagged_channel_id.length;i++){
-                if(tagged_channel_id[i] == message.channelId){
-                    tagged_channel_id.splice(i,i)
-                    break;
-                }
-            }
-        }
-        if(tagged_channel_id.length == 0){
-            led_data.led5[0] = false
-            led_data.led5[4] = false
-            postLED(led_data.led5)
-        }
-        led_data.led5[1] = false
-        led_data.led5[3] = false
-        postLED(led_data.led5)
-    }
-    else if(message.content.includes('<@!226919303700676610>') || message.content.includes('<@!931177284616986705>')){
-        led_data.led5[0] = true
-        led_data.led5[4] = true
-        tagged_channel_id.push(message.channelId)
-        postLED(led_data.led5)
-    }
-    else{
-        led_data.led5[1] = true
-        led_data.led5[3] = true
-        postLED(led_data.led5)
-    }
-    
-})
-
-// D-Tong
-// const TongDick = ['ควย','หำ','หรรม','hum']
-// const Friend = ['ฝ้าย','เนส','ตุล','นัน','นีน่า','กานน']
-// var foundDick = false
-// var foundFriend = false
-// client.on('messageCreate',(message)=>{
-//     foundDick = false
-//     foundFriend = false
-//     for(var i in TongDick){
-//         if(WordFinderTH.findThaiWord(message.content,TongDick[i])){
-//             foundDick = true
-//             break
-//         }
-//     }
-
-//     for(var i in Friend){
-//         if(WordFinderTH.findThaiWord(message.content,Friend[i])){
-//             foundFriend = true
-//             break
-//         }
-//     }
-
-//     if(foundDick){
-//         if(foundFriend){
-//             message.channel.send('<@!732085397299134487> ไม่ มึงอ่ะเล็ก')
-//         }
-//         else{
-//             message.channel.send('<@!732085397299134487> เล็ก')
-//         }
-//     }
-// })
-
-//* Button Event
 client.on('interactionCreate',(interact)=>{
     if(interact.isButton()){
         var arg = interact.customId.split('-')
