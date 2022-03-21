@@ -581,7 +581,7 @@
 		"month": 4,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL] [13:00-16:00] Algorithm"
+		"label": "[FINAL/ONLINE 13:00-16:00] Algorithm"
 	},
 	{
 		"id": "0210",
@@ -589,7 +589,7 @@
 		"month": 4,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL] [13:00-16:00] Computer Organization & Architecture"
+		"label": "[FINAL/ONLINE/Take Home 13:00-16:00] Computer Organization & Architecture"
 	},
 	{
 		"id": "0211",
@@ -597,7 +597,7 @@
 		"month": 3,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL] [09:00-12:00] Signal Processing"
+		"label": "[FINAL/INSIDE 09:00-12:00] Signal Processing"
 	},
 	{
 		"id": "0212",
@@ -605,7 +605,7 @@
 		"month": 3,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL] [13:00-16:00] Electronics I"
+		"label": "[FINAL/ONSITE 13:00-16:00] Electronics I"
 	},
 	{
 		"id": "0213",
@@ -613,15 +613,15 @@
 		"month": 3,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL] [13:00-16:00] Practicum"
+		"label": "[FINAL/?????? 13:00-16:00] Practicum"
 	},
 	{
 		"id": "0214",
-		"date": 1,
+		"date": 11,
 		"month": 4,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL] [09:00-12:00] Problem Solving"
+		"label": "[FINAL/ONLINE 09:00-12:00] Problem Solving"
 	},
 	{
 		"id": "0215",
@@ -633,11 +633,11 @@
 	},
 	{
 		"id": "0216",
-		"date": 26,
+		"date": 24,
 		"month": 3,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL] [09:00-12:00] Database"
+		"label": "[FINAL/ONLINE 13:00-16:00] Database"
 	},
 	{
 		"id": "0217",
@@ -806,5 +806,69 @@
 		"year": 2022,
 		"type": "Assignment",
 		"label": "Signal > Homework-07 IIR [ส่งก่อน 8:30]"
+	},
+	{
+		"id": "0242",
+		"date": 3,
+		"month": 4,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Algorithm > Homework 7: Dynamic Programming"
+	},
+	{
+		"id": "0243",
+		"date": 16,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Practicum > นำส่งข้อเสนอโครงงานและรายชื่อสมาชิกกลุ่ม (จับ 2 คู่)"
+	},
+	{
+		"id": "0244",
+		"date": 17,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Intro to CPE > Assignment #7 - ตอบคำถาม 5 ข้อ"
+	},
+	{
+		"id": "0245",
+		"date": 22,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Intro to CPE > Assignment #8 (Digital Signal Processing)"
+	},
+	{
+		"id": "0246",
+		"date": 12,
+		"month": 4,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Practicum > ส่งโครงงาน (อัพโหลดคลิป คำอธิบาย และไฟล์ซอร์สโค้ด)"
+	},
+	{
+		"id": "0247",
+		"date": 16,
+		"month": 4,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Practicum > ประเมินโครงงานกลุ่มอื่น"
+	},
+	{
+		"id": "0248",
+		"date": 25,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Electronics (SEC 4) > Midterm(?) Project"
+	},
+	{
+		"id": "0249",
+		"date": 29,
+		"month": 3,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Signal > Programming Lab-07-DSP [ก่อน 8:30]"
 	}
 ]
