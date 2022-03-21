@@ -581,7 +581,7 @@
 		"month": 4,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL/ONLINE 13:00-16:00] Algorithm"
+		"label": "[FINAL|13:00-16:00|ONLINE] Algorithm"
 	},
 	{
 		"id": "0210",
@@ -589,7 +589,7 @@
 		"month": 4,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL/ONLINE/Take Home 13:00-16:00] Computer Organization & Architecture"
+		"label": "[FINAL|13:00-16:00|ONLINE/Take Home] Computer Organization & Architecture"
 	},
 	{
 		"id": "0211",
@@ -597,7 +597,7 @@
 		"month": 3,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL/INSIDE 09:00-12:00] Signal Processing"
+		"label": "[FINAL|09:00-12:00|INSIDE] Signal Processing"
 	},
 	{
 		"id": "0212",
@@ -605,7 +605,7 @@
 		"month": 3,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL/ONSITE 13:00-16:00] Electronics I"
+		"label": "[FINAL|13:00-16:00|ONSITE] Electronics I"
 	},
 	{
 		"id": "0213",
@@ -613,7 +613,7 @@
 		"month": 3,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL/?????? 13:00-16:00] Practicum"
+		"label": "[FINAL|13:00-16:00|??????] Practicum"
 	},
 	{
 		"id": "0214",
@@ -621,7 +621,7 @@
 		"month": 4,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL/ONLINE 09:00-12:00] Problem Solving"
+		"label": "[FINAL|09:00-12:00|ONLINE] Problem Solving"
 	},
 	{
 		"id": "0215",
@@ -637,7 +637,7 @@
 		"month": 3,
 		"year": 2022,
 		"type": "Exam",
-		"label": "[FINAL/ONLINE 13:00-16:00] Database"
+		"label": "[FINAL|13:00-16:00|ONLINE] Database"
 	},
 	{
 		"id": "0217",
