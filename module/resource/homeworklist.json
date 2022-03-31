@@ -600,22 +600,6 @@
 		"label": "[FINAL|09:00-12:00|INSIDE] Signal Processing"
 	},
 	{
-		"id": "0212",
-		"date": 28,
-		"month": 3,
-		"year": 2022,
-		"type": "Exam",
-		"label": "[FINAL|13:00-16:00|ONSITE] Electronics I"
-	},
-	{
-		"id": "0213",
-		"date": 30,
-		"month": 3,
-		"year": 2022,
-		"type": "Exam",
-		"label": "[FINAL|13:00-16:00|??????] Practicum"
-	},
-	{
 		"id": "0214",
 		"date": 11,
 		"month": 4,
@@ -870,5 +854,21 @@
 		"year": 2022,
 		"type": "Assignment",
 		"label": "Signal > Programming Lab-07-DSP [ก่อน 8:30]"
+	},
+	{
+		"id": "0250",
+		"date": 29,
+		"month": 3,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Practicum > ซ้อมเปิดกล้อง [17:00 - 18:00]"
+	},
+	{
+		"id": "0251",
+		"date": 15,
+		"month": 4,
+		"year": 2022,
+		"type": "Assignment",
+		"label": "Electronics > Final Project"
 	}
 ]
