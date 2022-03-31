@@ -10,6 +10,7 @@ const RandomKit = require('./module/RandomKit')
 const WordFinderTH = require('./module/WordFinderTH')
 const Today = require('./module/Today')
 const { time } = require('console')
+const YearDivider = require('./module/YearDivider')
 
 const Counter = new BtnEvent.Counter()
 // const ChoiceGame = new ChoiceMatter.Graph()
@@ -122,4 +123,8 @@ client.on('interactionCreate',(interact)=>{
                 break
         }
     }
+})
+
+client.on('voiceStateUpdate',(before,after)=>{
+    YearDivider.execute(before)
 })
