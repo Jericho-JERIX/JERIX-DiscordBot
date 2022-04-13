@@ -11,6 +11,7 @@ const WordFinderTH = require('./module/WordFinderTH')
 const Today = require('./module/Today')
 const { time } = require('console')
 const YearDivider = require('./module/YearDivider')
+const MessageDetector = require('./module/MessageDetector')
 
 const Counter = new BtnEvent.Counter()
 // const ChoiceGame = new ChoiceMatter.Graph()
@@ -33,6 +34,8 @@ const client = new Client({
     ]
 })
 
+
+// When bot start
 client.on('ready',(test)=>{
     console.log("Going Live...")
     var Bot_count = 0
@@ -61,6 +64,7 @@ client.on('ready',(test)=>{
 })
 client.login(process.env.TOKEN)
 
+// Active Command
 var Prefix = "b!"
 client.on('messageCreate',(message)=>{
     var arg = message.content.split(' ')
@@ -106,6 +110,7 @@ client.on('messageCreate',(message)=>{
     }
 })
 
+// Active Interaction(Button)
 client.on('interactionCreate',(interact)=>{
     if(interact.isButton()){
         var arg = interact.customId.split('-')
@@ -125,6 +130,11 @@ client.on('interactionCreate',(interact)=>{
     }
 })
 
+client.on('messageCreate',(message)=>{
+    MessageDetector.execute(message)
+})
+
+// Give Year Role
 client.on('voiceStateUpdate',(before,after)=>{
     YearDivider.execute(before)
 })
