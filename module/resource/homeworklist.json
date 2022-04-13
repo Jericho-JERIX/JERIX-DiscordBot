@@ -600,14 +600,6 @@
 		"label": "[FINAL|09:00-12:00|INSIDE] Signal Processing"
 	},
 	{
-		"id": "0214",
-		"date": 11,
-		"month": 4,
-		"year": 2022,
-		"type": "Exam",
-		"label": "[FINAL|09:00-12:00|ONLINE] Problem Solving"
-	},
-	{
 		"id": "0215",
 		"date": 26,
 		"month": 2,
@@ -870,5 +862,29 @@
 		"year": 2022,
 		"type": "Assignment",
 		"label": "Electronics > Final Project"
+	},
+	{
+		"id": "0252",
+		"date": 15,
+		"month": 4,
+		"year": 2022,
+		"type": "Alert",
+		"label": "ยกเลิกบัตร GeoGuess (เตือนด้วย)"
+	},
+	{
+		"id": "0253",
+		"date": 16,
+		"month": 4,
+		"year": 2022,
+		"type": "Alert",
+		"label": "งาน Gearnight [เริ่ม 18:00]"
+	},
+	{
+		"id": "0254",
+		"date": 31,
+		"month": 5,
+		"year": 2022,
+		"type": "Alert",
+		"label": "Practicum > คืนกล่องอุปกรณ์ + RasPi"
 	}
 ]
