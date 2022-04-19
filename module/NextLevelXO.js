@@ -1,6 +1,5 @@
 const TokenIcon = ['X','O']
 
-
 class Player{
     constructor(uid,name){
         this.name = name
@@ -26,11 +25,11 @@ class NextLevelXO{
                 ['-','-','-']
             ]
         }
-        this.turn = 0
+        this.turn = Math.floor(Math.random()*2)
     }
 
     showBoard(){
-        var format_string = ""
+        var format_string = "```\n"
         for(var i=0;i<this.board.row;i++){
             for(var j=0;j<this.board.col;j++){
                 var increase_level = this.board.level[i][j]
@@ -59,22 +58,32 @@ class NextLevelXO{
                 format_string += "❌ "
         }
         format_string += "< 5"
+        format_string += "\n```"
         return format_string
     }
 
     placeBlock(a,b,level){
-        if(!this.player[this.turn].token[level]) return -1
+        if(!this.player[this.turn].token[level] || this.board.level[a][b] >= level) return -1
         if(this.board.owner[a][b] == '-' || this.board.level[a][b] < level){
             this.board.owner[a][b] = TokenIcon[this.turn]
             this.board.level[a][b] = level
             this.player[this.turn].token[level] = 0
-            if(this.isWin()){
+
+            var win_result = this.isWin()
+            if(win_result == 1){
                 return this.turn + 1
+            }
+            else if(win_result == 2){
+                return 3
             }
             this.turn = Number(!this.turn)
         }
         return 0
-        // this.showBoard()
+        /* 
+        0   - Game must go on
+        1,2 - Player 1,2 Win
+        3   - Draw
+        */
     }
 
     isWin(){
@@ -84,7 +93,13 @@ class NextLevelXO{
         }
         if(this.board.owner[0][0] != '-' && this.board.owner[0][0] == this.board.owner[1][1] && this.board.owner[1][1] == this.board.owner[2][2]) return 1
         if(this.board.owner[2][0] != '-' && this.board.owner[2][0] == this.board.owner[1][1] && this.board.owner[1][1] == this.board.owner[0][2]) return 1
-        return 0
+        for(var i=0;i<3;i++){
+            for(var j=0;j<3;j++){
+                if(this.board.owner[i][j] != '-')
+                    return 0
+            }
+        }
+        return 2
     }
 }
 

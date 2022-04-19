@@ -12,6 +12,7 @@ const Today = require('./module/Today')
 const { time } = require('console')
 const YearDivider = require('./module/YearDivider')
 const MessageDetector = require('./module/MessageDetector')
+const {NextLevelXO} = require('./module/NextLevelXO')
 
 const Counter = new BtnEvent.Counter()
 // const ChoiceGame = new ChoiceMatter.Graph()
@@ -144,9 +145,9 @@ client.on('interactionCreate',(interact)=>{
         switch(arg[0]){
             case "counter":
                 Interaction.counter.execute(interact,arg,Counter)
+                break
 
             case "homeworklist":
-                // interact.message.edit(HomeworkList.list(arg[1]))
                 Interaction.homeworklist.execute(interact,arg,Command)
                 break
         }
