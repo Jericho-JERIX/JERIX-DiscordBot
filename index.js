@@ -17,13 +17,7 @@ const Counter = new BtnEvent.Counter()
 // const ChoiceGame = new ChoiceMatter.Graph()
 // var HomeworkList = new HL.HomeworkList()
 
-//TODO--- User Command ---
-const CommandList = fs.readdirSync('commands')
-var Command = {}
 
-for(var i in CommandList){
-    Command[CommandList[i].slice(0,-3)] = require(`./commands/${CommandList[i].slice(0,-3)}`)
-}
 
 const client = new Client({
     intents: [
@@ -60,11 +54,37 @@ client.on('ready',(test)=>{
             },86400000)
             clearInterval(timeCount)
         }
-    },1000) 
+    },1000)
+
+    // const GUILD_ID = "300193449301508096"
+    // const Guild = client.guilds.cache.get(GUILD_ID)
+    // var slash_command;
+
+    // if(Guild){
+    //     slash_command = Guild.commands
+    // }
+    // else{
+    //     slash_command = client.application?.commands
+    // }
+
+    // slash_command.create({
+    //     name:"slashp",
+    //     description:"Replies",
+    //     type: "CHAT_INPUT",
+    // })
+
 })
 client.login(process.env.TOKEN)
 
-// Active Command
+
+//TODO--- User Command ---
+const CommandList = fs.readdirSync('commands')
+var Command = {}
+
+for(var i in CommandList){
+    Command[CommandList[i].slice(0,-3)] = require(`./commands/${CommandList[i].slice(0,-3)}`)
+}
+
 var Prefix = "b!"
 client.on('messageCreate',(message)=>{
     var arg = message.content.split(' ')
@@ -110,21 +130,24 @@ client.on('messageCreate',(message)=>{
     }
 })
 
+//TODO--- User Command ---
+const InteractionList = fs.readdirSync('interaction')
+var Interaction = {}
+
+for(var i in InteractionList){
+    Interaction[InteractionList[i].slice(0,-3)] = require(`./interaction/${InteractionList[i].slice(0,-3)}`)
+}
 // Active Interaction(Button)
 client.on('interactionCreate',(interact)=>{
     if(interact.isButton()){
         var arg = interact.customId.split('-')
         switch(arg[0]){
             case "counter":
-                if(arg[1]=='inc') Counter.increment()
-                else if(arg[1]=='dec') Counter.decrement()
-                else Counter.reset()
-                interact.message.edit(String(Counter.count))
-                break
+                Interaction.counter.execute(interact,arg,Counter)
 
             case "homeworklist":
                 // interact.message.edit(HomeworkList.list(arg[1]))
-                interact.message.edit(Command.homework.getList(arg[1]))
+                Interaction.homeworklist.execute(interact,arg,Command)
                 break
         }
     }
