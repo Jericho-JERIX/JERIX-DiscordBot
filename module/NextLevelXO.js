@@ -1,4 +1,4 @@
-const TokenIcon = ['X','O']
+const TokenIcon = ['❌','⭕']
 
 class Player{
     constructor(uid,name){
@@ -15,9 +15,9 @@ class NextLevelXO{
             row: 3,
             col: 3,
             owner: [
-                ['-','-','-'],
-                ['-','-','-'],
-                ['-','-','-']
+                ['➖','➖','➖'],
+                ['➖','➖','➖'],
+                ['➖','➖','➖']
             ],
             level: [
                 ['-','-','-'],
@@ -39,23 +39,23 @@ class NextLevelXO{
             }
             format_string += "|\n"
         }
-        format_string += `\nPlayer #1: ${this.player[0].name}\n`
+        format_string += `\n❌ Player #1: ${this.player[0].name}\n`
         format_string += "Token Available: 1 > "
         for(var i=0;i<5;i++){
             if(this.player[0].token[i])
                 format_string += "✅ "
             else
-                format_string += "❌ "
+                format_string += "✖️ "
         }
         format_string += "< 5"
         format_string += '\n\n'
-        format_string += `Player #2: ${this.player[1].name}\n`
+        format_string += `⭕ Player #2: ${this.player[1].name}\n`
         format_string += "Token Available: 1 > "
         for(var i=0;i<5;i++){
             if(this.player[1].token[i])
                 format_string += "✅ "
             else
-                format_string += "❌ "
+                format_string += "✖️ "
         }
         format_string += "< 5"
         format_string += "\n```"
@@ -64,7 +64,7 @@ class NextLevelXO{
 
     placeBlock(a,b,level){
         if(!this.player[this.turn].token[level] || this.board.level[a][b] >= level) return -1
-        if(this.board.owner[a][b] == '-' || this.board.level[a][b] < level){
+        if(this.board.owner[a][b] == '➖' || this.board.level[a][b] < level){
             this.board.owner[a][b] = TokenIcon[this.turn]
             this.board.level[a][b] = level
             this.player[this.turn].token[level] = 0
@@ -86,16 +86,29 @@ class NextLevelXO{
         */
     }
 
+    availableToken(){
+        for(var i=0;i<2;i++){
+            for(var j=0;j<5;j++){
+                if(this.player[i].token[j])
+                    return 1
+            }
+        }
+        return 0
+    }
+
     isWin(){
         for(var i=0;i<3;i++){
-            if(this.board.owner[i][0] != '-' && this.board.owner[i][0] == this.board.owner[i][1] && this.board.owner[i][1] == this.board.owner[i][2]) return 1
-            if(this.board.owner[0][i] != '-' && this.board.owner[0][i] == this.board.owner[1][i] && this.board.owner[1][i] == this.board.owner[2][i]) return 1
+            if(this.board.owner[i][0] != '➖' && this.board.owner[i][0] == this.board.owner[i][1] && this.board.owner[i][1] == this.board.owner[i][2]) return 1
+            if(this.board.owner[0][i] != '➖' && this.board.owner[0][i] == this.board.owner[1][i] && this.board.owner[1][i] == this.board.owner[2][i]) return 1
         }
-        if(this.board.owner[0][0] != '-' && this.board.owner[0][0] == this.board.owner[1][1] && this.board.owner[1][1] == this.board.owner[2][2]) return 1
-        if(this.board.owner[2][0] != '-' && this.board.owner[2][0] == this.board.owner[1][1] && this.board.owner[1][1] == this.board.owner[0][2]) return 1
+        if(this.board.owner[0][0] != '➖' && this.board.owner[0][0] == this.board.owner[1][1] && this.board.owner[1][1] == this.board.owner[2][2]) return 1
+        if(this.board.owner[2][0] != '➖' && this.board.owner[2][0] == this.board.owner[1][1] && this.board.owner[1][1] == this.board.owner[0][2]) return 1
+        
+        if(!this.availableToken()) return 2
+
         for(var i=0;i<3;i++){
             for(var j=0;j<3;j++){
-                if(this.board.owner[i][j] != '-')
+                if(this.board.owner[i][j] != '➖')
                     return 0
             }
         }
@@ -115,4 +128,4 @@ module.exports = {
 // game.placeBlock(2,2,0)
 // game.placeBlock(2,1,0)
 // game.showBoard()
-// console.log(game.isWin())
+// console.log('game.isWin()')

@@ -10,10 +10,11 @@ module.exports = {
     execute: function(message,arg){
         switch(arg[1]){
             case 'create':
-                // var opp = arg[2].slice(2,-1)
-                NXO = new NextLevelXO('A','A','B','B')
+                var p2_uid = arg[2].slice(2,-1)
+                var p2_username = message.guild.members.cache.get(p2_uid).user.username
+                NXO = new NextLevelXO(message.author.id,message.author.username,p2_uid,p2_username)
                 message.channel.send(NXO.showBoard())
-                message.channel.send(`Player #${NXO.turn+1} Turn`)
+                message.channel.send(`Player #${NXO.turn+1} <@${NXO.player[NXO.turn].uid}> Start`)
                 break
             
             case 'play':
@@ -27,13 +28,15 @@ module.exports = {
                 else{
                     message.channel.send(NXO.showBoard())
                     if(result == 1 || result == 2){
-                        message.channel.send(`Player #${NXO.turn} WIN!`)
+                        message.channel.send(`Player #${result} WIN!`)
                     }
                     else if(result == 3){
                         message.channel.send("DRAW!")
                     }
                 }
-                message.channel.send(`Player #${NXO.turn+1} Turn`)
+                if(result < 1){
+                    message.channel.send(`Player #${NXO.turn+1} <@${NXO.player[NXO.turn].uid}> Turn`)
+                }
                 break
         }
         return 0
