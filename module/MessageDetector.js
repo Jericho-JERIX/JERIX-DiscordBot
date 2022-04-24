@@ -7,8 +7,8 @@ module.exports = {
     execute: async function(message){
         var special = getSpecial(message.content)
         var sample = {
-            username: message.author.id,
-            uid: message.author.username,
+            username: message.author.username,
+            uid: message.author.id,
             channel: message.channelId,
             content: message.content,
             emoji: special.emoji,
