@@ -8,6 +8,11 @@ module.exports = {
     alias: ['nextlevelxo','nxo'],
     roleRequirement: [],
     execute: async function(message,arg){
+        var match = await getMatch(message.author.id)
+        if(match.status != 0 && arg[1] != 'create'){
+            message.channel.send(`User not found!`)
+            return 0
+        }
         switch(arg[1]){
             case 'create':
                 var p2_uid = arg[2].slice(2,-1)
@@ -20,14 +25,19 @@ module.exports = {
                 message.channel.send(`Player #${NXO.turn+1} <@${NXO.player[NXO.turn].uid}> Start`)
                 break
             case 'play':
-                var match_result = await getMatch(message.author.id)
-                if(match_result.status != 0){
-                    message.channel.send(`User not found!`)
-                    break
-                }
-                NXO = new NextLevelXO(match_result.data)
+                // var match = await getMatch(message.author.id)
+                // if(match.status != 0){
+                //     message.channel.send(`User not found!`)
+                //     break
+                // }
+                NXO = new NextLevelXO(match.data)
                 if(Number(arg[2]) <= 0 || Number(arg[2]) > 3 || Number(arg[3]) <= 0 || Number(arg[3]) > 3 || Number(arg[4]) <= 0 || Number(arg[4]) > 5){
-                    message.channel.send(`Error Input`)
+                    message.channel.send(`Error Input!`)
+                    return 0
+                }
+                if(!NXO.player[NXO.turn].token[Number(arg[4])]){
+                    message.channel.send(`You already used that Token!`)
+                    return 0
                 }
                 var result = NXO.placeBlock(Number(arg[2])-1,Number(arg[3])-1,Number(arg[4])-1)
                 if(result == -1){
@@ -35,12 +45,13 @@ module.exports = {
                 }
                 else{
                     message.channel.send(NXO.showBoard())
-                    NXO.endgame()
                     if(result == 1 || result == 2){
                         message.channel.send(`Player #${result} WIN!`)
+                        NXO.endgame()
                     }
                     else if(result == 3){
                         message.channel.send("DRAW!")
+                        NXO.endgame()
                     }
                 }
                 if(result < 1){

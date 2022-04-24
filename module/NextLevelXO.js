@@ -147,7 +147,9 @@ class NextLevelXO{
     }
 
     async endgame(){
+        console.log("DISABLE GAME")
         const response = await axios.patch(`${IP_ADDRESS}/disable?uid=${this.player[this.turn].uid}`)
+        console.log(response)
         return response
     }
 }
