@@ -58,7 +58,7 @@ class NextLevelXO{
                 format_string += "❌ "
         }
         format_string += "< 5"
-        format_string += "\n```"
+        format_string += "\n\nTo Play Type: j!nxo play <row> <col> <level>\n```"
         return format_string
     }
 

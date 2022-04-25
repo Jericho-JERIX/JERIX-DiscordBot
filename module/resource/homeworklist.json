@@ -886,5 +886,13 @@
 		"year": 2022,
 		"type": "Alert",
 		"label": "Practicum > คืนกล่องอุปกรณ์ + RasPi"
+	},
+	{
+		"id": "0255",
+		"date": 27,
+		"month": 6,
+		"year": 2022,
+		"type": "Alert",
+		"label": "เปิดเทอม"
 	}
 ]
