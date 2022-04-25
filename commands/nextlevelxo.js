@@ -38,7 +38,7 @@ module.exports = {
                         message.channel.send(`Error Input!`)
                         return 0
                     }
-                    if(!NXO.player[NXO.turn].token[Number(arg[4])]){
+                    if(!NXO.player[NXO.turn].token[Number(arg[4])-1]){
                         message.channel.send(`You already used that Token!`)
                         return 0
                     }
@@ -49,7 +49,7 @@ module.exports = {
                     else{
                         message.channel.send(NXO.showBoard())
                         if(result == 1 || result == 2){
-                            message.channel.send(`Player #${result} WIN!`)
+                            message.channel.send(`Player #${result} <@${NXO.player[NXO.turn].uid}> WIN!`)
                             NXO.endgame()
                         }
                         else if(result == 3){
