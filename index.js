@@ -4,15 +4,10 @@ dotenv.config()
 const fs = require('fs')
 
 const BtnEvent = require('./module/ButtonEvent')
-const ChoiceMatter = require('./module/ChoiceMatter')
-const HL = require('./module/HomeworkList')
-const RandomKit = require('./module/RandomKit')
-const WordFinderTH = require('./module/WordFinderTH')
-const Today = require('./module/Today')
-const { time } = require('console')
+
 const YearDivider = require('./module/YearDivider')
 const MessageDetector = require('./module/MessageDetector')
-const {NextLevelXO} = require('./module/NextLevelXO')
+const LoginEvent = require('./module/LoginEvent')
 
 const Counter = new BtnEvent.Counter()
 // const ChoiceGame = new ChoiceMatter.Graph()
@@ -31,31 +26,24 @@ const client = new Client({
 
 
 // When bot start
-client.on('ready',(test)=>{
+client.on('ready',async (test)=>{
     console.log("Going Live...")
-    var Bot_count = 0
-    setInterval(()=>{
-        client.user.setPresence({
-            activities : [{
-                name: `Online for ${Bot_count} minutes!`,
-                type: "PLAYING"
-            }]
-        })
-        Bot_count+= 1
-    },60000)
 
-    var timeCount = setInterval(async ()=>{
-        var timeNow = new Today.AtThisTime()
-        if(timeNow.hour == 0 && timeNow.minute == 1){
-            var msg = await client.channels.cache.get('885898083295186944').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
-            msg.crosspost()
-            setInterval(async ()=>{
-                var msg = await client.channels.cache.get('885898083295186944').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
-                msg.crosspost()
-            },86400000)
-            clearInterval(timeCount)
-        }
-    },1000)
+    LoginEvent.homeworkUpdate(client)
+    LoginEvent.onlineCount(client)
+
+    // var timeCount = setInterval(async ()=>{
+    //     var timeNow = new Today.AtThisTime()
+    //     if(timeNow.hour == 0 && timeNow.minute == 1){
+    //         var msg = await client.channels.cache.get('885898083295186944').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
+    //         msg.crosspost()
+    //         setInterval(async ()=>{
+    //             var msg = await client.channels.cache.get('885898083295186944').send({content:`${Command.homework.getList('ALL')}`,components: [Command.homework.getButton()]})
+    //             msg.crosspost()
+    //         },86400000)
+    //         clearInterval(timeCount)
+    //     }
+    // },1000)
 
     // const GUILD_ID = "300193449301508096"
     // const Guild = client.guilds.cache.get(GUILD_ID)

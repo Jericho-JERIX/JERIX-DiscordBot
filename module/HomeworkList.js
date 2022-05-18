@@ -1,61 +1,89 @@
-const { prototype } = require("events")
-const fs = require("fs")
-const DataPath = "./module/"
-const DayName = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+const { default: axios } = require("axios")
+const HOMEWORK_API = "http://localhost:8000/homeworklist"
+const Header = ":bookmark: **Homeworklist 3.0**"
 const TypeIcon = {
-    Assignment: "📝",
-    Alert: "🔔",
-    Exam: "🔥"
+    ASSIGNMENT: "📝",
+    ALERT: "🔔",
+    EXAM: "🔥"
+}
+
+function getYear(d,m){
+    const currentYear = Number(String(new Date()).split(' ')[3])
+    const duets = new Date(currentYear,m-1,d,23,59,59).getTime()
+    const nowts = Date.now()
+    if(duets <= nowts){
+        return currentYear+1
+    }
+    return currentYear
 }
 
 class Homework{
-    constructor(id,date,label,type="Assignment"){
-        this.isValid = true     // Boolean
-        this.id = id            // String
-        this.date = date        // Integer [Array]
-        this.label = label      // String
-        this.type = type
-        this.type_icon = TypeIcon[type]
+    constructor(homework){
+        this.id = homework.id
+        this.isActive = homework.isActive
+        this.date = homework.date
+        this.month = homework.month
+        this.year = homework.year
+        this.timestamp = homework.timestamp*1000
+        this.day_name = homework.day_name.slice(0,3)
+        this.type = homework.type
+        this.label = homework.label
         
-        this.day_name = DayName[new Date(date[2],date[1]-1,date[0]).getDay()]
-        this.timestamp = new Date(date[2],date[1]-1,date[0],23,59,59).getTime()
         this.day_left = Math.floor((this.timestamp-Date.now())/86400000)
 
+        this.type_icon = TypeIcon[homework.type]
         this.alert_icon = "⚫"
         if(this.day_left <= 2){this.alert_icon = "⭕"}
         else if(this.day_left <= 5){this.alert_icon = "🟡"}
         else if(this.day_left <= 7){this.alert_icon = "🔵"}
-
-        if(this.day_left < 0 || !this.label || this.date == 99 || isNaN(this.timestamp)){this.isValid = false}
     }
 }
 Homework.prototype.valueOf = function(){return this.timestamp}
 
 class HomeworkList{
-    constructor(file='homeworklist.json'){
-        this.file_name = file
+    constructor(){
+        this.filename = ""
         this.data = []
-        this.raw_data = []
-        this.least_id = 0
+        this.raw_data = {}
         this.throw_error = "Something went wrong! Please try again"
-        
-        this.raw_data = JSON.parse(fs.readFileSync(`${DataPath}resource/${file}`,'utf8'))
-        for(var i=0;i<this.raw_data.length;i++){
-            var spt_data = this.raw_data[i]
+    }
 
-            // ID Saving
-            if(Number(spt_data.id)>this.least_id){
-                this.least_id = Number(spt_data.id)
-            }
+    async init(filename="cpe-homework"){
+        this.filename = ""
+        this.data = []
+        this.raw_data = {}
+        this.throw_error = "Something went wrong! Please try again"
+        const response = await axios.get(`${HOMEWORK_API}/file/${filename}`)
+        this.raw_data = response.data
+        this.filename = filename
 
-            var format_label = spt_data.label
-
-            var homework = new Homework(spt_data.id,[Number(spt_data.date),Number(spt_data.month),spt_data.year],format_label,spt_data.type)
-            this.data = this.data.filter(hw => hw.id != homework.id)
-            this.data.push(homework)
+        for(var i in this.raw_data){
+            this.data.push(new Homework(this.raw_data[i]))
         }
-        this.data = this.data.filter(hw => hw.day_left >= 0 && hw.isValid)
         this.sort()
+        return this.list()
+    }
+
+    async channelInit(channelId){
+        const response = await axios.get(`${HOMEWORK_API}/channel/${channelId}`)
+        if(response.data.status < 400){
+            await this.init(response.data.data)
+        }
+        return response.data.status
+    }
+
+    async authInit(fname,passwd){
+        // const body = {
+        //     filename: "cpe-homework",
+        //     password: "123456"
+        // }
+        // console.log(body,HOMEWORK_API)
+        const response = await axios.get(`http://localhost:8000/homeworklist?filename=${fname}&password=${passwd}`)
+        if(response.data.status < 400){
+            return this.init(fname)
+        }
+        return `${Header}\n${response.data.message}`
+        // console.log(response.data)
     }
 
     sort(){
@@ -75,16 +103,16 @@ class HomeworkList{
         var format_string = ``
         var type_count = 0
         var total_count = 0
-        if(this.data.length == 0){return `:bookmark: **Homework List 2.0 (0):**\nไม่มีงาน!? เป็นไปได้ด้วยหรอครับเนี่ย!!??!`}
+        if(this.data.length == 0){return `${Header}\n\`\`\`📁 File: ${this.filename} (0)\`\`\`*-----ไม่มีงาน เป็นไปได้ด้วยหรอครับเนี่ย-----*`}
 
-        for(var i=0;i<this.data.length;i++){
+        for(var i in this.data){
             var hw = this.data[i]
             
             var vis_day = " วัน"
 
             // Adding 0
-            var date  = Number(hw.date[0])<10 ? `0${hw.date[0]}` : `${hw.date[0]}`
-            var month = Number(hw.date[1])<10 ? `0${hw.date[1]}` : `${hw.date[1]}`
+            var date  = Number(hw.date)<10 ? `0${hw.date}` : `${hw.date}`
+            var month = Number(hw.month)<10 ? `0${hw.month}` : `${hw.month}`
 
             // Re-Day Left
             hw.day_left = Math.floor((hw.timestamp-Date.now())/86400000)
@@ -115,108 +143,78 @@ class HomeworkList{
             if(i!=this.data.length-1){format_string += '\n'}
         }
         if(type != "ALL"){
-            format_string = `:bookmark: **Homework List 2.0 (${total_count}) >> ${TypeIcon[type]} ${type} (${type_count}):**\n${format_string}`
+            format_string = `${Header}\n\`\`\`📁 File: ${this.filename} (${total_count}) >> ${TypeIcon[type]} ${type} (${type_count}):\`\`\`${format_string}`
         }
         else{
-            format_string = `:bookmark: **Homework List 2.0 (${total_count}):**\n${format_string}`
+            format_string = `${Header}\n\`\`\`📁 File: ${this.filename} (${total_count})\`\`\`${format_string}`
         }
         return format_string
     }
 
-    refresh(){
-        for(var i=0;i<this.data.length;i++){
-            this.data = this.data.filter(hw => hw.id != this.data[i].id)
+    async createNewFile(newfile,passwd){
+        const body = {
+            filename : newfile,
+            password : passwd
         }
-        this.data = this.data.filter(hw => hw.day_left >= 0 && hw.isValid)
-        this.sort()
+        const response = await axios.post(`${HOMEWORK_API}`,body)
+        if(response.data.status < 400){
+            return `${Header}\n${response.data.message} \`📁${response.data.data.filename}\``
+        }
+        return response.data.message
     }
 
-    add(arg,isNew=true,select_id ="0000",save=true,type="Assignment"){
-        // Check if day and month is Unknowed
-        var isUnknowed = false //isNaN(Number(arg[0])) || isNaN(Number(arg[1])) ? true : false
-        // if(isNaN(Number(arg[0])) || isNaN(Number(arg[1]))){return this.throw_error}
+    async add(d,m,hw_label,item_type){
 
-        // Generating Homeowork ID
-        if(isNew){
-            this.least_id += 1
-            var id_number = String(this.least_id)
-            while(id_number.length < 4){
-                id_number = "0" + id_number
-            }
-        }
-        else{
-            var id_number = select_id
+        d = Number(d)
+        m = Number(m)
+
+        const body = {
+            date    : d,
+            month   : m,
+            year    : getYear(d,m),
+            type    : item_type.toUpperCase(),
+            label   : hw_label,
         }
 
-        // 12 07 งาน ..... .....
-        if(isUnknowed){
-            arg[0] = "??"
-            arg[1] = "??"
-        }
-        var timeStamper = isUnknowed ? 9999999999999 : new Date(2022,Number(arg[1]-1),Number(arg[0]),23,59,59).getTime()
-        var formatFile = `\n${id_number} ${arg[0]} ${arg[1]} ${timeStamper}`
-
-        // Adding 0
-        if(!isUnknowed){
-            if(Number(arg[0])<10){arg[0] = `0${arg[0]}`}
-            if(Number(arg[1])<10){arg[1] = `0${arg[1]}`}
-        }
-        
-        var format_label = ""
-        for(var i=2;i<arg.length;i++){
-            formatFile += ` ${arg[i]}`
-            format_label += `${arg[i]}`
-            if(i!=arg.length-1){format_label += ' '}
-        }
-        // fs.appendFileSync(`${DataPath}resource\\${this.file_name}`,`${formatFile}`,(err)=>{})
-        var new_homework = new Homework(id_number,[Number(arg[0]),Number(arg[1]),2022],format_label,type)
-        this.data.push(new_homework)
-        if(save){
-            this.raw_data.push({
-                id: new_homework.id,
-                date: new_homework.date[0],
-                month: new_homework.date[1],
-                year: 2022,
-                type: new_homework.type,
-                label: new_homework.label
-            })
-            fs.writeFileSync(`${DataPath}resource/${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})    
-        }
-        this.sort()
-        return this.list()
+        await axios.post(`${HOMEWORK_API}/file/${this.filename}`,body)
+        return this.init(this.filename)
     }
 
-    delete(hw_id){
-        try{
-            this.raw_data = this.raw_data.filter(hw => hw.id != hw_id)
-            fs.writeFileSync(`${DataPath}resource/${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
-            this.data = this.data.filter((hw)=> hw.id != hw_id)
-            return this.list()
-        }
-        catch(err){
-            return this.throw_error
-        }
+    async delete(id){
+        await axios.delete(`${HOMEWORK_API}/file/${this.filename}/${id}`)
+        return this.init(this.filename)
     }
 
-    edit(hw_id,d,m){
-        try{
-            for(var i=0;i<this.raw_data.length;i++){
-                if(this.raw_data[i].id == hw_id){
-                    this.raw_data[i].date = Number(d)
-                    this.raw_data[i].month = Number(m)
-                    break
-                }
-            }
-            fs.writeFileSync(`${DataPath}resource/${this.file_name}`,JSON.stringify(this.raw_data,null,'\t'),(err)=>{})
-            var editing = this.data.filter(ins => ins.id == hw_id)[0]
-            this.data = this.data.filter(hw => hw.id != hw_id)
-            var format_array = [d,m,editing.label]
-            this.add(format_array,false,editing.id,false,editing.type)
-            return this.list()
+    async editDate(id,d,m){
+        d = Number(d)
+        m = Number(m)
+
+        const body = {
+            id      : id,
+            date    : d,
+            month   : m,
+            year    : getYear(d,m)
         }
-        catch(err){
-            return this.throw_error
+        await axios.patch(`${HOMEWORK_API}/file/${this.filename}/edit/date`,body)
+        return this.init(this.filename)
+    }
+
+    async editLabel(id,new_label){
+        const body = {
+            id      : id,
+            label   : new_label
         }
+        await axios.patch(`${HOMEWORK_API}/file/${this.filename}/edit/label`,body)
+        return this.init(this.filename)
+    }
+
+    async editType(id,new_type){
+        const body = {
+            id      : id,
+            type    : new_type.toUpperCase()
+        }
+        await axios.patch(`${HOMEWORK_API}/file/${this.filename}/edit/type`,body)
+        return this.init(this.filename)
     }
     
     remaining(){
@@ -226,6 +224,27 @@ class HomeworkList{
 }
 
 // var hl = new HomeworkList('homeworklist.json')
+async function main(){
+    // var hl = new HomeworkList()
+    // await hl.channelInit('862013848943722507')
+// 
+    // console.log(hl.list())
+
+    // var sample = [16,5,"Test","Homework","888"]
+    // await hl.init('cpe-homework')
+    // var result = await hl.authInit('cpe-homework','asd')
+    // console.log(result)
+    // console.log(hl.list())
+    // var result = await hl.editDate('0157',20,3)
+    // console.log(result)
+    // var result = await hl.add(sample,"ASSIGNMENT")
+    // console.log(result)
+    // var result = await hl.delete('0165')
+    // console.log(result)
+    // var result = await hl.editType('0158',"alert")
+    // console.log(result)
+}main()
+
 // console.log()
 // console.log(hl.list())
 // console.log(hl.data[0])
@@ -240,5 +259,7 @@ class HomeworkList{
 // console.log()
 
 module.exports = {
-    HomeworkList
+    HomeworkList,
+    Header,
+    HOMEWORK_API
 }
