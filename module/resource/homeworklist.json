@@ -894,5 +894,13 @@
 		"year": 2022,
 		"type": "Alert",
 		"label": "เปิดเทอม"
+	},
+	{
+		"id": "0256",
+		"date": 6,
+		"month": 5,
+		"year": 2022,
+		"type": "Alert",
+		"label": "IMPORTANT: เลือกตั้งประธานชุมนุม"
 	}
 ]
