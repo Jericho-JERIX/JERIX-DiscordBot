@@ -33,12 +33,12 @@ module.exports = {
     roleRequirement: [],
     execute: async function(message,arg){
         var channelStatus = await HomeworkList.channelInit(message.channelId)
-        if(channelStatus >= 400 && arg[1] != "open"){
+        if(channelStatus >= 400 && (arg[1] != "open" || arg[1] != "create")){
             message.channel.send(`${HW.Header}\nYou did't select any folder!`)
             return 0
         }
         switch(arg[1]){
-            case "add": case "alert": case "exam":
+            case "add": case "alert": case "exam": case "assignment":
                 var format_label = ""
                 for(var i=4;i<arg.length;i++){
                     format_label += arg[i]
@@ -84,8 +84,8 @@ module.exports = {
 
             case "open":
                 if(!arg[2]){
-                    const filelist = getFilelist()
-                    var format_string = `${HW.Header}\n\`\`\`📁 Available List:\n`
+                    const filelist = await getFilelist()
+                    var format_string = `${HW.Header}\n\`\`\`txt\n📁 Available List:\n`
                     for(var i in filelist.data){
                         format_string += ` • ${filelist.data[i]}\n`
                     }

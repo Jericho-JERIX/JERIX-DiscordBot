@@ -103,7 +103,7 @@ class HomeworkList{
         var format_string = ``
         var type_count = 0
         var total_count = 0
-        if(this.data.length == 0){return `${Header}\n\`\`\`📁 File: ${this.filename} (0)\`\`\`*-----ไม่มีงาน เป็นไปได้ด้วยหรอครับเนี่ย-----*`}
+        if(this.data.length == 0){return `${Header}\n\`\`\`\n📁 File: ${this.filename} (0)\`\`\`*-----ไม่มีงาน เป็นไปได้ด้วยหรอครับเนี่ย-----*`}
 
         for(var i in this.data){
             var hw = this.data[i]
@@ -143,10 +143,10 @@ class HomeworkList{
             if(i!=this.data.length-1){format_string += '\n'}
         }
         if(type != "ALL"){
-            format_string = `${Header}\n\`\`\`📁 File: ${this.filename} (${total_count}) >> ${TypeIcon[type]} ${type} (${type_count}):\`\`\`${format_string}`
+            format_string = `${Header}\n\`\`\`\n📁 File: ${this.filename} (${total_count}) >> ${TypeIcon[type]} ${type} (${type_count}):\`\`\`${format_string}`
         }
         else{
-            format_string = `${Header}\n\`\`\`📁 File: ${this.filename} (${total_count})\`\`\`${format_string}`
+            format_string = `${Header}\n\`\`\`\n📁 File: ${this.filename} (${total_count})\`\`\`${format_string}`
         }
         return format_string
     }
