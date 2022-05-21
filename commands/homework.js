@@ -33,7 +33,7 @@ module.exports = {
     roleRequirement: [],
     execute: async function(message,arg){
         var channelStatus = await HomeworkList.channelInit(message.channelId)
-        if(channelStatus >= 400 && (arg[1] != "open" || arg[1] != "create")){
+        if(channelStatus >= 400 && arg[1] != "open" && arg[1] != "create"){
             message.channel.send(`${HW.Header}\nYou did't select any folder!`)
             return 0
         }
