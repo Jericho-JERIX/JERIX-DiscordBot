@@ -16,8 +16,6 @@ module.exports = {
     execute: function(before){
         const JerichoYear = getYearData(before)
         for(var i in JerichoYear){
-        }
-        for(var i in JerichoYear){
             if(before.member.joinedTimestamp < JerichoYear[i].timestamp && before.member.roles.cache.has("409027862826319874")){
                 before.member.roles.add(JerichoYear[i].role).catch(console.error)
                 break
