@@ -8,6 +8,7 @@ const BtnEvent = require('./module/ButtonEvent')
 const YearDivider = require('./module/YearDivider')
 const MessageDetector = require('./module/MessageDetector')
 const LoginEvent = require('./module/LoginEvent')
+const YoutubeVideo = require('./module/YoutubeVideo')
 
 const Counter = new BtnEvent.Counter()
 // const ChoiceGame = new ChoiceMatter.Graph()
@@ -142,8 +143,11 @@ client.on('interactionCreate',(interact)=>{
     }
 })
 
-client.on('messageCreate',(message)=>{
+client.on('messageCreate',async (message)=>{
     MessageDetector.execute(message)
+    if(Math.random() < 0.2){
+        await YoutubeVideo.execute(message)
+    }
 })
 
 // Give Year Role
