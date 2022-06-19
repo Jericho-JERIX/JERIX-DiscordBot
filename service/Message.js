@@ -1,5 +1,5 @@
 const axios = require('axios')
-const IP_ADDRESS = "http://localhost:8000/message"
+const IP_ADDRESS = "http://localhost:8000/jericho-message"
 
 async function getMessage(){
     const response = await axios.get(IP_ADDRESS)

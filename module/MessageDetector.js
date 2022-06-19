@@ -15,6 +15,7 @@ module.exports = {
             mentions_user: special.mentions_user,
             mentions_channel: special.mentions_channel,
             mentions_role: special.mentions_role,
+            message_id: message.id
         }
         postMessage(sample)
     }
