@@ -132,13 +132,22 @@ class HomeworkList{
             
             var day_left = ""
             if(hw.day_left==0){
-                day_left = "เดี๋ยวนี้"
+                day_left = "เดี๋ยวนี้!"
                 vis_day = ""
             }else{
-                day_left = hw.day_left<10 ? `0${hw.day_left}` : `${hw.day_left}`
+                // day_left = hw.day_left<10 ? `0${hw.day_left}` : `${hw.day_left}`
+                day_left = String(hw.day_left)
+                while(day_left.length < 3){
+                    day_left = ` ${day_left}`
+                }
             }
 
-            format_string += `[\`${hw.day_name}\`.\`${date}/${month}\`] ${hw.alert_icon} **(\`${day_left}\`${vis_day})** ${hw.type_icon} \`[${hw.id}]\` \`${hw.label}\``
+            var id4digit = String(hw.id)
+            while(id4digit.length < 4){
+                id4digit = `0${id4digit}`
+            }
+
+            format_string += `[\`${hw.day_name}\`.\`${date}/${month}\`] ${hw.alert_icon} **(\`${day_left}\`${vis_day})** ${hw.type_icon} \`[${id4digit}]\` \`${hw.label}\``
             type_count += 1
             if(i!=this.data.length-1){format_string += '\n'}
         }
@@ -190,7 +199,7 @@ class HomeworkList{
         m = Number(m)
 
         const body = {
-            id      : id,
+            id      : Number(id),
             date    : d,
             month   : m,
             year    : getYear(d,m)
@@ -201,7 +210,7 @@ class HomeworkList{
 
     async editLabel(id,new_label){
         const body = {
-            id      : id,
+            id      : Number(id),
             label   : new_label
         }
         await axios.patch(`${HOMEWORK_API}/file/${this.filename}/edit/label`,body)
@@ -210,7 +219,7 @@ class HomeworkList{
 
     async editType(id,new_type){
         const body = {
-            id      : id,
+            id      : Number(id),
             type    : new_type.toUpperCase()
         }
         await axios.patch(`${HOMEWORK_API}/file/${this.filename}/edit/type`,body)
