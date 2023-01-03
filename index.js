@@ -144,7 +144,7 @@ client.on('interactionCreate',(interact)=>{
 })
 
 client.on('messageCreate',async (message)=>{
-    MessageDetector.execute(message)
+    // MessageDetector.execute(message)
     if(Math.random() < 0){
         // await YoutubeVideo.execute(message)
     }
