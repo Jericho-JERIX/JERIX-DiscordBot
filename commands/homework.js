@@ -1,6 +1,7 @@
 const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discord.js')
 const HW = require('../module/HomeworkList')
 const axios = require('axios')
+const { addHomework } = require('../services/homeworklist.service')
 const Homework = "http://localhost:8000/homeworklist"
 
 var HomeworkList = new HW.HomeworkList()
@@ -27,16 +28,21 @@ async function setNotification(channelId,isEnable){
     return reponse.data
 }
 
+function getYear(d,m){
+    const currentYear = Number(String(new Date()).split(' ')[3])
+    const duets = new Date(currentYear,m-1,d,23,59,59).getTime()
+    const nowts = Date.now()
+    if(duets <= nowts){
+        return currentYear+1
+    }
+    return currentYear
+}
+
 module.exports = {
     name: "homework",
     alias: ['homework','hw'],
     roleRequirement: [],
     execute: async function(message,arg){
-        var channelStatus = await HomeworkList.channelInit(message.channelId)
-        if(channelStatus >= 400 && arg[1] != "open" && arg[1] != "create"){
-            message.channel.send(`${HW.Header}\nYou did't select any folder!`)
-            return 0
-        }
         switch(arg[1]){
             case "add": case "alert": case "exam": case "assignment":
                 var format_label = ""
@@ -47,75 +53,132 @@ module.exports = {
                     }
                 }
                 if(arg[1] == "add") arg[1] = "assignment"
-                var result = await HomeworkList.add(arg[2],arg[3],format_label,arg[1])
+
+                let d = Number(arg[2])
+                let m = Number(arg[3])
+                const body = {
+                    "date": d,
+                    "month": m,
+                    "year": getYear(d,m),
+                    "type": arg[1],
+                    "label": format_label
+                }
+                const result = await addHomework(message.author.id,message.channelId,body)
                 message.channel.send({content: result,components: [button]})
                 break
             
             case "list":
-                message.channel.send({content: HomeworkList.list(),components: [button]})
                 break
             
             case "delete":
-                var result = await HomeworkList.delete(arg[2])
-                message.channel.send({content: result,components: [button]})
                 break
             
             case "edit":
-                var result = await HomeworkList.editDate(arg[2],arg[3],arg[4])
-                message.channel.send({content: result,components: [button]})
                 break
             
             case "editlabel":
-                var format_label = ""
-                for(var i=3;i<arg.length;i++){
-                    format_label += arg[i]
-                    if(i != arg.length-1){
-                        format_label += " "
-                    }
-                }
-                var result = await HomeworkList.editLabel(arg[2],format_label)
-                message.channel.send({content: result,components: [button]})
                 break
             
             case "edittype":
-                var result = await HomeworkList.editType(arg[2],arg[3])
-                message.channel.send({content: result,components: [button]})
                 break
 
             case "open":
-                if(!arg[2]){
-                    const filelist = await getFilelist()
-                    var format_string = `${HW.Header}\n\`\`\`txt\n📁 Available List:\n`
-                    for(var i in filelist.data){
-                        format_string += ` • ${filelist.data[i]}\n`
-                    }
-                    format_string += '```'
-                    message.channel.send(format_string)
-                    break
-                }
-                await HomeworkList.init(arg[2])
-                await updateChannelFile(message.channelId,arg[2])
-                message.channel.send({content: HomeworkList.list(),components: [button]})
+               
                 break
             
             case "create":
-                var result = await HomeworkList.createNewFile(arg[2],arg[3])
-                message.channel.send(result)
+                
                 break
             
             case "noti":
             case "notification":
-                var response = await setNotification(message.channelId,arg[2] == "on")
-                if(response.status >= 400) break
-
-                if(response.result.enable_notification){
-                    message.channel.send(`${HW.Header}\n:bell: Turn on notification for \`📁${response.result.selected_file}\` in <#${response.result.channelId}>`)
-                }
-                else{
-                    message.channel.send(`${HW.Header}\n:no_bell: Turn off notification for \`📁${response.result.selected_file}\` in <#${response.result.channelId}>`)
-                }
+                
                 break
         }
+        // var channelStatus = await HomeworkList.channelInit(message.channelId)
+        // if(channelStatus >= 400 && arg[1] != "open" && arg[1] != "create"){
+        //     message.channel.send(`${HW.Header}\nYou did't select any folder!`)
+        //     return 0
+        // }
+        // switch(arg[1]){
+        //     case "add": case "alert": case "exam": case "assignment":
+        //         var format_label = ""
+        //         for(var i=4;i<arg.length;i++){
+        //             format_label += arg[i]
+        //             if(i != arg.length-1){
+        //                 format_label += " "
+        //             }
+        //         }
+        //         if(arg[1] == "add") arg[1] = "assignment"
+        //         var result = await HomeworkList.add(arg[2],arg[3],format_label,arg[1])
+        //         message.channel.send({content: result,components: [button]})
+        //         break
+            
+        //     case "list":
+        //         message.channel.send({content: HomeworkList.list(),components: [button]})
+        //         break
+            
+        //     case "delete":
+        //         var result = await HomeworkList.delete(arg[2])
+        //         message.channel.send({content: result,components: [button]})
+        //         break
+            
+        //     case "edit":
+        //         var result = await HomeworkList.editDate(arg[2],arg[3],arg[4])
+        //         message.channel.send({content: result,components: [button]})
+        //         break
+            
+        //     case "editlabel":
+        //         var format_label = ""
+        //         for(var i=3;i<arg.length;i++){
+        //             format_label += arg[i]
+        //             if(i != arg.length-1){
+        //                 format_label += " "
+        //             }
+        //         }
+        //         var result = await HomeworkList.editLabel(arg[2],format_label)
+        //         message.channel.send({content: result,components: [button]})
+        //         break
+            
+        //     case "edittype":
+        //         var result = await HomeworkList.editType(arg[2],arg[3])
+        //         message.channel.send({content: result,components: [button]})
+        //         break
+
+        //     case "open":
+        //         if(!arg[2]){
+        //             const filelist = await getFilelist()
+        //             var format_string = `${HW.Header}\n\`\`\`txt\n📁 Available List:\n`
+        //             for(var i in filelist.data){
+        //                 format_string += ` • ${filelist.data[i]}\n`
+        //             }
+        //             format_string += '```'
+        //             message.channel.send(format_string)
+        //             break
+        //         }
+        //         await HomeworkList.init(arg[2])
+        //         await updateChannelFile(message.channelId,arg[2])
+        //         message.channel.send({content: HomeworkList.list(),components: [button]})
+        //         break
+            
+        //     case "create":
+        //         var result = await HomeworkList.createNewFile(arg[2],arg[3])
+        //         message.channel.send(result)
+        //         break
+            
+        //     case "noti":
+        //     case "notification":
+        //         var response = await setNotification(message.channelId,arg[2] == "on")
+        //         if(response.status >= 400) break
+
+        //         if(response.result.enable_notification){
+        //             message.channel.send(`${HW.Header}\n:bell: Turn on notification for \`📁${response.result.selected_file}\` in <#${response.result.channelId}>`)
+        //         }
+        //         else{
+        //             message.channel.send(`${HW.Header}\n:no_bell: Turn off notification for \`📁${response.result.selected_file}\` in <#${response.result.channelId}>`)
+        //         }
+        //         break
+        // }
         return 0
     },
     getList: async function(type='ALL',channelId){
