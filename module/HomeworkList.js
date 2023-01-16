@@ -20,7 +20,7 @@ function getYear(d,m){
 class Homework{
     constructor(homework){
         this.id = homework.id
-        this.isActive = homework.isActive
+        this.is_active = homework.is_active
         this.date = homework.date
         this.month = homework.month
         this.year = homework.year

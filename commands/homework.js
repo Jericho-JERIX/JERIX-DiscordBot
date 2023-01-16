@@ -1,31 +1,40 @@
 const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discord.js')
-const HW = require('../module/HomeworkList')
-const axios = require('axios')
-const { addHomework } = require('../services/homeworklist.service')
-const Homework = "http://localhost:8000/homeworklist"
+const { addHomework, getAllHomeworks, createFile, openFile, getAllFiles } = require('../services/homeworklist.service')
 
-var HomeworkList = new HW.HomeworkList()
-
-var button = new MessageActionRow().addComponents(
-    new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-ALL"),
-    new MessageButton().setLabel("📝 Assignment").setStyle("PRIMARY").setCustomId("homeworklist-Assignment"),
-    new MessageButton().setLabel("🔔 Alert").setStyle("SUCCESS").setCustomId("homeworklist-Alert"),
-    new MessageButton().setLabel("🔥 Exam").setStyle("DANGER").setCustomId("homeworklist-Exam")
-)
-
-async function getFilelist(){
-    const reponse = await axios.get(`${HW.HOMEWORK_API}/get-filelist`)
-    return reponse
+const TypeIcon = {
+    ASSIGNMENT: "📝",
+    ALERT: "🔔",
+    EXAM: "🔥"
 }
 
-async function updateChannelFile(channelId,filename){
-    const reponse = await axios.put(`${HW.HOMEWORK_API}/channel/${channelId}?filename=${filename}`)
-    return reponse
+class Homework{
+    constructor(homework){
+        this.id = homework.homework_id
+        this.is_active = homework.is_active
+        this.date = homework.date
+        this.month = homework.month
+        this.year = homework.year
+        this.timestamp = homework.timestamp*1000
+        this.day_name = homework.day_name.slice(0,3)
+        this.type = homework.type
+        this.label = homework.label
+        
+        this.day_left = Math.floor((this.timestamp-Date.now())/86400000)
+
+        this.type_icon = TypeIcon[homework.type]
+        this.alert_icon = "⚫"
+        if(this.day_left <= 2){this.alert_icon = "⭕"}
+        else if(this.day_left <= 5){this.alert_icon = "🟡"}
+        else if(this.day_left <= 7){this.alert_icon = "🔵"}
+    }
 }
 
-async function setNotification(channelId,isEnable){
-    const reponse = await axios.patch(`${HW.HOMEWORK_API}/channel/${channelId}/notification?isEnable=${String(isEnable)}`)
-    return reponse.data
+function fixSpace(text,n,space=' '){
+    let res = String(text)
+    while(res.length < n){
+        res = space + res
+    }
+    return res
 }
 
 function getYear(d,m){
@@ -38,6 +47,43 @@ function getYear(d,m){
     return currentYear
 }
 
+const Homeworklist = {
+    Title: ':bookmark: **Homeworklist 3.0**',
+    Button: new MessageActionRow().addComponents(
+        new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-ALL"),
+        new MessageButton().setLabel("📝 Assignment").setStyle("PRIMARY").setCustomId("homeworklist-Assignment"),
+        new MessageButton().setLabel("🔔 Alert").setStyle("SUCCESS").setCustomId("homeworklist-Alert"),
+        new MessageButton().setLabel("🔥 Exam").setStyle("DANGER").setCustomId("homeworklist-Exam")
+    ),
+    File: (instance,count) => {
+        return `\`\`\`📁 File: ${instance.filename} (${count})\`\`\``
+    },
+    Card: (instance) => {
+        const hw = new Homework(instance)
+        return hw.day_left <= 0 ? '' : `[\`${hw.day_name}\`.\`${fixSpace(hw.date,2,'0')}/${fixSpace(hw.month,2,'0')}\`] ${hw.alert_icon} (\`${fixSpace(hw.day_left,3)}\` วัน) ${hw.type_icon} \`[${fixSpace(hw.id,4,'0')}]\` \`${hw.label}\``
+    },
+    list: async (message) => {
+        var { data } = await getAllHomeworks(message.channelId)
+        console.log(data)
+        var result = data.homeworks.map(homework => Homeworklist.Card(homework)).filter(homework => homework != '')
+        console.log(result)
+        return `${Homeworklist.Title}\n${Homeworklist.File(data.file,result.length)}${result.length == 0 ? "No Homework!" : result.join('\n')}`
+    }
+}
+
+// {
+//     "homework_id": 1,
+//     "file_id": 1,
+//     "is_active": true,
+//     "date": 10,
+//     "month": 3,
+//     "year": 2023,
+//     "timestamp": 1678467599,
+//     "day_name": "Friday",
+//     "type": "ASSIGNMENT",
+//     "label": "Edited label22"
+// }
+
 module.exports = {
     name: "homework",
     alias: ['homework','hw'],
@@ -45,29 +91,24 @@ module.exports = {
     execute: async function(message,arg){
         switch(arg[1]){
             case "add": case "alert": case "exam": case "assignment":
-                var format_label = ""
-                for(var i=4;i<arg.length;i++){
-                    format_label += arg[i]
-                    if(i != arg.length-1){
-                        format_label += " "
-                    }
-                }
+                var format_label = arg.slice(4).join(" ")
                 if(arg[1] == "add") arg[1] = "assignment"
 
-                let d = Number(arg[2])
-                let m = Number(arg[3])
-                const body = {
-                    "date": d,
-                    "month": m,
-                    "year": getYear(d,m),
-                    "type": arg[1],
-                    "label": format_label
+                var d = Number(arg[2])
+                var m = Number(arg[3])
+                var body = {
+                    date: d,
+                    month: m,
+                    year: getYear(d,m),
+                    type: arg[1].toUpperCase(),
+                    label: format_label
                 }
-                const result = await addHomework(message.author.id,message.channelId,body)
-                message.channel.send({content: result,components: [button]})
+                var { data } = await addHomework(message.author.id,message.channelId,body)
+                message.channel.send(await Homeworklist.list(message))
                 break
             
             case "list":
+                message.channel.send(await Homeworklist.list(message))
                 break
             
             case "delete":
@@ -83,16 +124,31 @@ module.exports = {
                 break
 
             case "open":
-               
+                if(!arg[2]){
+                    var { data } = await getAllFiles(message.author.id)
+                    console.log(data)
+                }
+                else{
+                    openFile(message.author.id,message.channelId,arg[2])
+                    .then(async () => {
+                        message.channel.send(await Homeworklist.list(message))
+                    })
+                    .catch(() => {
+                        message.channel.send(`${Homeworklist.Title}\n\`\`\`🚫 You don't have permission to open this file!\`\`\``)
+                    })
+                }
                 break
             
             case "create":
-                
+                var body = {
+                    filename: arg[2]
+                }
+                var { data } = await createFile(message.author.id,message.channelId,body)
+                message.channel.send(`${Homeworklist.Title}\nFile successfully created! \`📁${data.file.filename}\``)
                 break
             
             case "noti":
             case "notification":
-                
                 break
         }
         // var channelStatus = await HomeworkList.channelInit(message.channelId)
@@ -181,15 +237,15 @@ module.exports = {
         // }
         return 0
     },
-    getList: async function(type='ALL',channelId){
-        var channelStatus = await HomeworkList.channelInit(channelId)
-        if(channelStatus >= 400){
-            return `${HW.Header}\nYou did't select any folder!`
-        }
-        return HomeworkList.list(type)
-    },
-    getButton: function(){
-        return button
-    },
-    HomeworkTypeButton: button
+    // getList: async function(type='ALL',channelId){
+    //     var channelStatus = await HomeworkList.channelInit(channelId)
+    //     if(channelStatus >= 400){
+    //         return `${HW.Header}\nYou did't select any folder!`
+    //     }
+    //     return HomeworkList.list(type)
+    // },
+    // getButton: function(){
+    //     return button
+    // },
+    // HomeworkTypeButton: button
 }
