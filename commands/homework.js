@@ -47,6 +47,28 @@ function getYear(d,m){
     return currentYear
 }
 
+function isValidDate(d,m,y){
+    var limit = 28
+    if(m == 2){
+        if((y%4==0 && y%100 != 0) || y%400==0){
+            limit = 29
+        }
+    }
+    else if([1,3,5,7,8,10,12].includes(m)){
+        limit = 31
+    }
+    else if([4,6,9,11].includes(m)){
+        limit = 30
+    }
+    else{
+        return false
+    }
+    if(d >= 1 && d <= limit){
+        return true
+    }
+    return false
+}
+
 const Homeworklist = {
     Title: ':bookmark: **Homeworklist 3.1**',
     Button: new MessageActionRow().addComponents(
@@ -57,7 +79,7 @@ const Homeworklist = {
     ),
     EmptyListMessage: "*-------------------------- EMPTY --------------------------*",
     File: (instance,count) => {
-        return `\`\`\`📁 File: ${instance.filename} (${count})\`\`\``
+        return `\`\`\`📂 File: ${instance.filename} (${count})\`\`\``
     },
     Card: (instance) => {
         const hw = new Homework(instance)
@@ -77,7 +99,7 @@ const Homeworklist = {
         var filtered_length = data.homeworks.length
         var result = data.homeworks.map(homework => Homeworklist.Card(homework))
         if(type !== 'ALL'){
-            return {content: `${Homeworklist.Title}\n\`\`\`📁 File: ${data.file.filename} (${total_length}) >> ${TypeIcon[type]} ${type} (${filtered_length})\`\`\`${filtered_length == 0 ? Homeworklist.EmptyListMessage : result.join('\n')}`,components: [Homeworklist.Button]}
+            return {content: `${Homeworklist.Title}\n\`\`\`📂 File: ${data.file.filename} (${total_length}) >> ${TypeIcon[type]} ${type} (${filtered_length})\`\`\`${filtered_length == 0 ? Homeworklist.EmptyListMessage : result.join('\n')}`,components: [Homeworklist.Button]}
         }
         else{
             return {content: `${Homeworklist.Title}\n${Homeworklist.File(data.file,result.length)}${result.length == 0 ? Homeworklist.EmptyListMessage : result.join('\n')}`,components: [Homeworklist.Button]}
@@ -93,9 +115,9 @@ const Homeworklist = {
         ButtonSelector: (files,current_file_id) => {
             var buttons = files.slice(0,5).map(file => 
                 new MessageButton()
-                .setLabel(`${file.file_id == current_file_id ? "📌":"📁"} ${file.filename}`)
+                .setLabel(`${file.file_id == current_file_id ? "📂":"📁"} ${file.filename}`)
                 .setStyle(file.file_id == current_file_id ? "SUCCESS":"SECONDARY")
-                .setDisabled(file.file_id == current_file_id)
+                // .setDisabled(file.file_id == current_file_id)
                 .setCustomId(`homeworklist-OpenFile-${file.owner_id}-${file.file_id}`)
             )
             while(buttons.length < 5){
@@ -126,10 +148,17 @@ module.exports = {
 
                 var d = Number(arg[2])
                 var m = Number(arg[3])
+                var y = getYear(d,m)
+
+                if(!isValidDate(d,m,y)){
+                    message.channel.send(Homeworklist.DisplayBox('❌ Please enter a valid date!'))
+                    break
+                }
+
                 var body = {
                     date: d,
                     month: m,
-                    year: getYear(d,m),
+                    year: y,
                     type: arg[1].toUpperCase(),
                     label: format_label
                 }
@@ -142,7 +171,7 @@ module.exports = {
                 }
                 break
             
-            case "list":                
+            case "list":
                 message.channel.send(await Homeworklist.list(message.channelId))
                 break
             
@@ -157,9 +186,19 @@ module.exports = {
                 break
             
             case "edit":
+                var d = Number(arg[3])
+                var m = Number(arg[4])
+                var y = getYear(d,m)
+
+                if(!isValidDate(d,m,y)){
+                    message.channel.send(Homeworklist.DisplayBox('❌ Please enter a valid date!'))
+                    break
+                }
+
                 var body = {
-                    date: Number(arg[3]),
-                    month: Number(arg[4])
+                    date: d,
+                    month: m,
+                    year: y
                 }
                 var { status } = await editHomework(message.author.id,message.channelId,Number(arg[2]),body)
                 if(status >= 400){
@@ -216,7 +255,10 @@ module.exports = {
                     filename: arg[2]
                 }
                 var { status,data } = await createFile(message.author.id,message.channelId,body)
-                if(status > 400){
+                if(status === 403){
+                    message.channel.send(Homeworklist.DisplayBox('❌ You cannot create more than 5 Files (Unlimited File creation will be update soon.)'))
+                }
+                else if(status === 406){
                     message.channel.send(Homeworklist.DisplayBox('❌ ' + data.message))
                 }
                 else{
@@ -254,7 +296,7 @@ module.exports = {
                     else{
                         message.channel.send(Homeworklist.DisplayBox('🔒 Only owner can edit this File'))
                     }
-                }
+            }
         }
         return 0
     },
@@ -262,7 +304,6 @@ module.exports = {
     ReCreateButtonSelector: async (discord_id,channel_id) => {
         var { data } = await getAllHomeworks(channel_id)
         var current_id = data.file.file_id
-
         var { data } = await getAllFiles(discord_id)
         return Homeworklist.OpenFile.ButtonSelector(data.files,current_id)
     }
