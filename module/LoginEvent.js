@@ -15,7 +15,8 @@ async function sendHomeworklist(client){
         if(response[i].enable_notification){
             await HomeworkList.init(response[i].selected_file)
             var target_channel = await client.channels.cache.get(i)
-            var message = await target_channel.send({content: HomeworkList.list(),components: [HomeworkTypeButton]})
+            // var message = await target_channel.send({content: Homeworklist.list(),components: [HomeworkTypeButton]})
+            var message = await target_channel.send({content: Homeworklist.list(),components: [HomeworkTypeButton]})
             if(target_channel.type == "GUILD_NEWS"){
                 message.crosspost()
             }
