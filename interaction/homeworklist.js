@@ -13,7 +13,8 @@ module.exports = {
                 break
             
             case "OpenFile":
-                await openFile(interact.user.id,interact.channelId,arg[3])
+                var {data} = await openFile(interact.user.id,interact.channelId,arg[3])
+                console.log(data)
                 interact.message.channel.send(await list(interact.channelId))
                 var result = await ReCreateButtonSelector(arg[2],interact.channelId)
                 interact.message.edit({components: [result]})

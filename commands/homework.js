@@ -239,8 +239,11 @@ module.exports = {
             case "open":
                 try{
                     var target = arg[2] ? arg[2].slice(2,-1) : message.author.id
-                    var { data } = await getAllHomeworks(message.channelId)
-                    var current_id = data.file.file_id
+                    var { status,data } = await getAllHomeworks(message.channelId)
+                    var current_id = null
+                    if(data.file){
+                        current_id = data.file.file_id
+                    }
                     var { data } = await getAllFiles(target)
                     var buttonRow = Homeworklist.OpenFile.ButtonSelector(data.files,current_id)
                     message.channel.send({content:`${Homeworklist.Title}\n${Homeworklist.OpenFile.File(data.files.length)}`,components: [buttonRow]})
@@ -302,8 +305,12 @@ module.exports = {
     },
     list: (channelId,type) => Homeworklist.list(channelId,type),
     ReCreateButtonSelector: async (discord_id,channel_id) => {
+        console.log(discord_id,channel_id)
         var { data } = await getAllHomeworks(channel_id)
-        var current_id = data.file.file_id
+        var current_id = null
+        if(data.file){
+            current_id = data.file.file_id
+        }
         var { data } = await getAllFiles(discord_id)
         return Homeworklist.OpenFile.ButtonSelector(data.files,current_id)
     }
