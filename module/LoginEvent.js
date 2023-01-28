@@ -28,7 +28,7 @@ module.exports = {
             setInterval(()=>{
                 sendHomeworklist(client)
             },86400000)
-        },1000)
+        },diff_mn)
     },
     onlineCount: function(client){
         var botCount = 0
