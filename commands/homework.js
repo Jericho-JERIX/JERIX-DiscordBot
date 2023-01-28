@@ -1,5 +1,5 @@
 const {Client,Intents,MessageButton,MessageActionRow, MessageEmbed} = require('discord.js')
-const { addHomework, getAllHomeworks, createFile, openFile, getAllFiles, deleteHomework, editHomework, editChannel } = require('../services/homeworklist.service')
+const { addHomework, getAllHomeworks, createFile, openFile, getAllFiles, deleteHomework, editHomework, editChannel, deleteFile, editFile } = require('../services/homeworklist.service')
 
 const TypeIcon = {
     ASSIGNMENT: "📝",
@@ -70,7 +70,7 @@ function isValidDate(d,m,y){
 }
 
 const Homeworklist = {
-    Title: ':bookmark: **Homeworklist 3.1**',
+    Title: ':bookmark: **Homeworklist 4.0**',
     Button: new MessageActionRow().addComponents(
         new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-Type-ALL"),
         new MessageButton().setLabel("📝 Assignment").setStyle("PRIMARY").setCustomId("homeworklist-Type-Assignment"),
@@ -107,7 +107,7 @@ const Homeworklist = {
     },
     OpenFile: {
         File: (count) => {
-            return `\`\`\`📁 Files (${count})\`\`\``
+            return `\`\`\`📦 File Storage (${count}/5)\`\`\``
         },
         Card: (instance,isCurrent) => {
             return `${isCurrent ? ':pushpin:' : ':file_folder:'} \`[${fixSpace(instance.file_id,4,'0')}]\` \`${instance.filename}\``
@@ -115,7 +115,7 @@ const Homeworklist = {
         ButtonSelector: (files,current_file_id) => {
             var buttons = files.slice(0,5).map(file => 
                 new MessageButton()
-                .setLabel(`${file.file_id == current_file_id ? "📂":"📁"} ${file.filename}`)
+                .setLabel(`${file.file_id == current_file_id ? "📂":"📁"} [${fixSpace(file.file_id,4,'0')}] ${file.filename}`)
                 .setStyle(file.file_id == current_file_id ? "SUCCESS":"SECONDARY")
                 // .setDisabled(file.file_id == current_file_id)
                 .setCustomId(`homeworklist-OpenFile-${file.owner_id}-${file.file_id}`)
@@ -299,11 +299,41 @@ module.exports = {
                     else{
                         message.channel.send(Homeworklist.DisplayBox('🔒 Only owner can edit this File'))
                     }
-            }
+                }   
+                break
+
+            case "renamefile":
+                var { status } = await editFile(message.author.id,Number(arg[2]),{
+                    filename: arg[3]
+                })
+                if(status >= 400){
+                    message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to edit this file!"))
+                }
+                else{
+                    message.channel.send(Homeworklist.DisplayBox("✏️ You File has been renamed."))
+                }
+                break
+
+            case "deletefile":
+                if(arg[2] === arg[3] && arg[3] === arg[4]){
+                    var { status } = await deleteFile(message.author.id,Number(arg[2]))
+                    if(status >= 400){
+                        message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to delete this file!"))
+                    }
+                    else{
+                        message.channel.send(Homeworklist.DisplayBox("🗑️ You File has been deleted."))
+                    }
+                }
+                else{
+                    message.channel.send(Homeworklist.DisplayBox('❌ To delete the File please type `File ID` three times to confirm.\n Example: `j!hw deletefile 0001 0001 0001`'))
+                }
+                break
         }
         return 0
     },
+
     list: (channelId,type) => Homeworklist.list(channelId,type),
+
     ReCreateButtonSelector: async (discord_id,channel_id) => {
         console.log(discord_id,channel_id)
         var { data } = await getAllHomeworks(channel_id)
