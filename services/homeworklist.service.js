@@ -50,6 +50,11 @@ module.exports = {
 
     // Channel
 
+    getAllChannels: async () => {
+        return axios.get(`${HOMEWORKLIST_URL}/channel`)
+                .then(res => {return res}).catch(err => {return err.response})
+    },
+
     openFile: async (discord_id,channel_id,file_id) => {
         return axios.put(`${HOMEWORKLIST_URL}/account/${discord_id}/channel/${channel_id}/file/${file_id}`)
                 .then(res => {return res}).catch(err => {return err.response})

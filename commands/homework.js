@@ -88,7 +88,9 @@ const Homeworklist = {
     list: async (channelId,type='ALL') => {
         type = type.toUpperCase()
         var { status,data } = await getAllHomeworks(channelId)
+        console.log(channelId)
         if(status >= 400){
+            console.log(status)
             return Homeworklist.DisplayBox("❌ This channel has not opened any File yet")
         }
         data.homeworks = data.homeworks.filter(homework => homework.timestamp*1000 >= Date.now())

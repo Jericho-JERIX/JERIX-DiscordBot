@@ -1,22 +1,12 @@
-const { default: axios } = require("axios")
-const { HomeworkTypeButton } = require("../commands/homework")
-const HW = require('./HomeworkList')
-
-var HomeworkList = new HW.HomeworkList()
-
-async function getAllChannelHomework(){
-    const response = await axios.get(`${HW.HOMEWORK_API}/channel/get-all`)
-    return response.data
-}
+const { HomeworkTypeButton, list } = require("../commands/homework")
+const { getAllChannels } = require("../services/homeworklist.service")
 
 async function sendHomeworklist(client){
-    const response = await getAllChannelHomework()
-    for(var i in response){
-        if(response[i].enable_notification){
-            await HomeworkList.init(response[i].selected_file)
-            var target_channel = await client.channels.cache.get(i)
-            // var message = await target_channel.send({content: Homeworklist.list(),components: [HomeworkTypeButton]})
-            var message = await target_channel.send({content: Homeworklist.list(),components: [HomeworkTypeButton]})
+    const { data } = await getAllChannels()
+    for(var i in data.channels){
+        if(data.channels[i].enable_notification){
+            var target_channel = await client.channels.cache.get(data.channels[i].channel_id)
+            var message = await target_channel.send(await list(data.channels[i].channel_id))
             if(target_channel.type == "GUILD_NEWS"){
                 message.crosspost()
             }
@@ -38,7 +28,7 @@ module.exports = {
             setInterval(()=>{
                 sendHomeworklist(client)
             },86400000)
-        },diff_mn)
+        },1000)
     },
     onlineCount: function(client){
         var botCount = 0
