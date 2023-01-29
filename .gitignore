@@ -1,3 +1,5 @@
 .env
 module/tempCodeRunnerFile.js
 node_modules/
+
+.dist/

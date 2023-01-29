@@ -1,5 +1,5 @@
 const axios = require('axios')
-const {postMessage} = require('../service/Message')
+const {postMessage} = require('../services/Message')
 const {getSpecial} = require('./DiscordSpecialTag')
 
 

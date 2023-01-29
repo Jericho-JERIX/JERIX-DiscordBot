@@ -1,30 +1,141 @@
-const {Client,Intents,MessageButton,MessageActionRow, Message} = require('discord.js')
-const HW = require('../module/HomeworkList')
-const axios = require('axios')
-const Homework = "http://localhost:8000/homeworklist"
+const {Client,Intents,MessageButton,MessageActionRow, MessageEmbed} = require('discord.js')
+const { addHomework, getAllHomeworks, createFile, openFile, getAllFiles, deleteHomework, editHomework, editChannel, deleteFile, editFile } = require('../services/homeworklist.service')
 
-var HomeworkList = new HW.HomeworkList()
-
-var button = new MessageActionRow().addComponents(
-    new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-ALL"),
-    new MessageButton().setLabel("📝 Assignment").setStyle("PRIMARY").setCustomId("homeworklist-Assignment"),
-    new MessageButton().setLabel("🔔 Alert").setStyle("SUCCESS").setCustomId("homeworklist-Alert"),
-    new MessageButton().setLabel("🔥 Exam").setStyle("DANGER").setCustomId("homeworklist-Exam")
-)
-
-async function getFilelist(){
-    const reponse = await axios.get(`${HW.HOMEWORK_API}/get-filelist`)
-    return reponse
+const TypeIcon = {
+    ASSIGNMENT: "📝",
+    ALERT: "🔔",
+    EXAM: "🔥"
 }
 
-async function updateChannelFile(channelId,filename){
-    const reponse = await axios.put(`${HW.HOMEWORK_API}/channel/${channelId}?filename=${filename}`)
-    return reponse
+class Homework{
+    constructor(homework){
+        this.id = homework.homework_id
+        this.is_active = homework.is_active
+        this.date = homework.date
+        this.month = homework.month
+        this.year = homework.year
+        this.timestamp = homework.timestamp*1000
+        this.day_name = homework.day_name.slice(0,3)
+        this.type = homework.type
+        this.label = homework.label
+        
+        this.day_left = Math.floor((this.timestamp-Date.now())/86400000)
+
+        this.type_icon = TypeIcon[homework.type]
+        this.alert_icon = "⚫"
+        if(this.day_left <= 2){this.alert_icon = "⭕"}
+        else if(this.day_left <= 5){this.alert_icon = "🟡"}
+        else if(this.day_left <= 7){this.alert_icon = "🔵"}
+    }
 }
 
-async function setNotification(channelId,isEnable){
-    const reponse = await axios.patch(`${HW.HOMEWORK_API}/channel/${channelId}/notification?isEnable=${String(isEnable)}`)
-    return reponse.data
+function fixSpace(text,n,space=' '){
+    let res = String(text)
+    while(res.length < n){
+        res = space + res
+    }
+    return res
+}
+
+function getYear(d,m){
+    const currentYear = Number(String(new Date()).split(' ')[3])
+    const duets = new Date(currentYear,m-1,d,23,59,59).getTime()
+    const nowts = Date.now()
+    if(duets <= nowts){
+        return currentYear+1
+    }
+    return currentYear
+}
+
+function isValidDate(d,m,y){
+    var limit = 28
+    if(m == 2){
+        if((y%4==0 && y%100 != 0) || y%400==0){
+            limit = 29
+        }
+    }
+    else if([1,3,5,7,8,10,12].includes(m)){
+        limit = 31
+    }
+    else if([4,6,9,11].includes(m)){
+        limit = 30
+    }
+    else{
+        return false
+    }
+    if(d >= 1 && d <= limit){
+        return true
+    }
+    return false
+}
+
+const Homeworklist = {
+    Title: ':bookmark: **Homeworklist 4.0**',
+    Button: new MessageActionRow().addComponents(
+        new MessageButton().setLabel("📋 All").setStyle("SECONDARY").setCustomId("homeworklist-Type-ALL"),
+        new MessageButton().setLabel("📝 Assignment").setStyle("PRIMARY").setCustomId("homeworklist-Type-Assignment"),
+        new MessageButton().setLabel("🔔 Alert").setStyle("SUCCESS").setCustomId("homeworklist-Type-Alert"),
+        new MessageButton().setLabel("🔥 Exam").setStyle("DANGER").setCustomId("homeworklist-Type-Exam")
+    ),
+    EmptyListMessage: "*-------------------------- EMPTY --------------------------*",
+    File: (instance,count) => {
+        return `\`\`\`📂 File: ${instance.filename} (${count})\`\`\``
+    },
+    Card: (instance) => {
+        const hw = new Homework(instance)
+        return `[\`${hw.day_name}\`.\`${fixSpace(hw.date,2,'0')}/${fixSpace(hw.month,2,'0')}\`] ${hw.alert_icon} (\`${fixSpace(hw.day_left,3)}\` วัน) ${hw.type_icon} \`[${fixSpace(hw.id,4,'0')}]\` \`${hw.label}\``
+    },
+    list: async (channelId,type='ALL') => {
+        type = type.toUpperCase()
+        var { status,data } = await getAllHomeworks(channelId)
+        console.log(channelId)
+        if(status >= 400){
+            console.log(status)
+            return Homeworklist.DisplayBox("❌ This channel has not opened any File yet")
+        }
+        data.homeworks = data.homeworks.filter(homework => homework.timestamp*1000 >= Date.now())
+        var total_length = data.homeworks.length
+        if(type !== 'ALL'){
+            data.homeworks = data.homeworks.filter(homework => homework.type === type)
+        }
+        var filtered_length = data.homeworks.length
+        var result = data.homeworks.map(homework => Homeworklist.Card(homework))
+        if(type !== 'ALL'){
+            return {content: `${Homeworklist.Title}\n\`\`\`📂 File: ${data.file.filename} (${total_length}) >> ${TypeIcon[type]} ${type} (${filtered_length})\`\`\`${filtered_length == 0 ? Homeworklist.EmptyListMessage : result.join('\n')}`,components: [Homeworklist.Button]}
+        }
+        else{
+            return {content: `${Homeworklist.Title}\n${Homeworklist.File(data.file,result.length)}${result.length == 0 ? Homeworklist.EmptyListMessage : result.join('\n')}`,components: [Homeworklist.Button]}
+        }
+    },
+    OpenFile: {
+        File: (count) => {
+            return `\`\`\`📦 File Storage (${count}/5)\`\`\``
+        },
+        Card: (instance,isCurrent) => {
+            return `${isCurrent ? ':pushpin:' : ':file_folder:'} \`[${fixSpace(instance.file_id,4,'0')}]\` \`${instance.filename}\``
+        },
+        ButtonSelector: (files,current_file_id) => {
+            var buttons = files.slice(0,5).map(file => 
+                new MessageButton()
+                .setLabel(`${file.file_id == current_file_id ? "📂":"📁"} [${fixSpace(file.file_id,4,'0')}] ${file.filename}`)
+                .setStyle(file.file_id == current_file_id ? "SUCCESS":"SECONDARY")
+                // .setDisabled(file.file_id == current_file_id)
+                .setCustomId(`homeworklist-OpenFile-${file.owner_id}-${file.file_id}`)
+            )
+            while(buttons.length < 5){
+                buttons.push(new MessageButton()
+                .setLabel(`< Empty File >`)
+                .setStyle("SECONDARY")
+                .setDisabled(true)
+                .setCustomId(`homeworklist-OpenFile-00000-empty-${buttons.length}`))
+            }
+            return new MessageActionRow().addComponents(...buttons)
+        }
+    },
+    DisplayBox: (message) => {
+        return {content: Homeworklist.Title,embeds:[new MessageEmbed().setDescription(message).setColor("#ffde82")]}
+        return `${Homeworklist.Title}\n\`\`\`${message}\`\`\``
+    }
 }
 
 module.exports = {
@@ -32,101 +143,207 @@ module.exports = {
     alias: ['homework','hw'],
     roleRequirement: [],
     execute: async function(message,arg){
-        var channelStatus = await HomeworkList.channelInit(message.channelId)
-        if(channelStatus >= 400 && arg[1] != "open" && arg[1] != "create"){
-            message.channel.send(`${HW.Header}\nYou did't select any folder!`)
-            return 0
-        }
         switch(arg[1]){
             case "add": case "alert": case "exam": case "assignment":
-                var format_label = ""
-                for(var i=4;i<arg.length;i++){
-                    format_label += arg[i]
-                    if(i != arg.length-1){
-                        format_label += " "
-                    }
-                }
+                var format_label = arg.slice(4).join(" ")
                 if(arg[1] == "add") arg[1] = "assignment"
-                var result = await HomeworkList.add(arg[2],arg[3],format_label,arg[1])
-                message.channel.send({content: result,components: [button]})
+
+                var d = Number(arg[2])
+                var m = Number(arg[3])
+                var y = getYear(d,m)
+
+                if(!isValidDate(d,m,y)){
+                    message.channel.send(Homeworklist.DisplayBox('❌ Please enter a valid date!'))
+                    break
+                }
+
+                var body = {
+                    date: d,
+                    month: m,
+                    year: y,
+                    type: arg[1].toUpperCase(),
+                    label: format_label
+                }
+                var { status,data } = await addHomework(message.author.id,message.channelId,body)
+                if(status >= 400){
+                    message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to edit this file!"))
+                }
+                else{
+                    message.channel.send(await Homeworklist.list(message.channelId))
+                }
                 break
             
             case "list":
-                message.channel.send({content: HomeworkList.list(),components: [button]})
+                message.channel.send(await Homeworklist.list(message.channelId))
                 break
             
             case "delete":
-                var result = await HomeworkList.delete(arg[2])
-                message.channel.send({content: result,components: [button]})
+                var { status } = await deleteHomework(message.author.id,message.channelId,Number(arg[2]))
+                if(status >= 400){
+                    message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to edit this file!"))
+                }
+                else{
+                    message.channel.send(await Homeworklist.list(message.channelId))
+                }
                 break
             
             case "edit":
-                var result = await HomeworkList.editDate(arg[2],arg[3],arg[4])
-                message.channel.send({content: result,components: [button]})
+                var d = Number(arg[3])
+                var m = Number(arg[4])
+                var y = getYear(d,m)
+
+                if(!isValidDate(d,m,y)){
+                    message.channel.send(Homeworklist.DisplayBox('❌ Please enter a valid date!'))
+                    break
+                }
+
+                var body = {
+                    date: d,
+                    month: m,
+                    year: y
+                }
+                var { status } = await editHomework(message.author.id,message.channelId,Number(arg[2]),body)
+                if(status >= 400){
+                    message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to edit this file!"))
+                }
+                else{
+                    message.channel.send(await Homeworklist.list(message.channelId))
+                }
                 break
             
             case "editlabel":
-                var format_label = ""
-                for(var i=3;i<arg.length;i++){
-                    format_label += arg[i]
-                    if(i != arg.length-1){
-                        format_label += " "
-                    }
+                var body = {
+                    label: arg.slice(3).join(" ")
                 }
-                var result = await HomeworkList.editLabel(arg[2],format_label)
-                message.channel.send({content: result,components: [button]})
+                var { status } = await editHomework(message.author.id,message.channelId,Number(arg[2]),body)
+                if(status >= 400){
+                    message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to edit this file!"))
+                }
+                else{
+                    message.channel.send(await Homeworklist.list(message.channelId))
+                }
                 break
             
             case "edittype":
-                var result = await HomeworkList.editType(arg[2],arg[3])
-                message.channel.send({content: result,components: [button]})
+                if(arg[3] == "add") arg[3] = "assignment"
+                var body = {
+                    type: arg[3].toUpperCase()
+                }
+                var { status } = await editHomework(message.author.id,message.channelId,Number(arg[2]),body)
+                if(status >= 400){
+                    message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to edit this file!"))
+                }
+                else{
+                    message.channel.send(await Homeworklist.list(message.channelId))
+                }
                 break
 
             case "open":
-                if(!arg[2]){
-                    const filelist = await getFilelist()
-                    var format_string = `${HW.Header}\n\`\`\`txt\n📁 Available List:\n`
-                    for(var i in filelist.data){
-                        format_string += ` • ${filelist.data[i]}\n`
+                try{
+                    var target = arg[2] ? arg[2].slice(2,-1) : message.author.id
+                    var { status,data } = await getAllHomeworks(message.channelId)
+                    var current_id = null
+                    if(data.file){
+                        current_id = data.file.file_id
                     }
-                    format_string += '```'
-                    message.channel.send(format_string)
-                    break
+                    var { data } = await getAllFiles(target)
+                    var buttonRow = Homeworklist.OpenFile.ButtonSelector(data.files,current_id)
+                    message.channel.send({content:`${Homeworklist.Title}\n${Homeworklist.OpenFile.File(data.files.length)}`,components: [buttonRow]})
                 }
-                await HomeworkList.init(arg[2])
-                await updateChannelFile(message.channelId,arg[2])
-                message.channel.send({content: HomeworkList.list(),components: [button]})
+                catch(err){
+                    message.channel.send(Homeworklist.DisplayBox("❌ Invalid user id!"))
+                }
                 break
             
             case "create":
-                var result = await HomeworkList.createNewFile(arg[2],arg[3])
-                message.channel.send(result)
+                var body = {
+                    filename: arg[2]
+                }
+                var { status,data } = await createFile(message.author.id,message.channelId,body)
+                if(status === 403){
+                    message.channel.send(Homeworklist.DisplayBox('❌ You cannot create more than 5 Files (Unlimited File creation will be update soon.)'))
+                }
+                else if(status === 406){
+                    message.channel.send(Homeworklist.DisplayBox('❌ ' + data.message))
+                }
+                else{
+                    message.channel.send(Homeworklist.DisplayBox(`✅ File successfully created! >> \`📁${data.file.filename}\``))
+                }
                 break
             
             case "noti":
             case "notification":
-                var response = await setNotification(message.channelId,arg[2] == "on")
-                if(response.status >= 400) break
-
-                if(response.result.enable_notification){
-                    message.channel.send(`${HW.Header}\n:bell: Turn on notification for \`📁${response.result.selected_file}\` in <#${response.result.channelId}>`)
+                var body = {
+                    enable_notification: arg[2] == "on"
+                }
+                var { data } = await editChannel(message.author.id,message.channelId,body)
+                console.log(data)
+                if(data.enable_notification){
+                    message.channel.send(Homeworklist.DisplayBox(`🔔 Turn on notification on <#${data.channel_id}>`))
                 }
                 else{
-                    message.channel.send(`${HW.Header}\n:no_bell: Turn off notification for \`📁${response.result.selected_file}\` in <#${response.result.channelId}>`)
+                    message.channel.send(Homeworklist.DisplayBox(`🔕 Turn off notification on <#${data.channel_id}>`))
+                }
+                break
+
+            case "canedit":
+                var body = {
+                    can_edit: arg[2] == "on"
+                }
+                var { status,data } = await editChannel(message.author.id,message.channelId,body)
+                if(status >= 400){
+                    message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to edit this file!"))
+                }
+                else{
+                    if(data.can_edit){
+                        message.channel.send(Homeworklist.DisplayBox('🔓 Anyone in this channel can edit this File'))
+                    }
+                    else{
+                        message.channel.send(Homeworklist.DisplayBox('🔒 Only owner can edit this File'))
+                    }
+                }   
+                break
+
+            case "renamefile":
+                var { status } = await editFile(message.author.id,Number(arg[2]),{
+                    filename: arg[3]
+                })
+                if(status >= 400){
+                    message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to edit this file!"))
+                }
+                else{
+                    message.channel.send(Homeworklist.DisplayBox("✏️ You File has been renamed."))
+                }
+                break
+
+            case "deletefile":
+                if(arg[2] === arg[3] && arg[3] === arg[4]){
+                    var { status } = await deleteFile(message.author.id,Number(arg[2]))
+                    if(status >= 400){
+                        message.channel.send(Homeworklist.DisplayBox("🚫 You don't have permission to delete this file!"))
+                    }
+                    else{
+                        message.channel.send(Homeworklist.DisplayBox("🗑️ You File has been deleted."))
+                    }
+                }
+                else{
+                    message.channel.send(Homeworklist.DisplayBox('❌ To delete the File please type `File ID` three times to confirm.\n Example: `j!hw deletefile 0001 0001 0001`'))
                 }
                 break
         }
         return 0
     },
-    getList: async function(type='ALL',channelId){
-        var channelStatus = await HomeworkList.channelInit(channelId)
-        if(channelStatus >= 400){
-            return `${HW.Header}\nYou did't select any folder!`
+
+    list: (channelId,type) => Homeworklist.list(channelId,type),
+
+    ReCreateButtonSelector: async (discord_id,channel_id) => {
+        console.log(discord_id,channel_id)
+        var { data } = await getAllHomeworks(channel_id)
+        var current_id = null
+        if(data.file){
+            current_id = data.file.file_id
         }
-        return HomeworkList.list(type)
-    },
-    getButton: function(){
-        return button
-    },
-    HomeworkTypeButton: button
+        var { data } = await getAllFiles(discord_id)
+        return Homeworklist.OpenFile.ButtonSelector(data.files,current_id)
+    }
 }
