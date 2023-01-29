@@ -83,7 +83,10 @@ const Homeworklist = {
     },
     Card: (instance) => {
         const hw = new Homework(instance)
-        return `[\`${hw.day_name}\`.\`${fixSpace(hw.date,2,'0')}/${fixSpace(hw.month,2,'0')}\`] ${hw.alert_icon} (\`${fixSpace(hw.day_left,3)}\` วัน) ${hw.type_icon} \`[${fixSpace(hw.id,4,'0')}]\` \`${hw.label}\``
+        if(hw.day_left == 0){
+            return `[\`${hw.day_name}\`.\`${fixSpace(hw.date,2,'0')}/${fixSpace(hw.month,2,'0')}\`] ${hw.alert_icon} **(เดี๋ยวนี้!)** ${hw.type_icon} \`[${fixSpace(hw.id,4,'0')}]\` \`${hw.label}\``
+        }
+        return `[\`${hw.day_name}\`.\`${fixSpace(hw.date,2,'0')}/${fixSpace(hw.month,2,'0')}\`] ${hw.alert_icon} **(\`${fixSpace(hw.day_left,3)}\` วัน)** ${hw.type_icon} \`[${fixSpace(hw.id,4,'0')}]\` \`${hw.label}\``
     },
     list: async (channelId,type='ALL') => {
         type = type.toUpperCase()
