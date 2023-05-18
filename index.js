@@ -30,7 +30,7 @@ const client = new Client({
 client.on('ready',async (test)=>{
     console.log("Going Live...")
 
-    LoginEvent.homeworkUpdate(client)
+    // LoginEvent.homeworkUpdate(client)
     LoginEvent.onlineCount(client)
 
     // var timeCount = setInterval(async ()=>{
